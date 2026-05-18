@@ -2,116 +2,190 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dashboard - UniLend Portal</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — UniLend Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --navy2: #111f3a;
+  --navy3: #172947;
+  --blue: #1a56db;
+  --blue2: #2563eb;
+  --teal: #0ea5e9;
+  --border: rgba(255,255,255,0.07);
+  --card: rgba(255,255,255,0.04);
+  --text: #f1f5f9;
+  --text3: #94a3b8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 50%,var(--navy3) 100%);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.login-container{
+  position:relative;
+  width:100%;
+  max-width:420px;
+  padding:20px;
+}
+.login-bg{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(circle at 30% 20%,rgba(26,86,219,0.15) 0%,transparent 50%),
+              radial-gradient(circle at 70% 80%,rgba(14,165,233,0.1) 0%,transparent 50%);
+  animation:bgPulse 8s ease-in-out infinite;
+}
+@keyframes bgPulse{
+  0%,100%{opacity:0.5;}
+  50%{opacity:1;}
+}
+.login-modal{
+  background:linear-gradient(145deg,var(--navy2),var(--navy3));
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:40px;
+  transform:scale(0.9) translateY(30px);
+  opacity:0;
+  animation:modalEnter 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  box-shadow:0 40px 80px rgba(0,0,0,0.5);
+  position:relative;
+  overflow:hidden;
+}
+@keyframes modalEnter{
+  to{transform:scale(1) translateY(0);opacity:1;}
+}
+.login-modal::before{
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle,rgba(26,86,219,0.1) 0%,transparent 50%);
+  animation:loginGlow 8s ease-in-out infinite;
+}
+@keyframes loginGlow{
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(20%,20%);}
+}
+.login-header{text-align:center;margin-bottom:32px;}
+.login-logo{
+  width:60px;height:60px;border-radius:16px;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:#fff;
+  margin:0 auto 16px;box-shadow:0 8px 25px rgba(26,86,219,0.4);
+  animation:logoFloat 3s ease-in-out infinite;
+}
+@keyframes logoFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+.login-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--text3);}
+.login-form{display:flex;flex-direction:column;gap:18px;}
+.login-input-group{position:relative;}
+.login-input-group label{
+  display:block;font-size:11px;font-weight:600;letter-spacing:0.8px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:8px;
+}
+.login-input{
+  width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;color:var(--text);font-size:14px;
+  font-family:'DM Sans',sans-serif;outline:none;transition:all 0.3s ease;
+}
+.login-input:focus{
+  border-color:var(--blue2);background:rgba(37,99,235,0.08);
+  box-shadow:0 0 0 4px rgba(37,99,235,0.1);
+}
+.login-input::placeholder{color:var(--text3);}
+.login-btn{
+  width:100%;padding:14px;border-radius:12px;font-size:14px;font-weight:600;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:0 6px 20px rgba(26,86,219,0.35);
+  position:relative;overflow:hidden;
+}
+.login-btn::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);
+  transition:left 0.5s ease;
+}
+.login-btn:hover::before{left:100%;}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(26,86,219,0.5);}
+.login-btn:active{transform:translateY(0);}
+.login-footer{
+  text-align:center;margin-top:24px;padding-top:20px;
+  border-top:1px solid var(--border);
+}
+.login-footer a{color:var(--blue2);font-size:13px;text-decoration:none;transition:color 0.3s;}
+.login-footer a:hover{color:var(--teal);}
+.back-link{
+  text-align:center;margin-top:20px;
+}
+.back-link a{
+  color:var(--text3);font-size:13px;text-decoration:none;
+  transition:color 0.3s;
+}
+.back-link a:hover{color:var(--text);}
+</style>
 </head>
 <body>
-<nav class="sidebar">
-  <div class="logo-area"><div class="logo-icon">UC</div><div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div></div>
-  <div class="user-area"><div class="u-av">E</div><div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div></div>
-  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
-  <div class="nav-body">
-    <div class="nav-lbl">Main</div>
-    <a href="index.html" class="ni active"><span class="ni-ico">📊</span>Dashboard</a>
-    <a href="account.html" class="ni"><span class="ni-ico">👤</span>Account Info</a>
-    <a href="loanproc.html" class="ni"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></a>
-    <a href="loanapproval.html" class="ni"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></a>
-    <a href="vouchers.html" class="ni"><span class="ni-ico">🧾</span>Vouchers</a>
-    <a href="collections.html" class="ni"><span class="ni-ico">💰</span>Collections</a>
-    <a href="changefunds.html" class="ni"><span class="ni-ico">🔄</span>Change Funds</a>
-    <div class="nav-lbl">Reports</div>
-    <a href="rep_cf.html" class="ni"><span class="ni-ico">📄</span>Change Fund Register</a>
-    <a href="rep_check.html" class="ni"><span class="ni-ico">📄</span>Check Register</a>
-    <a href="rep_target.html" class="ni"><span class="ni-ico">📄</span>Target Collection & CF</a>
-    <a href="rep_col.html" class="ni"><span class="ni-ico">📄</span>Collection Sheet</a>
-    <a href="rep_trans.html" class="ni"><span class="ni-ico">📄</span>Transaction Report</a>
-    <a href="rep_udi.html" class="ni"><span class="ni-ico">📄</span>UDI Report</a>
-    <div class="nav-lbl">Setup</div>
-    <a href="banks.html" class="ni"><span class="ni-ico">🏦</span>Banks</a>
-    <a href="bankaccounts.html" class="ni"><span class="ni-ico">💳</span>Bank Accounts</a>
-    <a href="products.html" class="ni"><span class="ni-ico">📦</span>Products</a>
-    <a href="agents.html" class="ni"><span class="ni-ico">🤝</span>Agents</a>
-    <a href="addresses.html" class="ni"><span class="ni-ico">📍</span>Addresses</a>
-    <a href="lookups.html" class="ni"><span class="ni-ico">🔎</span>LookUps</a>
-  </div>
-</nav>
-<header class="topbar">
-  <div class="tb-title">Dashboard</div>
-  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
-  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
-  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
-  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
-  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
-</header>
-<main class="main">
-<div class="page active">
-  <div class="ph"><div><div class="ph-title">Good day, Eleazar 👋</div><div class="ph-sub"><span class="ldot"></span>Live · Malolos Branch · <span id="dash-date"></span></div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('accounts')">📤 Export</button><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">Generate Report</button></div></div>
-  <div class="stats-grid">
-    <div class="sc teal" onclick="window.location.href='account.html'"><div class="sc-glow"></div><div class="sc-ico">👥</div><div class="sc-lbl">Total Pensioners</div><div class="sc-val" id="cnt-pensioners">0</div><div class="sc-chg">↑ +12 this month</div><div class="sc-more">View accounts →</div></div>
-    <div class="sc gold" onclick="window.location.href='loanapproval.html'"><div class="sc-glow"></div><div class="sc-ico">⏳</div><div class="sc-lbl">Pending Approvals</div><div class="sc-val" id="cnt-pending">0</div><div class="sc-chg">Awaiting review</div><div class="sc-more">View approvals →</div></div>
-    <div class="sc green" onclick="window.location.href='loanproc.html'"><div class="sc-glow"></div><div class="sc-ico">💵</div><div class="sc-lbl">Loans (Approved)</div><div class="sc-val" id="cnt-loans">₱0</div><div class="sc-chg">↑ +₱2.1M vs last month</div><div class="sc-more">View processing →</div></div>
-    <div class="sc red" onclick="window.location.href='collections.html'"><div class="sc-glow"></div><div class="sc-ico">💳</div><div class="sc-lbl">Receivables</div><div class="sc-val" id="cnt-recv">₱0</div><div class="sc-chg">↓ -₱341K collected</div><div class="sc-more">View collections →</div></div>
-  </div>
-  <div class="chart-grid">
-    <div class="cc"><div class="cc-hd"><div><div class="cc-title">Monthly Loan Disbursements</div><div class="cc-sub">2025 · ₱ in millions</div></div></div><div class="bar-wrap" id="dash-bars"></div></div>
-    <div class="cc"><div class="cc-hd"><div><div class="cc-title">Loan Type Distribution</div><div class="cc-sub">By product category</div></div></div>
-      <div class="donut-wrap">
-        <div class="donut"><svg viewBox="0 0 110 110" width="110" height="110"><circle cx="55" cy="55" r="40" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="16"/><circle cx="55" cy="55" r="40" fill="none" stroke="#1a56db" stroke-width="16" stroke-dasharray="100 152" stroke-linecap="round"/><circle cx="55" cy="55" r="40" fill="none" stroke="#10b981" stroke-width="16" stroke-dasharray="58 194" stroke-dashoffset="-100" stroke-linecap="round"/><circle cx="55" cy="55" r="40" fill="none" stroke="#f59e0b" stroke-width="16" stroke-dasharray="36 216" stroke-dashoffset="-158" stroke-linecap="round"/><circle cx="55" cy="55" r="40" fill="none" stroke="#f43f5e" stroke-width="16" stroke-dasharray="18 234" stroke-dashoffset="-194" stroke-linecap="round"/></svg><div class="donut-ctr"><div class="donut-val">65</div><div class="donut-lbl2">Products</div></div></div>
-        <div class="legend"><div class="li"><div class="li-dot" style="background:#1a56db"></div><div class="li-name">Extension</div><div class="li-pct">40%</div></div><div class="li"><div class="li-dot" style="background:#10b981"></div><div class="li-name">Additional</div><div class="li-pct">23%</div></div><div class="li"><div class="li-dot" style="background:#f59e0b"></div><div class="li-name">Buy-Out</div><div class="li-pct">14%</div></div><div class="li"><div class="li-dot" style="background:#f43f5e"></div><div class="li-name">Bonus/Other</div><div class="li-pct">23%</div></div></div>
-      </div>
+<div class="login-bg"></div>
+<div class="login-container">
+  <div class="login-modal">
+    <div class="login-header">
+      <div class="login-logo">UC</div>
+      <div class="login-title">Welcome Back</div>
+      <div class="login-sub">Sign in to your account</div>
     </div>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 310px;gap:16px">
-    <div class="act-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="sec-hd" style="margin:0">Recent Activity</div><span style="font-size:11px;color:var(--text3)">Today</span></div><div id="activity-feed"></div></div>
-    <div class="qa-card"><div class="sec-hd">Quick Actions</div><div style="display:flex;flex-direction:column;gap:8px">
-      <button class="btn btn-primary" onclick="window.location.href='account.html';setTimeout(()=>openM('m-account'),400)">👤 New Account</button>
-      <button class="btn btn-success" onclick="window.location.href='vouchers.html';setTimeout(()=>openM('m-voucher'),400)">🧾 New Voucher</button>
-      <button class="btn btn-secondary" onclick="window.location.href='loanproc.html';setTimeout(()=>openM('m-loan'),400)">📋 New Loan</button>
-      <button class="btn btn-secondary" onclick="window.location.href='collections.html';setTimeout(()=>openM('m-collection'),400)">💰 Record Collection</button>
-      <button class="btn btn-secondary" onclick="window.location.href='rep_trans.html'">📊 Transaction Report</button>
-    </div><div class="divider"></div><div class="sec-hd">Branch Summary</div><div id="branch-summary"></div></div>
+    <form class="login-form" onsubmit="handleLogin(event)">
+      <div class="login-input-group">
+        <label>Email Address</label>
+        <input type="email" class="login-input" placeholder="Enter your email" required>
+      </div>
+      <div class="login-input-group">
+        <label>Password</label>
+        <input type="password" class="login-input" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="login-btn">Sign In</button>
+    </form>
   </div>
 </div>
-<div class="toast-wrap" id="toast-wrap"></div>
-<div class="overlay" id="m-confirm"><div class="confirm-box"><div class="confirm-ico">⚠️</div><div class="confirm-title" id="confirm-title"></div><div class="confirm-msg" id="confirm-msg"></div><div class="confirm-btns"><button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div></div></div>
-</main>
-<script src="app.js"></script>
+
+<div id="toast" style="position:fixed;bottom:24px;right:24px;z-index:999;background:linear-gradient(135deg,var(--navy2),var(--navy3));border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text);box-shadow:0 20px 40px rgba(0,0,0,0.4);transform:translateX(120%);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);">
+  <span id="toast-msg"></span>
+</div>
+
 <script>
-function animCount(id,target,pre='',suf='',dur=1200){
-  const el=document.getElementById(id);if(!el)return;let start=null;
-  const step=ts=>{if(!start)start=ts;const p=Math.min((ts-start)/dur,1);const v=Math.round(p*target);el.textContent=pre+(v>=1000?v.toLocaleString('en-PH'):v)+suf;if(p<1)requestAnimationFrame(step);};
-  requestAnimationFrame(step);
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  const m=document.getElementById('toast-msg');
+  m.textContent=msg;
+  t.style.transform='translateX(0)';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.style.transform='translateX(120%)',3000);
 }
-function buildBars(){
-  const data=[18.2,22.4,19.8,31.5,28.9,35.1,42.3,38.7,29.4,44.8,37.2,52.1];const months=['J','F','M','A','M','J','J','A','S','O','N','D'];const max=Math.max(...data);
-  const wrap=document.getElementById('dash-bars');if(!wrap)return;
-  wrap.innerHTML=data.map((v,i)=>`<div style="display:flex;flex-direction:column;align-items:center;flex:1;height:100%;"><div class="bar" style="height:${(v/max)*128}px;background:${i===11?'#10b981':'#1a56db'};width:100%;"><div class="bar-tip">₱${v}M</div><div class="bar-lbl">${months[i]}</div></div></div>`).join('');
-}
-function buildActivity(){
-  const items=[{d:'#10b981',t:'Loan <strong>A33l5QE866</strong> approved for Julius Bolanos — ₱50,000',tt:'2 min ago'},{d:'#1a56db',t:'Voucher <strong>0000000024</strong> created for Elenita Hilario — ₱5,000',tt:'15 min ago'},{d:'#f59e0b',t:'Change Fund <strong>0000000027</strong> Debit ₱800 Anita Clemente',tt:'1 hr ago'},{d:'#10b981',t:'Collection <strong>0000300400</strong> recorded — Pedro Cruz ₱2,900',tt:'2 hr ago'},{d:'#f43f5e',t:'Account flagged for review — MUCC-103-0',tt:'3 hr ago'},{d:'#1a56db',t:'Loan batch of 30 records exported to CSV',tt:'5 hr ago'}];
-  const f=document.getElementById('activity-feed');if(!f)return;
-  f.innerHTML=items.map(it=>`<div class="act-item"><div class="act-dot" style="background:${it.d}"></div><div><div class="act-text">${it.t}</div><div class="act-time">${it.tt}</div></div></div>`).join('');
-}
-function buildBranchSummary(){
-  const el=document.getElementById('branch-summary');if(!el)return;
-  const rows=[['Active Accounts',(DB.accounts.filter(a=>a.status==='Active').length+2641).toLocaleString()],['Total Collections','145,352'],['Pending Approvals',DB.approvals.filter(a=>a.status==='Pending').length],['Active Agents','411'],['Loan Products',DB.products.length]];
-  el.innerHTML=rows.map(([l,v])=>`<div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03)"><span style="color:var(--text3)">${l}</span><span style="font-weight:500">${v}</span></div>`).join('');
-}
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  buildBars();buildActivity();buildBranchSummary();
+
+function handleLogin(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('.login-btn');
+  btn.textContent='Signing in...';
+  btn.style.opacity='0.7';
   setTimeout(()=>{
-    animCount('cnt-pensioners',DB.accounts.length+2641,'','');
-    animCount('cnt-pending',DB.approvals.filter(a=>a.status==='Pending').length,'','');
-    animCount('cnt-loans',386168495,'₱','',1500);
-    animCount('cnt-recv',9421525,'₱','',1500);
-  },250);
-  updatePendingBadge();
-});
+    showToast('✅ Successfully signed in!');
+    btn.textContent='Sign In';
+    btn.style.opacity='1';
+    e.target.reset();
+    setTimeout(()=>{
+      window.location.href='dashboard.html';
+    },1000);
+  },1500);
+}
 </script>
 </body>
 </html>
