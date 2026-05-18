@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loan Approval - UniLend Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+  <div class="logo-area"><div class="logo-icon">UC</div><div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div></div>
+  <div class="user-area"><div class="u-av">E</div><div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div></div>
+  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
+  <div class="nav-body">
+    <div class="nav-lbl">Main</div>
+    <a href="index.html" class="ni"><span class="ni-ico">📊</span>Dashboard</a>
+    <a href="account.html" class="ni"><span class="ni-ico">👤</span>Account Info</a>
+    <a href="loanproc.html" class="ni"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></a>
+    <a href="loanapproval.html" class="ni active"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></a>
+    <a href="vouchers.html" class="ni"><span class="ni-ico">🧾</span>Vouchers</a>
+    <a href="collections.html" class="ni"><span class="ni-ico">💰</span>Collections</a>
+    <a href="changefunds.html" class="ni"><span class="ni-ico">🔄</span>Change Funds</a>
+    <div class="nav-lbl">Reports</div>
+    <a href="rep_cf.html" class="ni"><span class="ni-ico">📄</span>Change Fund Register</a>
+    <a href="rep_check.html" class="ni"><span class="ni-ico">📄</span>Check Register</a>
+    <a href="rep_target.html" class="ni"><span class="ni-ico">📄</span>Target Collection & CF</a>
+    <a href="rep_col.html" class="ni"><span class="ni-ico">📄</span>Collection Sheet</a>
+    <a href="rep_trans.html" class="ni"><span class="ni-ico">📄</span>Transaction Report</a>
+    <a href="rep_udi.html" class="ni"><span class="ni-ico">📄</span>UDI Report</a>
+    <div class="nav-lbl">Setup</div>
+    <a href="banks.html" class="ni"><span class="ni-ico">🏦</span>Banks</a>
+    <a href="bankaccounts.html" class="ni"><span class="ni-ico">💳</span>Bank Accounts</a>
+    <a href="products.html" class="ni"><span class="ni-ico">📦</span>Products</a>
+    <a href="agents.html" class="ni"><span class="ni-ico">🤝</span>Agents</a>
+    <a href="addresses.html" class="ni"><span class="ni-ico">📍</span>Addresses</a>
+    <a href="lookups.html" class="ni"><span class="ni-ico">🔎</span>LookUps</a>
+  </div>
+</nav>
+<header class="topbar">
+  <div class="tb-title">Loan Approval</div>
+  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
+  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
+  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
+  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
+  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
+</header>
+<main class="main">
+<div class="page active">
+  <div class="ph"><div><div class="ph-title">Loan Approval</div><div class="ph-sub" id="la-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('approvals')">📤 Export</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab active" onclick="fStatus('approvals','Pending')">Pending</div><div class="ftab" onclick="fStatus('approvals','Approved')">Approved</div><div class="ftab" onclick="fStatus('approvals','Denied')">Denied</div><div class="ftab" onclick="fStatus('approvals','')">All</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search reference, customer..." oninput="search('approvals',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-approvals"><thead><tr><th onclick="sortT('approvals',0)">Reference</th><th onclick="sortT('approvals',1)">Loan Date</th><th onclick="sortT('approvals',2)">Customer</th><th class="num">Amortization</th><th class="num">#</th><th class="num">Principal</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tbody-approvals"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-approvals"></div><div class="pgn-btns" id="pgb-approvals"></div><div class="pgn-size">Show <select onchange="chgPS('approvals',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+<div class="overlay" id="m-confirm"><div class="confirm-box"><div class="confirm-ico">⚠️</div><div class="confirm-title" id="confirm-title"></div><div class="confirm-msg" id="confirm-msg"></div><div class="confirm-btns"><button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div></div></div>
+<div class="overlay" id="m-process-loan">
+ <div class="modal sm"><div class="mhd"><div class="mhd-title">Process Loan Approval</div><div class="mc" onclick="closeM('m-process-loan')">✕</div></div><div class="mbody"><div id="process-loan-info"></div><div class="fg" style="margin-top:15px"><label>Remarks</label><textarea id="process-remarks" placeholder="Add remarks..."></textarea></div></div><div class="mft"><button class="btn btn-secondary" onclick="closeM('m-process-loan')">Cancel</button><button class="btn btn-success" onclick="approveLoan()">✅ Approve</button><button class="btn btn-danger" onclick="denyLoan()">✗ Deny</button></div></div>
+</div>
+</main>
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('input[type=date]').forEach(i=>{if(!i.value)i.value=today();});
+  renderT('approvals');
+  updatePendingBadge();
+});
+</script>
+</body>
+</html>

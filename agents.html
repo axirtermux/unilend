@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agents - UniLend Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+  <div class="logo-area"><div class="logo-icon">UC</div><div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div></div>
+  <div class="user-area"><div class="u-av">E</div><div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div></div>
+  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
+  <div class="nav-body">
+    <div class="nav-lbl">Main</div>
+    <a href="index.html" class="ni"><span class="ni-ico">📊</span>Dashboard</a>
+    <a href="account.html" class="ni"><span class="ni-ico">👤</span>Account Info</a>
+    <a href="loanproc.html" class="ni"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></a>
+    <a href="loanapproval.html" class="ni"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></a>
+    <a href="vouchers.html" class="ni"><span class="ni-ico">🧾</span>Vouchers</a>
+    <a href="collections.html" class="ni"><span class="ni-ico">💰</span>Collections</a>
+    <a href="changefunds.html" class="ni"><span class="ni-ico">🔄</span>Change Funds</a>
+    <div class="nav-lbl">Reports</div>
+    <a href="rep_cf.html" class="ni"><span class="ni-ico">📄</span>Change Fund Register</a>
+    <a href="rep_check.html" class="ni"><span class="ni-ico">📄</span>Check Register</a>
+    <a href="rep_target.html" class="ni"><span class="ni-ico">📄</span>Target Collection & CF</a>
+    <a href="rep_col.html" class="ni"><span class="ni-ico">📄</span>Collection Sheet</a>
+    <a href="rep_trans.html" class="ni"><span class="ni-ico">📄</span>Transaction Report</a>
+    <a href="rep_udi.html" class="ni"><span class="ni-ico">📄</span>UDI Report</a>
+    <div class="nav-lbl">Setup</div>
+    <a href="banks.html" class="ni"><span class="ni-ico">🏦</span>Banks</a>
+    <a href="bankaccounts.html" class="ni"><span class="ni-ico">💳</span>Bank Accounts</a>
+    <a href="products.html" class="ni"><span class="ni-ico">📦</span>Products</a>
+    <a href="agents.html" class="ni active"><span class="ni-ico">🤝</span>Agents</a>
+    <a href="addresses.html" class="ni"><span class="ni-ico">📍</span>Addresses</a>
+    <a href="lookups.html" class="ni"><span class="ni-ico">🔎</span>LookUps</a>
+  </div>
+</nav>
+<header class="topbar">
+  <div class="tb-title">Agents</div>
+  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
+  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
+  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
+  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
+  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
+</header>
+<main class="main">
+<div class="page active">
+  <div class="ph"><div><div class="ph-title">Agents</div><div class="ph-sub" id="agents-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('agents')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-agent')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab" onclick="fStatus('agents','')">All</div><div class="ftab active" onclick="fStatus('agents','Full-Time')">Full-Time</div><div class="ftab" onclick="fStatus('agents','Part-Time')">Part-Time</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search agent name..." oninput="search('agents',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-agents"><thead><tr><th></th><th onclick="sortT('agents',0)">Agent Name</th><th onclick="sortT('agents',1)">Type</th><th onclick="sortT('agents',2)">Address</th><th onclick="sortT('agents',3)">Contact</th><th>Actions</th></tr></thead><tbody id="tbody-agents"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-agents"></div><div class="pgn-btns" id="pgb-agents"></div><div class="pgn-size">Show <select onchange="chgPS('agents',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+<div class="overlay" id="m-confirm"><div class="confirm-box"><div class="confirm-ico">⚠️</div><div class="confirm-title" id="confirm-title"></div><div class="confirm-msg" id="confirm-msg"></div><div class="confirm-btns"><button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div></div></div>
+<div class="overlay" id="m-agent">
+ <div class="modal lg">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(16,185,129,.15)">🤝</div><div><div class="mhd-title" id="m-agent-title">Agent Info</div><div class="mhd-sub">Add new agent record</div></div></div>
+   <div class="mc" onclick="closeM('m-agent')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Agent Info</div>
+    <div style="display:flex;gap:20px;align-items:flex-start">
+     <div style="flex:1">
+      <div class="fr3"><div class="fg"><label>Prefix</label><select id="ag-prefix"><option></option><option>Mr.</option><option>Mrs.</option><option>Ms.</option></select></div><div class="fg" style="grid-column:span 2"><label>First Name <span class="req">*</span></label><input id="ag-fname" placeholder="First Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Middle Name</label><input id="ag-mname" placeholder="Middle Name"></div><div class="fg"><label>Last Name <span class="req">*</span></label><input id="ag-lname" placeholder="Last Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Suffix</label><input id="ag-suffix" placeholder="e.g. Jr."></div><div class="fg"><label>Nick Name</label><input id="ag-nick" placeholder="Nick Name"></div></div>
+      <label class="chk-row"><input type="checkbox" id="ag-active" checked> Is Active</label>
+     </div>
+     <div class="avatar-box" onclick="toast('📷 Photo upload','warn')"><span>👤</span><p>Click to<br>upload photo</p></div>
+    </div>
+   </div>
+   <!-- Personal Info -->
+   <div class="msec">
+    <div class="msec-title">Personal Info</div>
+    <div class="fr"><div class="fg"><label>Sex</label><select id="ag-sex"><option>Female</option><option>Male</option></select></div><div class="fg"><label>Contact No.</label><input id="ag-contact" placeholder="Contact No."></div></div>
+    <div class="fr"><div class="fg"><label>Birth Date</label><input type="date" id="ag-bdate"></div><div class="fg"><label>Email</label><input type="email" id="ag-email" placeholder="Email"></div></div>
+    <div class="fg"><label>Civil Status</label><select id="ag-civil" style="max-width:300px"><option>Single</option><option>Married</option><option>Widowed</option><option>Separated</option></select></div>
+   </div>
+   <!-- Other Info -->
+   <div class="msec">
+    <div class="msec-title">Other Info</div>
+    <div class="fg"><label>Agent Type</label><select id="ag-type"><option></option><option>Full-Time</option><option>Part-Time</option><option>Commission</option></select></div>
+    <div class="fg"><label>Address</label><textarea id="ag-addr" placeholder="Full address..."></textarea></div>
+    <div class="fg"><label>Branch Name</label><input id="ag-branch" value="Malolos"></div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-agent')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveAgent()">💾 Save Agent</button>
+  </div>
+ </div>
+</div>
+</main>
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  renderT('agents');
+});
+</script>
+</body>
+</html>

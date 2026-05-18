@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vouchers - UniLend Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+  <div class="logo-area"><div class="logo-icon">UC</div><div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div></div>
+  <div class="user-area"><div class="u-av">E</div><div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div></div>
+  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
+  <div class="nav-body">
+    <div class="nav-lbl">Main</div>
+    <a href="index.html" class="ni"><span class="ni-ico">📊</span>Dashboard</a>
+    <a href="account.html" class="ni"><span class="ni-ico">👤</span>Account Info</a>
+    <a href="loanproc.html" class="ni"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></a>
+    <a href="loanapproval.html" class="ni"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></a>
+    <a href="vouchers.html" class="ni active"><span class="ni-ico">🧾</span>Vouchers</a>
+    <a href="collections.html" class="ni"><span class="ni-ico">💰</span>Collections</a>
+    <a href="changefunds.html" class="ni"><span class="ni-ico">🔄</span>Change Funds</a>
+    <div class="nav-lbl">Reports</div>
+    <a href="rep_cf.html" class="ni"><span class="ni-ico">📄</span>Change Fund Register</a>
+    <a href="rep_check.html" class="ni"><span class="ni-ico">📄</span>Check Register</a>
+    <a href="rep_target.html" class="ni"><span class="ni-ico">📄</span>Target Collection & CF</a>
+    <a href="rep_col.html" class="ni"><span class="ni-ico">📄</span>Collection Sheet</a>
+    <a href="rep_trans.html" class="ni"><span class="ni-ico">📄</span>Transaction Report</a>
+    <a href="rep_udi.html" class="ni"><span class="ni-ico">📄</span>UDI Report</a>
+    <div class="nav-lbl">Setup</div>
+    <a href="banks.html" class="ni"><span class="ni-ico">🏦</span>Banks</a>
+    <a href="bankaccounts.html" class="ni"><span class="ni-ico">💳</span>Bank Accounts</a>
+    <a href="products.html" class="ni"><span class="ni-ico">📦</span>Products</a>
+    <a href="agents.html" class="ni"><span class="ni-ico">🤝</span>Agents</a>
+    <a href="addresses.html" class="ni"><span class="ni-ico">📍</span>Addresses</a>
+    <a href="lookups.html" class="ni"><span class="ni-ico">🔎</span>LookUps</a>
+  </div>
+</nav>
+<header class="topbar">
+  <div class="tb-title">Vouchers</div>
+  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
+  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
+  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
+  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
+  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
+</header>
+<main class="main">
+<div class="page active">
+  <div class="ph"><div><div class="ph-title">Vouchers</div><div class="ph-sub" id="v-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('vouchers')">📤 Export</button><button class="btn btn-secondary" onclick="toast('🔗 Link to Loan','warn')">🔗 Loan...</button><button class="btn btn-primary" onclick="openM('m-voucher')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab active" onclick="fStatus('vouchers','Active')">Active</div><div class="ftab" onclick="fStatus('vouchers','Archived')">Archived</div><div class="ftab" onclick="fStatus('vouchers','')">All</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search voucher #, payee..." oninput="search('vouchers',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-vouchers"><thead><tr><th></th><th onclick="sortT('vouchers',0)">Voucher #</th><th onclick="sortT('vouchers',1)">Date</th><th onclick="sortT('vouchers',2)">Payee</th><th onclick="sortT('vouchers',3)">Bank Account</th><th class="num">Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tbody-vouchers"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-vouchers"></div><div class="pgn-btns" id="pgb-vouchers"></div><div class="pgn-size">Show <select onchange="chgPS('vouchers',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+<div class="overlay" id="m-confirm"><div class="confirm-box"><div class="confirm-ico">⚠️</div><div class="confirm-title" id="confirm-title"></div><div class="confirm-msg" id="confirm-msg"></div><div class="confirm-btns"><button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div></div></div>
+<div class="overlay" id="m-voucher">
+ <div class="modal lg">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(245,158,11,.15)">🧾</div><div><div class="mhd-title" id="m-voucher-title">Voucher Info</div><div class="mhd-sub">Create new disbursement voucher</div></div></div>
+   <div class="mc" onclick="closeM('m-voucher')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Voucher Info</div>
+    <div class="fr">
+     <div class="fg"><label>Voucher No.</label><input id="v-no" class="readonly" value="0000000000" readonly></div>
+     <div class="fg"><label>Voucher Date <span class="req">*</span></label><input type="date" id="v-date"></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Payee Type</label><select id="v-ptype"><option>Customer</option><option>Supplier</option><option>Employee</option><option>Other</option></select></div>
+     <div class="fg"><label>Payee <span class="req">*</span></label><input id="v-payee" placeholder="Payee"><div class="errmsg">Required</div></div>
+    </div>
+    <div class="fg"><label>Particulars</label><input id="v-particulars" placeholder="Particulars"></div>
+    <div class="fr">
+     <div class="fg"><label>Transaction Type</label><select id="v-txtype"><option></option><option>Check</option><option>Cash</option><option>Bank Transfer</option></select></div>
+     <div class="fg"><label>Branch</label><input id="v-branch" value="Malolos"></div>
+    </div>
+    <div class="fg"><label>Bank Account</label><select id="v-bankacct"><option></option><option>MB-1234 (Metrobank)</option><option>2012-7000-5585 (PNB)</option></select></div>
+    <div class="fr">
+     <div class="fg"><label>Amount</label><input type="number" id="v-amount" value="0.00" step="0.01" oninput="calcVoucher()"></div>
+     <div class="fg"><label>Input Tax</label><input type="number" id="v-intax" value="0.00" step="0.01" oninput="calcVoucher()"></div>
+    </div>
+    <div class="fg"><label>W/Tax Payable</label><input type="number" id="v-wtax" value="0.00" step="0.01" readonly class="readonly"></div>
+    <label class="chk-row"><input type="checkbox" id="v-active" checked> Is Active</label>
+   </div>
+   <!-- Cheques sub-section -->
+   <div class="msec">
+    <div class="msec-title">Cheques</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Cheque Details</div><button class="btn btn-xs btn-primary" onclick="addCheque()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Cheque Book</th><th>Cheque No</th><th>Cheque Date</th><th>Amount</th><th></th></tr></thead><tbody id="cheque-body"><tr><td colspan="5" class="sub-empty">No cheques added</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-voucher')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveVoucher()">💾 Save Voucher</button>
+  </div>
+ </div>
+</div>
+</main>
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('input[type=date]').forEach(i=>{if(!i.value)i.value=today();});
+  sv('v-no',String(DB.vouchers.length+1).padStart(10,'0'));
+  renderT('vouchers');
+});
+</script>
+</body>
+</html>

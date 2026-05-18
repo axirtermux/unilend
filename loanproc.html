@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loan Processing - UniLend Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+  <div class="logo-area"><div class="logo-icon">UC</div><div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div></div>
+  <div class="user-area"><div class="u-av">E</div><div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div></div>
+  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
+  <div class="nav-body">
+    <div class="nav-lbl">Main</div>
+    <a href="index.html" class="ni"><span class="ni-ico">📊</span>Dashboard</a>
+    <a href="account.html" class="ni"><span class="ni-ico">👤</span>Account Info</a>
+    <a href="loanproc.html" class="ni active"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></a>
+    <a href="loanapproval.html" class="ni"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></a>
+    <a href="vouchers.html" class="ni"><span class="ni-ico">🧾</span>Vouchers</a>
+    <a href="collections.html" class="ni"><span class="ni-ico">💰</span>Collections</a>
+    <a href="changefunds.html" class="ni"><span class="ni-ico">🔄</span>Change Funds</a>
+    <div class="nav-lbl">Reports</div>
+    <a href="rep_cf.html" class="ni"><span class="ni-ico">📄</span>Change Fund Register</a>
+    <a href="rep_check.html" class="ni"><span class="ni-ico">📄</span>Check Register</a>
+    <a href="rep_target.html" class="ni"><span class="ni-ico">📄</span>Target Collection & CF</a>
+    <a href="rep_col.html" class="ni"><span class="ni-ico">📄</span>Collection Sheet</a>
+    <a href="rep_trans.html" class="ni"><span class="ni-ico">📄</span>Transaction Report</a>
+    <a href="rep_udi.html" class="ni"><span class="ni-ico">📄</span>UDI Report</a>
+    <div class="nav-lbl">Setup</div>
+    <a href="banks.html" class="ni"><span class="ni-ico">🏦</span>Banks</a>
+    <a href="bankaccounts.html" class="ni"><span class="ni-ico">💳</span>Bank Accounts</a>
+    <a href="products.html" class="ni"><span class="ni-ico">📦</span>Products</a>
+    <a href="agents.html" class="ni"><span class="ni-ico">🤝</span>Agents</a>
+    <a href="addresses.html" class="ni"><span class="ni-ico">📍</span>Addresses</a>
+    <a href="lookups.html" class="ni"><span class="ni-ico">🔎</span>LookUps</a>
+  </div>
+</nav>
+<header class="topbar">
+  <div class="tb-title">Loan Processing</div>
+  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
+  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
+  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
+  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
+  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
+</header>
+<main class="main">
+<div class="page active">
+  <div class="ph"><div><div class="ph-title">Loan Processing</div><div class="ph-sub" id="lp-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('loans')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-loan')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab" onclick="fStatus('loans','')">All</div><div class="ftab active" onclick="fStatus('loans','Active')">Active</div><div class="ftab" onclick="fStatus('loans','Archived')">Archived</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search reference, customer..." oninput="search('loans',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-loans"><thead><tr><th></th><th onclick="sortT('loans',0)">Reference</th><th onclick="sortT('loans',1)">Loan Date</th><th onclick="sortT('loans',2)">Customer Name</th><th class="num">Amortization</th><th class="num">#</th><th class="num">Principal</th><th class="num">Proc.</th><th class="num">Not.</th><th class="num">Ins.</th><th class="num">Interest</th><th class="num">Cash Out</th><th>Actions</th></tr></thead><tbody id="tbody-loans"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-loans"></div><div class="pgn-btns" id="pgb-loans"></div><div class="pgn-size">Show <select onchange="chgPS('loans',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+<div class="overlay" id="m-confirm"><div class="confirm-box"><div class="confirm-ico">⚠️</div><div class="confirm-title" id="confirm-title"></div><div class="confirm-msg" id="confirm-msg"></div><div class="confirm-btns"><button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div></div></div>
+<div class="overlay" id="m-loan">
+ <div class="modal xl">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(16,185,129,.15)">📋</div><div><div class="mhd-title" id="m-loan-title">Create Loan</div><div class="mhd-sub">New loan processing record</div></div></div>
+   <div class="mc" onclick="closeM('m-loan')">✕</div>
+  </div>
+  <div class="mbody">
+   <!-- Pension Info -->
+   <div class="msec">
+    <div class="msec-title">Pension Info</div>
+    <div style="display:flex;gap:20px;align-items:flex-start">
+     <div style="flex:1">
+      <div class="fr">
+       <div class="fg"><label>Pension Reference</label><input id="ln-pensref" placeholder="Pensioner"></div>
+       <div class="fg"><label>Birth Date</label><div style="display:flex;gap:6px"><input type="date" id="ln-bdate" style="flex:1"><input type="number" id="ln-age" placeholder="0" style="width:60px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:9px 10px;color:var(--text);font-family:inherit;outline:none;" readonly></div></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Customer <span class="req">*</span></label><input id="ln-customer" placeholder="Customer Name"><div class="errmsg">Required</div></div>
+       <div class="fg"><label>Contact Number</label><input id="ln-contact" placeholder="Contact Number"></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Pension Provider</label><input id="ln-provider" placeholder="Pension Provider"></div>
+       <div class="fg"><label>Pension Amount</label><input type="number" id="ln-pamount" value="0.00" step="0.01"></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Pension Type</label><input id="ln-ptype" placeholder="Pension Type"></div>
+       <div class="fg"><label>Withdrawable</label><input type="number" id="ln-withdraw" value="0.00" step="0.01"></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Pension Number</label><input id="ln-pnum" placeholder="Pension Number"></div>
+       <div class="fg"><label>Withdrawal Day</label><input type="number" id="ln-wday" value="0"></div>
+      </div>
+      <div class="fg"><label>Months Remaining</label><input id="ln-months" placeholder="Months Remaining" style="max-width:250px"></div>
+     </div>
+     <div class="avatar-box" onclick="toast('📷 Photo upload','warn')"><span>👤</span><p>Click to<br>upload photo</p></div>
+    </div>
+   </div>
+   <!-- Loan Info -->
+   <div class="msec">
+    <div class="msec-title">Loan Info</div>
+    <div class="fr">
+     <div class="fg"><label>Loan Reference</label><input id="ln-loanref" class="readonly" value="Automatic" readonly></div>
+     <div class="fg"><label>Branch Name</label><input id="ln-branch" value="Malolos"></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Loan Date <span class="req">*</span></label><input type="date" id="ln-ldate"></div>
+     <div class="fg"><label>Agent</label><select id="ln-agent"><option></option><option>Ana Santos</option><option>Roberto Cruz</option><option>Maria Dela Cruz</option></select></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Loan Type</label><select id="ln-loantype"><option></option><option>New</option><option>Renewal</option><option>Extension</option><option>Buy-Out</option></select></div>
+     <div class="fg"><label>Loan Receivable</label><select id="ln-receivable"><option></option><option>Type A</option><option>Type B</option></select></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Product</label><select id="ln-product"><option></option><option>Loan-70a</option><option>Loan-72a</option><option>Loan-75a</option><option>Loan-70x</option><option>Loan-70n</option><option>Loan-70r</option><option>BONUS LOAN August</option></select></div>
+     <div class="fg"><label>Co-Maker Name</label><div style="display:flex;gap:5px"><input id="ln-comaker" placeholder="Co-Maker" style="flex:1"><button class="btn btn-xs btn-secondary" onclick="toast('➕ Add co-maker','warn')">+</button><button class="btn btn-xs btn-secondary" onclick="toast('✏️ Edit co-maker','warn')">✏️</button></div></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Relation</label><input id="ln-relation" placeholder="Relation"></div>
+     <div class="fg"><label>Source of Income</label><select id="ln-income"><option></option><option>SSS Pension</option><option>GSIS Pension</option><option>Employment</option></select></div>
+    </div>
+    <label class="chk-row"><input type="checkbox" id="ln-active" checked> Is Active</label>
+   </div>
+   <!-- Loan Computation -->
+   <div class="msec">
+    <div class="msec-title">Loan Computation</div>
+    <div style="display:flex;gap:20px">
+     <div style="width:220px;flex-shrink:0">
+      <div class="fg"><label>Amortization <span class="req">*</span></label><input type="number" id="ln-amort" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Terms</label><input type="number" id="ln-terms" value="12" min="1" oninput="calcLoan()"></div>
+      <div class="fg"><label>Principal</label><input type="number" id="ln-principal" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Processing Fee</label><input type="number" id="ln-proc" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Notarial Fee</label><input type="number" id="ln-not" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Collection Fee</label><input type="number" id="ln-colfee" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Insurance Fee</label><input type="number" id="ln-ins" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Interest</label><input type="number" id="ln-interest" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Deductions</label><input type="number" id="ln-deductions" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Gross Cash Out</label><input type="number" id="ln-gross" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Loan Receivable</label><input type="number" id="ln-loanrecv" value="0.00" step="0.01"></div>
+      <div class="fg"><label style="color:var(--emerald)">Net Cash Out</label><input type="number" id="ln-net" value="0.00" readonly class="readonly" step="0.01" style="border-color:rgba(16,185,129,.3);color:var(--emerald);font-weight:700;font-size:15px"></div>
+     </div>
+     <div style="flex:1">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Amortization Schedule</div>
+      <div class="sub-table-wrap"><table class="sched-table" id="sched-table"><thead><tr><th>#</th><th>Due Date</th><th>Earned</th><th>Unearned</th><th>Balance</th></tr></thead><tbody id="sched-body"><tr><td colspan="5" class="sub-empty">Enter amortization and terms to generate schedule</td></tr></tbody></table></div>
+     </div>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-loan')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveLoan()">💾 Save Loan</button>
+  </div>
+ </div>
+</div>
+</main>
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('input[type=date]').forEach(i=>{if(!i.value)i.value=today();});
+  renderT('loans');
+});
+</script>
+</body>
+</html>

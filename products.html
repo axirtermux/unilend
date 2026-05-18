@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Products - UniLend Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+  <div class="logo-area"><div class="logo-icon">UC</div><div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div></div>
+  <div class="user-area"><div class="u-av">E</div><div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div></div>
+  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
+  <div class="nav-body">
+    <div class="nav-lbl">Main</div>
+    <a href="index.html" class="ni"><span class="ni-ico">📊</span>Dashboard</a>
+    <a href="account.html" class="ni"><span class="ni-ico">👤</span>Account Info</a>
+    <a href="loanproc.html" class="ni"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></a>
+    <a href="loanapproval.html" class="ni"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></a>
+    <a href="vouchers.html" class="ni"><span class="ni-ico">🧾</span>Vouchers</a>
+    <a href="collections.html" class="ni"><span class="ni-ico">💰</span>Collections</a>
+    <a href="changefunds.html" class="ni"><span class="ni-ico">🔄</span>Change Funds</a>
+    <div class="nav-lbl">Reports</div>
+    <a href="rep_cf.html" class="ni"><span class="ni-ico">📄</span>Change Fund Register</a>
+    <a href="rep_check.html" class="ni"><span class="ni-ico">📄</span>Check Register</a>
+    <a href="rep_target.html" class="ni"><span class="ni-ico">📄</span>Target Collection & CF</a>
+    <a href="rep_col.html" class="ni"><span class="ni-ico">📄</span>Collection Sheet</a>
+    <a href="rep_trans.html" class="ni"><span class="ni-ico">📄</span>Transaction Report</a>
+    <a href="rep_udi.html" class="ni"><span class="ni-ico">📄</span>UDI Report</a>
+    <div class="nav-lbl">Setup</div>
+    <a href="banks.html" class="ni"><span class="ni-ico">🏦</span>Banks</a>
+    <a href="bankaccounts.html" class="ni"><span class="ni-ico">💳</span>Bank Accounts</a>
+    <a href="products.html" class="ni active"><span class="ni-ico">📦</span>Products</a>
+    <a href="agents.html" class="ni"><span class="ni-ico">🤝</span>Agents</a>
+    <a href="addresses.html" class="ni"><span class="ni-ico">📍</span>Addresses</a>
+    <a href="lookups.html" class="ni"><span class="ni-ico">🔎</span>LookUps</a>
+  </div>
+</nav>
+<header class="topbar">
+  <div class="tb-title">Products</div>
+  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
+  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
+  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
+  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
+  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
+</header>
+<main class="main">
+<div class="page active">
+  <div class="ph"><div><div class="ph-title">Products</div><div class="ph-sub" id="prod-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('products')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-product')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="srch"><span>🔍</span><input placeholder="Search product name..." oninput="search('products',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-products"><thead><tr><th></th><th onclick="sortT('products',0)">Product Name</th><th onclick="sortT('products',1)">Type</th><th onclick="sortT('products',2)">Description</th><th>Actions</th></tr></thead><tbody id="tbody-products"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-products"></div><div class="pgn-btns" id="pgb-products"></div><div class="pgn-size">Show <select onchange="chgPS('products',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+<div class="overlay" id="m-confirm"><div class="confirm-box"><div class="confirm-ico">⚠️</div><div class="confirm-title" id="confirm-title"></div><div class="confirm-msg" id="confirm-msg"></div><div class="confirm-btns"><button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div></div></div>
+<div class="overlay" id="m-product">
+ <div class="modal md">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(139,92,246,.15)">📦</div><div><div class="mhd-title" id="m-prod-title">Product Info</div><div class="mhd-sub">Create loan product</div></div></div>
+   <div class="mc" onclick="closeM('m-product')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Product Info</div>
+    <div class="fg"><label>Name <span class="req">*</span></label><input id="pr-name" placeholder="Product name e.g. Loan-70a"><div class="errmsg">Required</div></div>
+    <div class="fg"><label>Description</label><input id="pr-desc" placeholder="Product description"></div>
+    <div class="fg"><label>Loan Type</label><select id="pr-type"><option></option><option>Additional</option><option>Bonus</option><option>BUY OUT NEW</option><option>BUY OUT REN</option><option>BUY OUT RENRA</option><option>CORRECTIVE DISCOUNT LOAN</option><option>Extension</option><option>New</option><option>Renewal</option></select></div>
+    <label class="chk-row"><input type="checkbox" id="pr-active" checked> Is Active</label>
+   </div>
+   <!-- Fees/Rates sub-table -->
+   <div class="msec">
+    <div class="msec-title">Fees / Rates</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Fee Schedule</div><button class="btn btn-xs btn-primary" onclick="addFeeRate()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Term</th><th>Processing</th><th>Notarial</th><th>Collection</th><th>Insurance</th><th>Interest %</th><th>Comm %</th><th>CCR</th><th></th></tr></thead><tbody id="pr-fees-body"><tr><td colspan="9" class="sub-empty">No fee rates added</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-product')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveProduct()">💾 Save Product</button>
+  </div>
+ </div>
+</div>
+</main>
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  renderT('products');
+});
+</script>
+</body>
+</html>

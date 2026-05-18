@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Account Info - UniLend Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="sidebar">
+  <div class="logo-area"><div class="logo-icon">UC</div><div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div></div>
+  <div class="user-area"><div class="u-av">E</div><div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div></div>
+  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
+  <div class="nav-body">
+    <div class="nav-lbl">Main</div>
+    <a href="index.html" class="ni"><span class="ni-ico">📊</span>Dashboard</a>
+    <a href="account.html" class="ni active"><span class="ni-ico">👤</span>Account Info</a>
+    <a href="loanproc.html" class="ni"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></a>
+    <a href="loanapproval.html" class="ni"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></a>
+    <a href="vouchers.html" class="ni"><span class="ni-ico">🧾</span>Vouchers</a>
+    <a href="collections.html" class="ni"><span class="ni-ico">💰</span>Collections</a>
+    <a href="changefunds.html" class="ni"><span class="ni-ico">🔄</span>Change Funds</a>
+    <div class="nav-lbl">Reports</div>
+    <a href="rep_cf.html" class="ni"><span class="ni-ico">📄</span>Change Fund Register</a>
+    <a href="rep_check.html" class="ni"><span class="ni-ico">📄</span>Check Register</a>
+    <a href="rep_target.html" class="ni"><span class="ni-ico">📄</span>Target Collection & CF</a>
+    <a href="rep_col.html" class="ni"><span class="ni-ico">📄</span>Collection Sheet</a>
+    <a href="rep_trans.html" class="ni"><span class="ni-ico">📄</span>Transaction Report</a>
+    <a href="rep_udi.html" class="ni"><span class="ni-ico">📄</span>UDI Report</a>
+    <div class="nav-lbl">Setup</div>
+    <a href="banks.html" class="ni"><span class="ni-ico">🏦</span>Banks</a>
+    <a href="bankaccounts.html" class="ni"><span class="ni-ico">💳</span>Bank Accounts</a>
+    <a href="products.html" class="ni"><span class="ni-ico">📦</span>Products</a>
+    <a href="agents.html" class="ni"><span class="ni-ico">🤝</span>Agents</a>
+    <a href="addresses.html" class="ni"><span class="ni-ico">📍</span>Addresses</a>
+    <a href="lookups.html" class="ni"><span class="ni-ico">🔎</span>LookUps</a>
+  </div>
+</nav>
+<header class="topbar">
+  <div class="tb-title">Account Info</div>
+  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
+  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
+  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
+  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
+  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
+</header>
+<main class="main">
+<div class="page active">
+  <div class="ph"><div><div class="ph-title">Account Info</div><div class="ph-sub" id="acct-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('accounts')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-account')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab" onclick="fStatus('accounts','')">All</div><div class="ftab active" onclick="fStatus('accounts','Active')">Active</div><div class="ftab" onclick="fStatus('accounts','Problem')">Problem</div><div class="ftab" onclick="fStatus('accounts','Fully Paid')">Fully Paid</div><div class="ftab" onclick="fStatus('accounts','Archived')">Archived</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search name, pension #, bank..." oninput="search('accounts',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-accounts"><thead><tr><th></th><th onclick="sortT('accounts',0)">Pension Number</th><th onclick="sortT('accounts',1)">Full Name</th><th onclick="sortT('accounts',2)">Provider</th><th onclick="sortT('accounts',3)">Pension Type</th><th onclick="sortT('accounts',4)" class="num">Pension</th><th onclick="sortT('accounts',5)">Bank</th><th onclick="sortT('accounts',6)">Status</th><th>Actions</th></tr></thead><tbody id="tbody-accounts"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-accounts"></div><div class="pgn-btns" id="pgb-accounts"></div><div class="pgn-size">Show <select onchange="chgPS('accounts',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+<div class="overlay" id="m-confirm"><div class="confirm-box"><div class="confirm-ico">⚠️</div><div class="confirm-title" id="confirm-title"></div><div class="confirm-msg" id="confirm-msg"></div><div class="confirm-btns"><button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div></div></div>
+<div class="overlay" id="m-account">
+ <div class="modal xl">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(37,99,235,.15)">👤</div><div><div class="mhd-title" id="m-account-title">Customer Info</div><div class="mhd-sub">Create new pensioner account</div></div></div>
+   <div class="mc" onclick="closeM('m-account')">✕</div>
+  </div>
+  <div class="mbody">
+   <!-- Customer Info Section -->
+   <div class="msec">
+    <div class="msec-title">Customer Info</div>
+    <div style="display:flex;gap:20px;align-items:flex-start">
+     <div style="flex:1">
+      <div class="fr3"><div class="fg"><label>Prefix</label><select id="ai-prefix"><option></option><option>Mr.</option><option>Mrs.</option><option>Ms.</option><option>Dr.</option><option>Engr.</option></select></div><div class="fg" style="grid-column:span 2"><label>First Name <span class="req">*</span></label><input id="ai-fname" placeholder="First Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Middle Name</label><input id="ai-mname" placeholder="Middle Name"></div><div class="fg"><label>Last Name <span class="req">*</span></label><input id="ai-lname" placeholder="Last Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Suffix</label><input id="ai-suffix" placeholder="e.g. Jr., Sr., III"></div><div class="fg"><label>Nick Name</label><input id="ai-nick" placeholder="Nick Name"></div></div>
+      <div class="fr"><div class="fg"><label>Reference Number</label><div style="display:flex;gap:6px"><select id="ai-reftype" style="width:130px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:9px 10px;color:var(--text);font-family:inherit;outline:none;"><option>Automatic</option><option>Manual</option></select><input id="ai-refno" class="readonly" value="0000000000" readonly style="flex:1"></div></div><div class="fg"><label>Registration Date</label><input type="datetime-local" id="ai-regdate"></div></div>
+      <label class="chk-row"><input type="checkbox" id="ai-active" checked> Is Active</label>
+      <div class="fg" style="margin-top:10px"><label>Remarks</label><textarea id="ai-remarks" placeholder="Remarks..." style="min-height:60px"></textarea></div>
+     </div>
+     <div>
+      <div class="avatar-box" onclick="toast('📷 Photo upload feature','warn')" style="margin-top:0">
+       <span>👤</span><p>Click on the<br>image to edit</p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Personal Info Section -->
+   <div class="msec">
+    <div class="msec-title">Personal Info</div>
+    <div class="fr"><div class="fg"><label>Sex</label><select id="ai-sex"><option>Male</option><option>Female</option></select></div><div class="fg"><label>Contact No.</label><input id="ai-contact" placeholder="Contact No."></div></div>
+    <div class="fr"><div class="fg"><label>Birth Date</label><input type="date" id="ai-bdate"></div><div class="fg"><label>Email</label><input type="email" id="ai-email" placeholder="Email address"></div></div>
+    <div class="fg"><label>Civil Status</label><select id="ai-civil" style="max-width:300px"><option>Single</option><option>Married</option><option>Widowed</option><option>Separated</option></select></div>
+   </div>
+   <!-- Family Section -->
+   <div class="msec">
+    <div class="msec-title">Family</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Father</label><div style="display:flex;gap:6px"><input id="ai-father" placeholder="Father" style="flex:1"><button class="btn btn-secondary btn-xs" onclick="toast('➕ Add father record','warn')">+ Add</button></div></div>
+      <div class="fg"><label>Mother</label><div style="display:flex;gap:6px"><input id="ai-mother" placeholder="Mother" style="flex:1"><button class="btn btn-secondary btn-xs" onclick="toast('➕ Add mother record','warn')">+ Add</button></div></div>
+      <div class="fg"><label>Spouse</label><div style="display:flex;gap:6px"><input id="ai-spouse" placeholder="Spouse" style="flex:1"><button class="btn btn-secondary btn-xs" onclick="toast('➕ Add spouse record','warn')">+ Add</button></div></div>
+     </div>
+     <div>
+      <div class="fg"><label>Marriage Date</label><input type="date" id="ai-marriage"></div>
+      <div class="fg"><label>Death Date</label><input type="date" id="ai-death"></div>
+     </div>
+    </div>
+    <!-- Children sub-table -->
+    <div class="sub-table-wrap" style="margin-top:10px">
+     <div class="sub-table-hd"><div class="sub-table-title">Children</div><button class="btn btn-xs btn-primary" onclick="addChild()">+ Add</button></div>
+     <table class="sub-table" id="children-table"><thead><tr><th>First Name</th><th>Last Name</th><th>Sex</th><th>Birth Date</th><th>Age</th><th>Contact No.</th><th></th></tr></thead><tbody id="children-body"><tr><td colspan="7" class="sub-empty">No children added</td></tr></tbody></table>
+    </div>
+   </div>
+   <!-- Addresses Section -->
+   <div class="msec">
+    <div class="msec-title">Addresses</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Address List</div><button class="btn btn-xs btn-primary" onclick="addAddress_ai()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Address</th><th>Address Type</th><th>Tenure</th><th>Landmarks</th><th>Remarks</th><th></th></tr></thead><tbody id="ai-addr-body"><tr><td colspan="6" class="sub-empty">No addresses added</td></tr></tbody></table>
+    </div>
+   </div>
+   <!-- Other Info -->
+   <div class="msec">
+    <div class="msec-title">Other Info</div>
+    <div class="fr"><div class="fg"><label>Nationality</label><select id="ai-nationality"><option></option><option>Filipino</option><option>Chinese</option><option>American</option><option>Other</option></select></div><div class="fg"><label>Source of Income</label><input id="ai-income" placeholder="Source of Income"></div></div>
+   </div>
+   <!-- Pension Info -->
+   <div class="msec">
+    <div class="msec-title">Pension Info</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Provider <span class="req">*</span></label><select id="ai-provider"><option></option><option>SSS</option><option>GSIS</option><option>PVAO</option></select></div>
+      <div class="fg"><label>Pension Type <span class="req">*</span></label><select id="ai-ptype"><option></option><option>Retirement</option><option>Surviving Spouse of Dead Member</option><option>Disability</option><option>Death</option></select></div>
+      <div class="fg"><label>Pension Number <span class="req">*</span></label><input id="ai-pnum" placeholder="Pension Number"></div>
+      <div class="fg"><label>Nature of Sickness</label><input id="ai-sickness" placeholder="Nature of Sickness"></div>
+      <div class="fg"><label>Coverage</label><div style="display:flex;gap:8px"><input type="date" id="ai-cov1" style="flex:1"><input type="date" id="ai-cov2" style="flex:1"></div></div>
+     </div>
+     <div>
+      <div class="fg"><label>Amount</label><input type="number" id="ai-pamount" placeholder="0.00" step="0.01" value="0.00"></div>
+      <div class="fg"><label>Withdrawable</label><input type="number" id="ai-withdraw" placeholder="0.00" step="0.01" value="0.00"></div>
+      <div class="fg"><label>Withdraw Day</label><input type="number" id="ai-wday" placeholder="0" value="0"></div>
+     </div>
+    </div>
+   </div>
+   <!-- Bank Info -->
+   <div class="msec">
+    <div class="msec-title">Bank Info</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Bank</label><input id="ai-bank" placeholder="Bank Name"></div>
+      <div class="fg"><label>Bank Location</label><input id="ai-bankloc" placeholder="Bank Location"></div>
+      <div class="fg"><label>Account Type</label><select id="ai-accttype"><option>ATM</option><option>Savings</option><option>Checking</option><option>Passbook</option></select></div>
+      <div class="fg"><label>Account No.</label><input id="ai-acctno" placeholder="Account Number"></div>
+     </div>
+     <div>
+      <div class="fg"><label>Card No.</label><input id="ai-cardno" placeholder="Card Number"></div>
+      <div class="fg"><label>PIN</label><input type="password" id="ai-pin" placeholder="••••••••••••"></div>
+     </div>
+    </div>
+   </div>
+   <!-- Other Info (Pension Status) -->
+   <div class="msec">
+    <div class="msec-title">Other Info</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Status</label><select id="ai-pstatus"><option></option><option>Active</option><option>Problem</option><option>Fully Paid</option><option>For Release</option><option>Dead Account</option></select></div>
+      <div class="fg"><label>Custodian</label><input id="ai-custodian" value="Malolos"></div>
+      <div class="fg"><label>Remarks</label><textarea id="ai-otherremarks" placeholder="Remarks..."></textarea></div>
+     </div>
+     <div>
+      <div class="fg"><label>Marketing Group</label><select id="ai-mktgrp"><option></option><option>Group A</option><option>Group B</option></select></div>
+      <div class="fg"><label>Marketing Type</label><select id="ai-mkttype"><option></option><option>Walk-in</option><option>Agent</option><option>Online</option></select></div>
+     </div>
+    </div>
+   </div>
+   <!-- Identification -->
+   <div class="msec">
+    <div class="msec-title">Identification</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">ID Documents</div><button class="btn btn-xs btn-primary" onclick="addID()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Type of Identification</th><th>ID Number</th><th>Expiry</th><th></th></tr></thead><tbody id="ai-id-body"><tr><td colspan="4" class="sub-empty">No IDs added</td></tr></tbody></table>
+    </div>
+   </div>
+   <!-- Documents -->
+   <div class="msec">
+    <div class="msec-title">Documents</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Attached Documents</div><button class="btn btn-xs btn-primary" onclick="addDoc()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Type of Document</th><th></th></tr></thead><tbody id="ai-doc-body"><tr><td colspan="2" class="sub-empty">No documents added</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: <span id="ai-created">—</span></span><span>Updated: <span id="ai-updated">—</span></span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-account')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveAccount()">💾 Save Account</button>
+  </div>
+ </div>
+</div>
+</main>
+<script src="app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('input[type=date]').forEach(i=>{if(!i.value)i.value=today();});
+  document.querySelectorAll('input[type=datetime-local]').forEach(i=>{if(!i.value)i.value=now();});
+  renderT('accounts');
+});
+</script>
+</body>
+</html>

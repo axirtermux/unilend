@@ -1,0 +1,1467 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniLend Portal — Manila Uni Capital Corp.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="logo-area">
+    <div class="logo-icon">UC</div>
+    <div><div class="logo-text">Manila Uni Capital</div><div class="logo-sub">Corp. Portal v3.7.10</div></div>
+  </div>
+  <div class="user-area">
+    <div class="u-av">E</div>
+    <div><div class="u-name">Eleazar</div><div class="u-role">Administrator · Malolos</div></div>
+  </div>
+  <div class="nav-srch"><input placeholder="🔍 Search menu..." oninput="searchNav(this.value)"></div>
+  <div class="nav-body">
+    <div class="nav-lbl">Main</div>
+    <div class="ni active" data-page="dashboard" onclick="nav(this)"><span class="ni-ico">📊</span>Dashboard</div>
+    <div class="ni" data-page="account" onclick="nav(this)"><span class="ni-ico">👤</span>Account Info</div>
+    <div class="ni" data-page="loanproc" onclick="nav(this)"><span class="ni-ico">📋</span>Loan Processing<span class="ni-badge">28k</span></div>
+    <div class="ni" data-page="loanapproval" onclick="nav(this)"><span class="ni-ico">✅</span>Loan Approval<span class="ni-badge" id="pending-badge">34</span></div>
+    <div class="ni" data-page="vouchers" onclick="nav(this)"><span class="ni-ico">🧾</span>Vouchers</div>
+    <div class="ni" data-page="collections" onclick="nav(this)"><span class="ni-ico">💰</span>Collections</div>
+    <div class="ni" data-page="changefunds" onclick="nav(this)"><span class="ni-ico">🔄</span>Change Funds</div>
+    <div class="nav-lbl">Reports</div>
+    <div class="ni" data-page="rep_cf" onclick="nav(this)"><span class="ni-ico">📄</span>Change Fund Register</div>
+    <div class="ni" data-page="rep_check" onclick="nav(this)"><span class="ni-ico">📄</span>Check Register</div>
+    <div class="ni" data-page="rep_target" onclick="nav(this)"><span class="ni-ico">📄</span>Target Collection &amp; CF</div>
+    <div class="ni" data-page="rep_col" onclick="nav(this)"><span class="ni-ico">📄</span>Collection Sheet</div>
+    <div class="ni" data-page="rep_trans" onclick="nav(this)"><span class="ni-ico">📄</span>Transaction Report</div>
+    <div class="ni" data-page="rep_udi" onclick="nav(this)"><span class="ni-ico">📄</span>UDI Report</div>
+    <div class="nav-lbl">Setup</div>
+    <div class="ni" data-page="banks" onclick="nav(this)"><span class="ni-ico">🏦</span>Banks</div>
+    <div class="ni" data-page="bankaccounts" onclick="nav(this)"><span class="ni-ico">💳</span>Bank Accounts</div>
+    <div class="ni" data-page="products" onclick="nav(this)"><span class="ni-ico">📦</span>Products</div>
+    <div class="ni" data-page="agents" onclick="nav(this)"><span class="ni-ico">🤝</span>Agents</div>
+    <div class="ni" data-page="addresses" onclick="nav(this)"><span class="ni-ico">📍</span>Addresses</div>
+    <div class="ni" data-page="lookups" onclick="nav(this)"><span class="ni-ico">🔎</span>LookUps</div>
+  </div>
+</nav>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="tb-title" id="tb-title">Dashboard</div>
+  <div class="tb-branch" onclick="toast('🏢 Branch switching coming soon','warn')">🏢 Malolos ▾</div>
+  <div class="tb-btn" onclick="toast('🔔 34 pending loan approvals','warn')" title="Notifications" style="position:relative">🔔<span class="notif-dot"></span></div>
+  <div class="tb-btn" onclick="toast('🔍 Use page search bars for records','warn')" title="Global Search">🔍</div>
+  <div class="tb-btn" onclick="toast('⚙️ Settings — coming soon','warn')" title="Settings">⚙️</div>
+  <div class="tb-btn" onclick="confirmDlg('Logout','Are you sure you want to logout?',()=>toast('👋 Logged out','success'))" title="Logout" style="color:var(--rose)">🚪</div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══ DASHBOARD ══ -->
+<div class="page active" id="page-dashboard">
+  <div class="ph">
+    <div><div class="ph-title">Good day, Eleazar 👋</div><div class="ph-sub"><span class="ldot"></span>Live · Malolos Branch · <span id="dash-date"></span></div></div>
+    <div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('accounts')">📤 Export</button><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">Generate Report</button></div>
+  </div>
+  <div class="stats-grid">
+    <div class="sc teal" onclick="nav(document.querySelector('[data-page=account]'))"><div class="sc-glow"></div><div class="sc-ico">👥</div><div class="sc-lbl">Total Pensioners</div><div class="sc-val" id="cnt-pensioners">0</div><div class="sc-chg">↑ +12 this month</div><div class="sc-more">View accounts →</div></div>
+    <div class="sc gold" onclick="nav(document.querySelector('[data-page=loanapproval]'))"><div class="sc-glow"></div><div class="sc-ico">⏳</div><div class="sc-lbl">Pending Approvals</div><div class="sc-val" id="cnt-pending">0</div><div class="sc-chg">Awaiting review</div><div class="sc-more">View approvals →</div></div>
+    <div class="sc green" onclick="nav(document.querySelector('[data-page=loanproc]'))"><div class="sc-glow"></div><div class="sc-ico">💵</div><div class="sc-lbl">Loans (Approved)</div><div class="sc-val" id="cnt-loans">₱0</div><div class="sc-chg">↑ +₱2.1M vs last month</div><div class="sc-more">View processing →</div></div>
+    <div class="sc red" onclick="nav(document.querySelector('[data-page=collections]'))"><div class="sc-glow"></div><div class="sc-ico">💳</div><div class="sc-lbl">Receivables</div><div class="sc-val" id="cnt-recv">₱0</div><div class="sc-chg">↓ -₱341K collected</div><div class="sc-more">View collections →</div></div>
+  </div>
+  <div class="chart-grid">
+    <div class="cc"><div class="cc-hd"><div><div class="cc-title">Monthly Loan Disbursements</div><div class="cc-sub">2025 · ₱ in millions</div></div></div><div class="bar-wrap" id="dash-bars"></div></div>
+    <div class="cc"><div class="cc-hd"><div><div class="cc-title">Loan Type Distribution</div><div class="cc-sub">By product category</div></div></div>
+      <div class="donut-wrap">
+        <div class="donut"><svg viewBox="0 0 110 110" width="110" height="110"><circle cx="55" cy="55" r="40" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="16"/><circle cx="55" cy="55" r="40" fill="none" stroke="#1a56db" stroke-width="16" stroke-dasharray="100 152" stroke-linecap="round"/><circle cx="55" cy="55" r="40" fill="none" stroke="#10b981" stroke-width="16" stroke-dasharray="58 194" stroke-dashoffset="-100" stroke-linecap="round"/><circle cx="55" cy="55" r="40" fill="none" stroke="#f59e0b" stroke-width="16" stroke-dasharray="36 216" stroke-dashoffset="-158" stroke-linecap="round"/><circle cx="55" cy="55" r="40" fill="none" stroke="#f43f5e" stroke-width="16" stroke-dasharray="18 234" stroke-dashoffset="-194" stroke-linecap="round"/></svg><div class="donut-ctr"><div class="donut-val">65</div><div class="donut-lbl2">Products</div></div></div>
+        <div class="legend"><div class="li"><div class="li-dot" style="background:#1a56db"></div><div class="li-name">Extension</div><div class="li-pct">40%</div></div><div class="li"><div class="li-dot" style="background:#10b981"></div><div class="li-name">Additional</div><div class="li-pct">23%</div></div><div class="li"><div class="li-dot" style="background:#f59e0b"></div><div class="li-name">Buy-Out</div><div class="li-pct">14%</div></div><div class="li"><div class="li-dot" style="background:#f43f5e"></div><div class="li-name">Bonus/Other</div><div class="li-pct">23%</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 310px;gap:16px">
+    <div class="act-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="sec-hd" style="margin:0">Recent Activity</div><span style="font-size:11px;color:var(--text3)">Today</span></div><div id="activity-feed"></div></div>
+    <div class="qa-card"><div class="sec-hd">Quick Actions</div><div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-primary" onclick="nav(document.querySelector('[data-page=account]'));setTimeout(()=>openM('m-account'),400)">👤 New Account</button>
+      <button class="btn btn-success" onclick="nav(document.querySelector('[data-page=vouchers]'));setTimeout(()=>openM('m-voucher'),400)">🧾 New Voucher</button>
+      <button class="btn btn-secondary" onclick="nav(document.querySelector('[data-page=loanproc]'));setTimeout(()=>openM('m-loan'),400)">📋 New Loan</button>
+      <button class="btn btn-secondary" onclick="nav(document.querySelector('[data-page=collections]'));setTimeout(()=>openM('m-collection'),400)">💰 Record Collection</button>
+      <button class="btn btn-secondary" onclick="nav(document.querySelector('[data-page=rep_trans]'))">📊 Transaction Report</button>
+    </div><div class="divider"></div><div class="sec-hd">Branch Summary</div><div id="branch-summary"></div></div>
+  </div>
+</div>
+
+<!-- ══ ACCOUNT INFO ══ -->
+<div class="page" id="page-account">
+  <div class="ph"><div><div class="ph-title">Account Info</div><div class="ph-sub" id="acct-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('accounts')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-account')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab" onclick="fStatus('accounts','')">All</div><div class="ftab active" onclick="fStatus('accounts','Active')">Active</div><div class="ftab" onclick="fStatus('accounts','Problem')">Problem</div><div class="ftab" onclick="fStatus('accounts','Fully Paid')">Fully Paid</div><div class="ftab" onclick="fStatus('accounts','Archived')">Archived</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search name, pension #, bank..." oninput="search('accounts',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-accounts"><thead><tr><th></th><th onclick="sortT('accounts',0)">Pension Number</th><th onclick="sortT('accounts',1)">Full Name</th><th onclick="sortT('accounts',2)">Provider</th><th onclick="sortT('accounts',3)">Pension Type</th><th onclick="sortT('accounts',4)" class="num">Pension</th><th onclick="sortT('accounts',5)">Bank</th><th onclick="sortT('accounts',6)">Status</th><th>Actions</th></tr></thead><tbody id="tbody-accounts"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-accounts"></div><div class="pgn-btns" id="pgb-accounts"></div><div class="pgn-size">Show <select onchange="chgPS('accounts',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+
+<!-- ══ LOAN PROCESSING ══ -->
+<div class="page" id="page-loanproc">
+  <div class="ph"><div><div class="ph-title">Loan Processing</div><div class="ph-sub" id="lp-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('loans')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-loan')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab" onclick="fStatus('loans','')">All</div><div class="ftab active" onclick="fStatus('loans','Active')">Active</div><div class="ftab" onclick="fStatus('loans','Archived')">Archived</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search reference, customer..." oninput="search('loans',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-loans"><thead><tr><th></th><th onclick="sortT('loans',0)">Reference</th><th onclick="sortT('loans',1)">Loan Date</th><th onclick="sortT('loans',2)">Customer Name</th><th class="num">Amortization</th><th class="num">#</th><th class="num">Principal</th><th class="num">Proc.</th><th class="num">Not.</th><th class="num">Ins.</th><th class="num">Interest</th><th class="num">Cash Out</th><th>Actions</th></tr></thead><tbody id="tbody-loans"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-loans"></div><div class="pgn-btns" id="pgb-loans"></div><div class="pgn-size">Show <select onchange="chgPS('loans',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+
+<!-- ══ LOAN APPROVAL ══ -->
+<div class="page" id="page-loanapproval">
+  <div class="ph"><div><div class="ph-title">Loan Approval</div><div class="ph-sub" id="la-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('approvals')">📤 Export</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab active" onclick="fStatus('approvals','Pending')">Pending</div><div class="ftab" onclick="fStatus('approvals','Approved')">Approved</div><div class="ftab" onclick="fStatus('approvals','Denied')">Denied</div><div class="ftab" onclick="fStatus('approvals','')">All</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search reference, customer..." oninput="search('approvals',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-approvals"><thead><tr><th onclick="sortT('approvals',0)">Reference</th><th onclick="sortT('approvals',1)">Loan Date</th><th onclick="sortT('approvals',2)">Customer</th><th class="num">Amortization</th><th class="num">#</th><th class="num">Principal</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tbody-approvals"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-approvals"></div><div class="pgn-btns" id="pgb-approvals"></div><div class="pgn-size">Show <select onchange="chgPS('approvals',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+
+<!-- ══ VOUCHERS ══ -->
+<div class="page" id="page-vouchers">
+  <div class="ph"><div><div class="ph-title">Vouchers</div><div class="ph-sub" id="v-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('vouchers')">📤 Export</button><button class="btn btn-secondary" onclick="toast('🔗 Link to Loan','warn')">🔗 Loan...</button><button class="btn btn-primary" onclick="openM('m-voucher')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab active" onclick="fStatus('vouchers','Active')">Active</div><div class="ftab" onclick="fStatus('vouchers','Archived')">Archived</div><div class="ftab" onclick="fStatus('vouchers','')">All</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search voucher #, payee..." oninput="search('vouchers',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-vouchers"><thead><tr><th></th><th onclick="sortT('vouchers',0)">Voucher #</th><th onclick="sortT('vouchers',1)">Date</th><th onclick="sortT('vouchers',2)">Payee</th><th onclick="sortT('vouchers',3)">Bank Account</th><th class="num">Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tbody-vouchers"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-vouchers"></div><div class="pgn-btns" id="pgb-vouchers"></div><div class="pgn-size">Show <select onchange="chgPS('vouchers',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+
+<!-- ══ COLLECTIONS ══ -->
+<div class="page" id="page-collections">
+  <div class="ph"><div><div class="ph-title">Collections</div><div class="ph-sub" id="col-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('collections')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-collection')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab active" onclick="fStatus('collections','Active')">Active</div><div class="ftab" onclick="fStatus('collections','Archived')">Archived</div><div class="ftab" onclick="fStatus('collections','')">All</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search control #, customer..." oninput="search('collections',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-collections"><thead><tr><th></th><th onclick="sortT('collections',0)">Control No.</th><th onclick="sortT('collections',1)">Date</th><th onclick="sortT('collections',2)">Customer</th><th class="num">Amount</th><th class="num">Bonus</th><th>Remarks</th><th>Actions</th></tr></thead><tbody id="tbody-collections"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-collections"></div><div class="pgn-btns" id="pgb-collections"></div><div class="pgn-size">Show <select onchange="chgPS('collections',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+
+<!-- ══ CHANGE FUNDS ══ -->
+<div class="page" id="page-changefunds">
+  <div class="ph"><div><div class="ph-title">Change Funds</div><div class="ph-sub" id="cf-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('changefunds')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-changefund')">+ Create</button></div></div>
+  <div class="fbar">
+    <div class="ftabs"><div class="ftab active" onclick="fStatus('changefunds','')">All</div><div class="ftab" onclick="fStatus('changefunds','Credit')">Credit</div><div class="ftab" onclick="fStatus('changefunds','Debit')">Debit</div></div>
+    <div class="srch"><span>🔍</span><input placeholder="Search CF #, customer..." oninput="search('changefunds',this.value)"></div>
+  </div>
+  <div class="tw"><table class="dt" id="tbl-changefunds"><thead><tr><th></th><th onclick="sortT('changefunds',0)">CF No.</th><th onclick="sortT('changefunds',1)">Entry Date</th><th onclick="sortT('changefunds',2)">Type</th><th class="num">Amount</th><th>Customer Name</th><th>Remarks</th><th>Branch</th><th>Actions</th></tr></thead><tbody id="tbody-changefunds"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-changefunds"></div><div class="pgn-btns" id="pgb-changefunds"></div><div class="pgn-size">Show <select onchange="chgPS('changefunds',this.value)"><option>15</option><option>30</option><option>50</option></select></div></div></div>
+</div>
+
+<!-- ══ BANKS ══ -->
+<div class="page" id="page-banks">
+  <div class="ph"><div><div class="ph-title">Banks</div><div class="ph-sub" id="banks-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('banks')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-bank')">+ Create</button></div></div>
+  <div class="fbar"><div class="srch"><span>🔍</span><input placeholder="Search bank name..." oninput="search('banks',this.value)"></div></div>
+  <div class="tw"><table class="dt" id="tbl-banks"><thead><tr><th></th><th onclick="sortT('banks',0)">Bank Name</th><th>Address</th><th>Contact Person</th><th>Position</th><th>Contact No.</th><th>Actions</th></tr></thead><tbody id="tbody-banks"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-banks"></div><div class="pgn-btns" id="pgb-banks"></div></div></div>
+</div>
+
+<!-- ══ BANK ACCOUNTS ══ -->
+<div class="page" id="page-bankaccounts">
+  <div class="ph"><div><div class="ph-title">Bank Accounts</div><div class="ph-sub">2 accounts registered</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('bankaccounts')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-bankaccount')">+ Create</button></div></div>
+  <div class="tw"><table class="dt"><thead><tr><th></th><th>Bank Name</th><th>Bank Address</th><th>Account No.</th><th class="num">Balance</th><th>Actions</th></tr></thead><tbody id="tbody-bankaccounts"></tbody></table><div class="pgn"><div class="pgn-info">1 - 2 of 2 items</div></div></div>
+</div>
+
+<!-- ══ PRODUCTS ══ -->
+<div class="page" id="page-products">
+  <div class="ph"><div><div class="ph-title">Products</div><div class="ph-sub" id="prod-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('products')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-product')">+ Create</button></div></div>
+  <div class="fbar"><div class="srch"><span>🔍</span><input placeholder="Search product name..." oninput="search('products',this.value)"></div><select class="btn btn-secondary btn-sm" onchange="fStatus('products',this.value)"><option value="">All Types</option><option>Additional</option><option>Bonus</option><option>Extension</option><option>New</option><option>Renewal</option><option>BUY OUT NEW</option></select></div>
+  <div class="tw"><table class="dt" id="tbl-products"><thead><tr><th></th><th onclick="sortT('products',0)">Name</th><th onclick="sortT('products',1)">Loan Type</th><th>Description</th><th>Actions</th></tr></thead><tbody id="tbody-products"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-products"></div><div class="pgn-btns" id="pgb-products"></div></div></div>
+</div>
+
+<!-- ══ AGENTS ══ -->
+<div class="page" id="page-agents">
+  <div class="ph"><div><div class="ph-title">Agents</div><div class="ph-sub" id="agents-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('agents')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-agent')">+ Create</button></div></div>
+  <div class="fbar"><div class="srch"><span>🔍</span><input placeholder="Search agent name..." oninput="search('agents',this.value)"></div></div>
+  <div class="tw"><table class="dt" id="tbl-agents"><thead><tr><th></th><th onclick="sortT('agents',0)">Agent Name</th><th>Type</th><th>Address</th><th>Contact No.</th><th>Actions</th></tr></thead><tbody id="tbody-agents"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-agents"></div><div class="pgn-btns" id="pgb-agents"></div></div></div>
+</div>
+
+<!-- ══ ADDRESSES ══ -->
+<div class="page" id="page-addresses">
+  <div class="ph"><div><div class="ph-title">Addresses</div><div class="ph-sub" id="addr-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('addresses')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-address')">+ Create</button></div></div>
+  <div class="fbar"><div class="srch"><span>🔍</span><input placeholder="Search code, address..." oninput="search('addresses',this.value)"></div></div>
+  <div class="tw"><table class="dt" id="tbl-addresses"><thead><tr><th></th><th onclick="sortT('addresses',0)">Code</th><th onclick="sortT('addresses',1)">Address</th><th>Actions</th></tr></thead><tbody id="tbody-addresses"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-addresses"></div><div class="pgn-btns" id="pgb-addresses"></div></div></div>
+</div>
+
+<!-- ══ LOOKUPS ══ -->
+<div class="page" id="page-lookups">
+  <div class="ph"><div><div class="ph-title">LookUps</div><div class="ph-sub" id="lu-sub">Loading...</div></div><div class="ph-right"><button class="btn btn-secondary" onclick="exportCSV('lookups')">📤 Export</button><button class="btn btn-primary" onclick="openM('m-lookup')">+ Create</button></div></div>
+  <div class="fbar"><select class="btn btn-secondary btn-sm"><option>Name</option><option>Status</option><option>Type</option></select><div class="srch"><span>🔍</span><input placeholder="Search lookup word..." oninput="search('lookups',this.value)"></div></div>
+  <div class="tw"><table class="dt" id="tbl-lookups"><thead><tr><th></th><th onclick="sortT('lookups',0)">Look Up Word</th><th onclick="sortT('lookups',1)">Order</th><th>Code</th><th>Actions</th></tr></thead><tbody id="tbody-lookups"></tbody></table><div class="pgn"><div class="pgn-info" id="pgi-lookups"></div><div class="pgn-btns" id="pgb-lookups"></div></div></div>
+</div>
+
+<!-- REPORT PAGES -->
+<div class="page" id="page-rep_cf"><div class="ph-title" style="margin-bottom:18px">Change Fund Register</div><div class="rf"><div class="rf-grid"><div class="fg"><label>Date From <span class="req">*</span></label><input type="date" value="2026-04-27"></div><div class="fg"><label>Date To <span class="req">*</span></label><input type="date" value="2026-04-27"></div><div class="fg"><label>Branch</label><select><option>— All Branches —</option><option selected>Malolos</option></select></div><div class="fg"><label>Customer</label><input placeholder="Search customer..."></div></div><div class="fg" style="margin-top:10px"><div class="rrow"><label class="ri"><input type="radio" name="rcf" checked> Group by branch</label><label class="ri"><input type="radio" name="rcf"> Show as list</label></div></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">🔍 View Report</button><button class="btn btn-danger" onclick="toast('📥 Downloading PDF...','success')">📥 Download PDF</button><button class="btn btn-secondary" onclick="toast('🧹 Cleared','success')">Clear</button></div></div></div>
+<div class="page" id="page-rep_check"><div class="ph-title" style="margin-bottom:18px">Check Register</div><div class="rf"><div class="rf-grid"><div class="fg"><label>Date From</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Date To</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Bank</label><select><option>— All Banks —</option><option>PNB</option><option>BDO</option><option>BPI</option></select></div><div class="fg"><label>Disbursement Type</label><select><option>— All Types —</option><option>Check</option><option>Cash</option></select></div><div class="fg"><label>Payee</label><input placeholder="Search payee..."></div><div class="fg"><label>Trans / CV No</label><input placeholder="Voucher number"></div><div class="fg"><label>Cheque No</label><input placeholder="Cheque number"></div></div><label class="chk-row" style="margin-top:10px"><input type="checkbox"> Exclude Bonus Transactions</label><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">🔍 View Report</button><button class="btn btn-danger" onclick="toast('📥 Downloading PDF...','success')">📥 Download PDF</button><button class="btn btn-secondary">Clear</button></div></div></div>
+<div class="page" id="page-rep_target"><div class="ph-title" style="margin-bottom:18px">Target Collection &amp; CF</div><div class="rf"><div class="rf-grid"><div class="fg"><label>Branch</label><select><option>— All Branches —</option><option selected>Malolos</option></select></div><div class="fg"><label>Date From</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Date To</label><input type="date" value="2026-04-27"></div></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">🔍 View Report</button><button class="btn btn-danger" onclick="toast('📥 Downloading PDF...','success')">📥 Download PDF</button><button class="btn btn-secondary">Clear</button></div></div></div>
+<div class="page" id="page-rep_col"><div class="ph-title" style="margin-bottom:18px">Collection Sheet</div><div class="rf"><div class="rf-grid"><div class="fg"><label>Branch</label><select><option>— All Branches —</option><option selected>Malolos</option></select></div><div class="fg"><label>Date From</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Date To</label><input type="date" value="2026-04-27"></div></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">🔍 View Report</button><button class="btn btn-danger" onclick="toast('📥 Downloading PDF...','success')">📥 Download PDF</button><button class="btn btn-secondary">Clear</button></div></div></div>
+<div class="page" id="page-rep_trans"><div class="ph-title" style="margin-bottom:18px">Transaction Report</div><div class="rf"><div class="rf-grid"><div class="fg"><label>Date From</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Date To</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Branch</label><select><option>— All Branches —</option><option selected>Malolos</option></select></div><div class="fg"><label>Customer Type</label><select><option>— All —</option><option>SSS</option><option>GSIS</option></select></div><div class="fg"><label>Customer</label><input placeholder="Search customer..."></div><div class="fg"><label>Transaction No</label><input placeholder="Transaction number"></div><div class="fg"><label>Term From</label><input type="number" placeholder="e.g. 6"></div><div class="fg"><label>Term To</label><input type="number" placeholder="e.g. 12"></div><div class="fg"><label>Pension Type</label><select><option>— All —</option><option>Retirement</option><option>Surviving Spouse</option></select></div><div class="fg"><label>Marketing Type</label><select><option>— All —</option></select></div><div class="fg"><label>Transaction Type</label><select><option>— All —</option></select></div></div><label class="chk-row" style="margin-top:10px"><input type="checkbox"> Exclude Bonus Transactions</label><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">🔍 View Report</button><button class="btn btn-danger" onclick="toast('📥 Downloading PDF...','success')">📥 Download PDF</button><button class="btn btn-secondary">Clear</button></div></div></div>
+<div class="page" id="page-rep_udi"><div class="ph-title" style="margin-bottom:18px">UDI Report</div><div class="rf"><div class="rf-grid"><div class="fg"><label>Date From</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Date To</label><input type="date" value="2026-04-27"></div><div class="fg"><label>Branch</label><select><option>— All Branches —</option><option selected>Malolos</option></select></div><div class="fg"><label>Customer Type</label><select><option>— All —</option><option>SSS</option></select></div><div class="fg"><label>Customer</label><input placeholder="Search customer..."></div><div class="fg"><label>Transaction No</label><input placeholder="Transaction number"></div></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary" onclick="toast('📊 Report generated!','success')">🔍 View Report</button><button class="btn btn-danger" onclick="toast('📥 Downloading PDF...','success')">📥 Download PDF</button><button class="btn btn-secondary">Clear</button></div></div></div>
+
+</main>
+
+<!-- ══════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════ -->
+
+<!-- ① ACCOUNT INFO / CUSTOMER INFO (Images 1–6) -->
+<div class="overlay" id="m-account">
+ <div class="modal xl">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(37,99,235,.15)">👤</div><div><div class="mhd-title" id="m-account-title">Customer Info</div><div class="mhd-sub">Create new pensioner account</div></div></div>
+   <div class="mc" onclick="closeM('m-account')">✕</div>
+  </div>
+  <div class="mbody">
+   <!-- Customer Info Section -->
+   <div class="msec">
+    <div class="msec-title">Customer Info</div>
+    <div style="display:flex;gap:20px;align-items:flex-start">
+     <div style="flex:1">
+      <div class="fr3"><div class="fg"><label>Prefix</label><select id="ai-prefix"><option></option><option>Mr.</option><option>Mrs.</option><option>Ms.</option><option>Dr.</option><option>Engr.</option></select></div><div class="fg" style="grid-column:span 2"><label>First Name <span class="req">*</span></label><input id="ai-fname" placeholder="First Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Middle Name</label><input id="ai-mname" placeholder="Middle Name"></div><div class="fg"><label>Last Name <span class="req">*</span></label><input id="ai-lname" placeholder="Last Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Suffix</label><input id="ai-suffix" placeholder="e.g. Jr., Sr., III"></div><div class="fg"><label>Nick Name</label><input id="ai-nick" placeholder="Nick Name"></div></div>
+      <div class="fr"><div class="fg"><label>Reference Number</label><div style="display:flex;gap:6px"><select id="ai-reftype" style="width:130px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:9px 10px;color:var(--text);font-family:inherit;outline:none;"><option>Automatic</option><option>Manual</option></select><input id="ai-refno" class="readonly" value="0000000000" readonly style="flex:1"></div></div><div class="fg"><label>Registration Date</label><input type="datetime-local" id="ai-regdate"></div></div>
+      <label class="chk-row"><input type="checkbox" id="ai-active" checked> Is Active</label>
+      <div class="fg" style="margin-top:10px"><label>Remarks</label><textarea id="ai-remarks" placeholder="Remarks..." style="min-height:60px"></textarea></div>
+     </div>
+     <div>
+      <div class="avatar-box" onclick="toast('📷 Photo upload feature','warn')" style="margin-top:0">
+       <span>👤</span><p>Click on the<br>image to edit</p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Personal Info Section -->
+   <div class="msec">
+    <div class="msec-title">Personal Info</div>
+    <div class="fr"><div class="fg"><label>Sex</label><select id="ai-sex"><option>Male</option><option>Female</option></select></div><div class="fg"><label>Contact No.</label><input id="ai-contact" placeholder="Contact No."></div></div>
+    <div class="fr"><div class="fg"><label>Birth Date</label><input type="date" id="ai-bdate"></div><div class="fg"><label>Email</label><input type="email" id="ai-email" placeholder="Email address"></div></div>
+    <div class="fg"><label>Civil Status</label><select id="ai-civil" style="max-width:300px"><option>Single</option><option>Married</option><option>Widowed</option><option>Separated</option></select></div>
+   </div>
+   <!-- Family Section -->
+   <div class="msec">
+    <div class="msec-title">Family</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Father</label><div style="display:flex;gap:6px"><input id="ai-father" placeholder="Father" style="flex:1"><button class="btn btn-secondary btn-xs" onclick="toast('➕ Add father record','warn')">+ Add</button></div></div>
+      <div class="fg"><label>Mother</label><div style="display:flex;gap:6px"><input id="ai-mother" placeholder="Mother" style="flex:1"><button class="btn btn-secondary btn-xs" onclick="toast('➕ Add mother record','warn')">+ Add</button></div></div>
+      <div class="fg"><label>Spouse</label><div style="display:flex;gap:6px"><input id="ai-spouse" placeholder="Spouse" style="flex:1"><button class="btn btn-secondary btn-xs" onclick="toast('➕ Add spouse record','warn')">+ Add</button></div></div>
+     </div>
+     <div>
+      <div class="fg"><label>Marriage Date</label><input type="date" id="ai-marriage"></div>
+      <div class="fg"><label>Death Date</label><input type="date" id="ai-death"></div>
+     </div>
+    </div>
+    <!-- Children sub-table -->
+    <div class="sub-table-wrap" style="margin-top:10px">
+     <div class="sub-table-hd"><div class="sub-table-title">Children</div><button class="btn btn-xs btn-primary" onclick="addChild()">+ Add</button></div>
+     <table class="sub-table" id="children-table"><thead><tr><th>First Name</th><th>Last Name</th><th>Sex</th><th>Birth Date</th><th>Age</th><th>Contact No.</th><th></th></tr></thead><tbody id="children-body"><tr><td colspan="7" class="sub-empty">No children added</td></tr></tbody></table>
+    </div>
+   </div>
+   <!-- Addresses Section -->
+   <div class="msec">
+    <div class="msec-title">Addresses</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Address List</div><button class="btn btn-xs btn-primary" onclick="addAddress_ai()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Address</th><th>Address Type</th><th>Tenure</th><th>Landmarks</th><th>Remarks</th><th></th></tr></thead><tbody id="ai-addr-body"><tr><td colspan="6" class="sub-empty">No addresses added</td></tr></tbody></table>
+    </div>
+   </div>
+   <!-- Other Info -->
+   <div class="msec">
+    <div class="msec-title">Other Info</div>
+    <div class="fr"><div class="fg"><label>Nationality</label><select id="ai-nationality"><option></option><option>Filipino</option><option>Chinese</option><option>American</option><option>Other</option></select></div><div class="fg"><label>Source of Income</label><input id="ai-income" placeholder="Source of Income"></div></div>
+   </div>
+   <!-- Pension Info -->
+   <div class="msec">
+    <div class="msec-title">Pension Info</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Provider <span class="req">*</span></label><select id="ai-provider"><option></option><option>SSS</option><option>GSIS</option><option>PVAO</option></select></div>
+      <div class="fg"><label>Pension Type <span class="req">*</span></label><select id="ai-ptype"><option></option><option>Retirement</option><option>Surviving Spouse of Dead Member</option><option>Disability</option><option>Death</option></select></div>
+      <div class="fg"><label>Pension Number <span class="req">*</span></label><input id="ai-pnum" placeholder="Pension Number"></div>
+      <div class="fg"><label>Nature of Sickness</label><input id="ai-sickness" placeholder="Nature of Sickness"></div>
+      <div class="fg"><label>Coverage</label><div style="display:flex;gap:8px"><input type="date" id="ai-cov1" style="flex:1"><input type="date" id="ai-cov2" style="flex:1"></div></div>
+     </div>
+     <div>
+      <div class="fg"><label>Amount</label><input type="number" id="ai-pamount" placeholder="0.00" step="0.01" value="0.00"></div>
+      <div class="fg"><label>Withdrawable</label><input type="number" id="ai-withdraw" placeholder="0.00" step="0.01" value="0.00"></div>
+      <div class="fg"><label>Withdraw Day</label><input type="number" id="ai-wday" placeholder="0" value="0"></div>
+     </div>
+    </div>
+   </div>
+   <!-- Bank Info -->
+   <div class="msec">
+    <div class="msec-title">Bank Info</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Bank</label><input id="ai-bank" placeholder="Bank Name"></div>
+      <div class="fg"><label>Bank Location</label><input id="ai-bankloc" placeholder="Bank Location"></div>
+      <div class="fg"><label>Account Type</label><select id="ai-accttype"><option>ATM</option><option>Savings</option><option>Checking</option><option>Passbook</option></select></div>
+      <div class="fg"><label>Account No.</label><input id="ai-acctno" placeholder="Account Number"></div>
+     </div>
+     <div>
+      <div class="fg"><label>Card No.</label><input id="ai-cardno" placeholder="Card Number"></div>
+      <div class="fg"><label>PIN</label><input type="password" id="ai-pin" placeholder="••••••••••••"></div>
+     </div>
+    </div>
+   </div>
+   <!-- Other Info (Pension Status) -->
+   <div class="msec">
+    <div class="msec-title">Other Info</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Status</label><select id="ai-pstatus"><option></option><option>Active</option><option>Problem</option><option>Fully Paid</option><option>For Release</option><option>Dead Account</option></select></div>
+      <div class="fg"><label>Custodian</label><input id="ai-custodian" value="Malolos"></div>
+      <div class="fg"><label>Remarks</label><textarea id="ai-otherremarks" placeholder="Remarks..."></textarea></div>
+     </div>
+     <div>
+      <div class="fg"><label>Marketing Group</label><select id="ai-mktgrp"><option></option><option>Group A</option><option>Group B</option></select></div>
+      <div class="fg"><label>Marketing Type</label><select id="ai-mkttype"><option></option><option>Walk-in</option><option>Agent</option><option>Online</option></select></div>
+     </div>
+    </div>
+   </div>
+   <!-- Identification -->
+   <div class="msec">
+    <div class="msec-title">Identification</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">ID Documents</div><button class="btn btn-xs btn-primary" onclick="addID()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Type of Identification</th><th>ID Number</th><th>Expiry</th><th></th></tr></thead><tbody id="ai-id-body"><tr><td colspan="4" class="sub-empty">No IDs added</td></tr></tbody></table>
+    </div>
+   </div>
+   <!-- Documents -->
+   <div class="msec">
+    <div class="msec-title">Documents</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Attached Documents</div><button class="btn btn-xs btn-primary" onclick="addDoc()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Type of Document</th><th></th></tr></thead><tbody id="ai-doc-body"><tr><td colspan="2" class="sub-empty">No documents added</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: <span id="ai-created">—</span></span><span>Updated: <span id="ai-updated">—</span></span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-account')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveAccount()">💾 Save Account</button>
+  </div>
+ </div>
+</div>
+
+<!-- ② LOAN PROCESSING CREATE (Images 7–8) -->
+<div class="overlay" id="m-loan">
+ <div class="modal xl">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(16,185,129,.15)">📋</div><div><div class="mhd-title" id="m-loan-title">Create Loan</div><div class="mhd-sub">New loan processing record</div></div></div>
+   <div class="mc" onclick="closeM('m-loan')">✕</div>
+  </div>
+  <div class="mbody">
+   <!-- Pension Info -->
+   <div class="msec">
+    <div class="msec-title">Pension Info</div>
+    <div style="display:flex;gap:20px;align-items:flex-start">
+     <div style="flex:1">
+      <div class="fr">
+       <div class="fg"><label>Pension Reference</label><input id="ln-pensref" placeholder="Pensioner"></div>
+       <div class="fg"><label>Birth Date</label><div style="display:flex;gap:6px"><input type="date" id="ln-bdate" style="flex:1"><input type="number" id="ln-age" placeholder="0" style="width:60px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:9px 10px;color:var(--text);font-family:inherit;outline:none;" readonly></div></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Customer <span class="req">*</span></label><input id="ln-customer" placeholder="Customer Name"><div class="errmsg">Required</div></div>
+       <div class="fg"><label>Contact Number</label><input id="ln-contact" placeholder="Contact Number"></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Pension Provider</label><input id="ln-provider" placeholder="Pension Provider"></div>
+       <div class="fg"><label>Pension Amount</label><input type="number" id="ln-pamount" value="0.00" step="0.01"></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Pension Type</label><input id="ln-ptype" placeholder="Pension Type"></div>
+       <div class="fg"><label>Withdrawable</label><input type="number" id="ln-withdraw" value="0.00" step="0.01"></div>
+      </div>
+      <div class="fr">
+       <div class="fg"><label>Pension Number</label><input id="ln-pnum" placeholder="Pension Number"></div>
+       <div class="fg"><label>Withdrawal Day</label><input type="number" id="ln-wday" value="0"></div>
+      </div>
+      <div class="fg"><label>Months Remaining</label><input id="ln-months" placeholder="Months Remaining" style="max-width:250px"></div>
+     </div>
+     <div class="avatar-box" onclick="toast('📷 Photo upload','warn')"><span>👤</span><p>Click to<br>upload photo</p></div>
+    </div>
+   </div>
+   <!-- Loan Info -->
+   <div class="msec">
+    <div class="msec-title">Loan Info</div>
+    <div class="fr">
+     <div class="fg"><label>Loan Reference</label><input id="ln-loanref" class="readonly" value="Automatic" readonly></div>
+     <div class="fg"><label>Branch Name</label><input id="ln-branch" value="Malolos"></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Loan Date <span class="req">*</span></label><input type="date" id="ln-ldate"></div>
+     <div class="fg"><label>Agent</label><select id="ln-agent"><option></option><option>Ana Santos</option><option>Roberto Cruz</option><option>Maria Dela Cruz</option></select></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Loan Type</label><select id="ln-loantype"><option></option><option>New</option><option>Renewal</option><option>Extension</option><option>Buy-Out</option></select></div>
+     <div class="fg"><label>Loan Receivable</label><select id="ln-receivable"><option></option><option>Type A</option><option>Type B</option></select></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Product</label><select id="ln-product"><option></option><option>Loan-70a</option><option>Loan-72a</option><option>Loan-75a</option><option>Loan-70x</option><option>Loan-70n</option><option>Loan-70r</option><option>BONUS LOAN August</option></select></div>
+     <div class="fg"><label>Co-Maker Name</label><div style="display:flex;gap:5px"><input id="ln-comaker" placeholder="Co-Maker" style="flex:1"><button class="btn btn-xs btn-secondary" onclick="toast('➕ Add co-maker','warn')">+</button><button class="btn btn-xs btn-secondary" onclick="toast('✏️ Edit co-maker','warn')">✏️</button></div></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Relation</label><input id="ln-relation" placeholder="Relation"></div>
+     <div class="fg"><label>Source of Income</label><select id="ln-income"><option></option><option>SSS Pension</option><option>GSIS Pension</option><option>Employment</option></select></div>
+    </div>
+    <label class="chk-row"><input type="checkbox" id="ln-active" checked> Is Active</label>
+   </div>
+   <!-- Loan Computation -->
+   <div class="msec">
+    <div class="msec-title">Loan Computation</div>
+    <div style="display:flex;gap:20px">
+     <div style="width:220px;flex-shrink:0">
+      <div class="fg"><label>Amortization <span class="req">*</span></label><input type="number" id="ln-amort" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Terms</label><input type="number" id="ln-terms" value="12" min="1" oninput="calcLoan()"></div>
+      <div class="fg"><label>Principal</label><input type="number" id="ln-principal" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Processing Fee</label><input type="number" id="ln-proc" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Notarial Fee</label><input type="number" id="ln-not" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Collection Fee</label><input type="number" id="ln-colfee" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Insurance Fee</label><input type="number" id="ln-ins" value="0.00" step="0.01" oninput="calcLoan()"></div>
+      <div class="fg"><label>Interest</label><input type="number" id="ln-interest" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Deductions</label><input type="number" id="ln-deductions" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Gross Cash Out</label><input type="number" id="ln-gross" value="0.00" readonly class="readonly" step="0.01"></div>
+      <div class="fg"><label>Loan Receivable</label><input type="number" id="ln-loanrecv" value="0.00" step="0.01"></div>
+      <div class="fg"><label style="color:var(--emerald)">Net Cash Out</label><input type="number" id="ln-net" value="0.00" readonly class="readonly" step="0.01" style="border-color:rgba(16,185,129,.3);color:var(--emerald);font-weight:700;font-size:15px"></div>
+     </div>
+     <div style="flex:1">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Amortization Schedule</div>
+      <div class="sub-table-wrap"><table class="sched-table" id="sched-table"><thead><tr><th>#</th><th>Due Date</th><th>Earned</th><th>Unearned</th><th>Balance</th></tr></thead><tbody id="sched-body"><tr><td colspan="5" class="sub-empty">Enter amortization and terms to generate schedule</td></tr></tbody></table></div>
+     </div>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-loan')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveLoan()">💾 Save Loan</button>
+  </div>
+ </div>
+</div>
+
+<!-- ③ PROCESS LOAN APPROVAL (Image 9) -->
+<div class="overlay" id="m-process-loan">
+ <div class="modal sm">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(16,185,129,.15)">✅</div><div><div class="mhd-title">Process Loan</div><div class="mhd-sub">Select appropriate action for this loan</div></div></div>
+   <div class="mc" onclick="closeM('m-process-loan')">✕</div>
+  </div>
+  <div class="mbody">
+   <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px" id="process-loan-info"></div>
+   <div class="fg"><label>Remarks <span class="req">*</span></label><textarea id="process-remarks" placeholder="Put your remarks here..." style="min-height:100px"></textarea></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-process-loan')">Cancel</button>
+   <button class="btn btn-danger" onclick="denyLoan()">✗ Deny</button>
+   <button class="btn btn-success" onclick="approveLoan()">✔ Approve</button>
+  </div>
+ </div>
+</div>
+
+<!-- ④ VOUCHER INFO (Images 10–11) -->
+<div class="overlay" id="m-voucher">
+ <div class="modal lg">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(245,158,11,.15)">🧾</div><div><div class="mhd-title" id="m-voucher-title">Voucher Info</div><div class="mhd-sub">Create new disbursement voucher</div></div></div>
+   <div class="mc" onclick="closeM('m-voucher')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Voucher Info</div>
+    <div class="fr">
+     <div class="fg"><label>Voucher No.</label><input id="v-no" class="readonly" value="0000000000" readonly></div>
+     <div class="fg"><label>Voucher Date <span class="req">*</span></label><input type="date" id="v-date"></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Payee Type</label><select id="v-ptype"><option>Customer</option><option>Supplier</option><option>Employee</option><option>Other</option></select></div>
+     <div class="fg"><label>Payee <span class="req">*</span></label><input id="v-payee" placeholder="Payee"><div class="errmsg">Required</div></div>
+    </div>
+    <div class="fg"><label>Particulars</label><input id="v-particulars" placeholder="Particulars"></div>
+    <div class="fr">
+     <div class="fg"><label>Transaction Type</label><select id="v-txtype"><option></option><option>Check</option><option>Cash</option><option>Bank Transfer</option></select></div>
+     <div class="fg"><label>Branch</label><input id="v-branch" value="Malolos"></div>
+    </div>
+    <div class="fg"><label>Bank Account</label><select id="v-bankacct"><option></option><option>MB-1234 (Metrobank)</option><option>2012-7000-5585 (PNB)</option></select></div>
+    <div class="fr">
+     <div class="fg"><label>Amount</label><input type="number" id="v-amount" value="0.00" step="0.01" oninput="calcVoucher()"></div>
+     <div class="fg"><label>Input Tax</label><input type="number" id="v-intax" value="0.00" step="0.01" oninput="calcVoucher()"></div>
+    </div>
+    <div class="fg"><label>W/Tax Payable</label><input type="number" id="v-wtax" value="0.00" step="0.01" readonly class="readonly"></div>
+    <label class="chk-row"><input type="checkbox" id="v-active" checked> Is Active</label>
+   </div>
+   <!-- Cheques sub-section -->
+   <div class="msec">
+    <div class="msec-title">Cheques</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Cheque Details</div><button class="btn btn-xs btn-primary" onclick="addCheque()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Cheque Book</th><th>Cheque No</th><th>Cheque Date</th><th>Amount</th><th></th></tr></thead><tbody id="cheque-body"><tr><td colspan="5" class="sub-empty">No cheques added</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-voucher')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveVoucher()">💾 Save Voucher</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ COLLECTION INFO (Images 12–13) -->
+<div class="overlay" id="m-collection">
+ <div class="modal lg">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(16,185,129,.15)">💰</div><div><div class="mhd-title" id="m-collection-title">Collection Info</div><div class="mhd-sub">Record a new collection</div></div></div>
+   <div class="mc" onclick="closeM('m-collection')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Collection Info</div>
+    <div class="fr">
+     <div>
+      <div class="fg"><label>Control No.</label><input id="cl-no" class="readonly" value="0000000000" readonly></div>
+      <div class="fg"><label>Collection Date <span class="req">*</span></label><input type="date" id="cl-date"></div>
+      <div class="fg"><label>Collection Type</label><select id="cl-type"><option></option><option>Regular</option><option>Bonus</option><option>Advance</option><option>Partial</option></select></div>
+      <div class="fg"><label>Collection Amount <span class="req">*</span></label><input type="number" id="cl-amount" value="0.00" step="0.01" oninput="calcCollection()"></div>
+      <div class="fg"><label>Change Fund</label><input type="number" id="cl-cf" value="0.00" step="0.01" oninput="calcCollection()"></div>
+      <div class="fg"><label>Change Fund Balance</label><input type="number" id="cl-cfbal" value="0.00" readonly class="readonly" step="0.01" style="color:var(--blue2)"></div>
+      <div class="fg"><label>Bonus</label><input type="number" id="cl-bonus" value="0.00" step="0.01"></div>
+     </div>
+     <div>
+      <div class="fg"><label>Pension Reference</label><input id="cl-pensref" placeholder="Pensioner"></div>
+      <div class="fg"><label>Customer</label><input id="cl-customer" placeholder="Customer Name"></div>
+      <div class="fg"><label>Bank</label><input id="cl-bank" placeholder="Bank Name"></div>
+      <div class="fg"><label>Card No.</label><input id="cl-cardno" placeholder="Card Number"></div>
+      <div class="fg"><label>Branch</label><input id="cl-branch" value="Malolos"></div>
+      <div class="fg"><label>Remarks</label><textarea id="cl-remarks" placeholder="Remarks..." style="min-height:60px"></textarea></div>
+     </div>
+    </div>
+   </div>
+   <!-- Details sub-table -->
+   <div class="msec">
+    <div class="msec-title">Details</div>
+    <div class="sub-table-wrap">
+     <table class="sub-table"><thead><tr><th></th><th style="width:50%">Loan Reference</th><th>Due Date</th><th>Outstanding</th><th>Interest</th><th>Amount</th></tr></thead><tbody id="cl-details-body"><tr><td colspan="6" class="sub-empty">Select a customer to load loan details</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-collection')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveCollection()">💾 Save Collection</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑥ CHANGE FUND INFO (Image 14) -->
+<div class="overlay" id="m-changefund">
+ <div class="modal md">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(245,158,11,.15)">🔄</div><div><div class="mhd-title" id="m-cf-title">Change Fund Info</div><div class="mhd-sub">Create change fund record</div></div></div>
+   <div class="mc" onclick="closeM('m-changefund')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Change Fund Info</div>
+    <div class="fr">
+     <div class="fg"><label>CF No.</label><input id="cf-no" class="readonly" value="0000000000" readonly></div>
+     <div class="fg"><label>Entry Date <span class="req">*</span></label><input type="date" id="cf-date"></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Transaction Type <span class="req">*</span></label><select id="cf-type"><option>Credit</option><option>Debit</option></select></div>
+     <div class="fg"><label>Amount <span class="req">*</span></label><input type="number" id="cf-amount" value="0.00" step="0.01"></div>
+    </div>
+    <label class="chk-row"><input type="checkbox" id="cf-active" checked> Is Active</label>
+    <div class="fr" style="margin-top:10px">
+     <div class="fg"><label>Reference Number (Pensioner)</label><input id="cf-pensref" placeholder="Pensioner Reference"></div>
+     <div class="fg"><label>Customer Name <span class="req">*</span></label><input id="cf-custname" placeholder="Customer Name"><div class="errmsg">Required</div></div>
+    </div>
+    <div class="fr">
+     <div class="fg"><label>Branch</label><input id="cf-branch" value="Malolos"></div>
+     <div class="fg"><label>Remarks</label><textarea id="cf-remarks" placeholder="Remarks..." style="min-height:60px"></textarea></div>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-changefund')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveChangeFund()">💾 Save</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑦ BANK INFO (Image 15) -->
+<div class="overlay" id="m-bank">
+ <div class="modal md">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(14,165,233,.15)">🏦</div><div><div class="mhd-title" id="m-bank-title">Bank Info</div><div class="mhd-sub">Add bank record</div></div></div>
+   <div class="mc" onclick="closeM('m-bank')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Bank Info</div>
+    <div class="fg"><label>Bank Name <span class="req">*</span></label><input id="bk-name" placeholder="Bank"><div class="errmsg">Required</div></div>
+    <div class="fg"><label>Bank Address</label><textarea id="bk-addr" placeholder="Address"></textarea></div>
+    <div class="fg"><label>Contact Person</label><input id="bk-contact" placeholder="Contact Person"></div>
+    <div class="fg"><label>Position</label><input id="bk-pos" placeholder="Contact Position"></div>
+    <div class="fg"><label>Contact No.</label><input id="bk-tel" placeholder="Contact Number"></div>
+    <div class="fg"><label>Branch Name</label><input id="bk-branch" value="Malolos"></div>
+    <label class="chk-row"><input type="checkbox" id="bk-active" checked> Is Active</label>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-bank')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveBank()">💾 Save Bank</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑧ BANK ACCOUNT INFO (Image 16) -->
+<div class="overlay" id="m-bankaccount">
+ <div class="modal md">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(14,165,233,.15)">💳</div><div><div class="mhd-title" id="m-ba-title">Bank Account Info</div><div class="mhd-sub">Add bank account record</div></div></div>
+   <div class="mc" onclick="closeM('m-bankaccount')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Bank Account Info</div>
+    <div class="fg"><label>Bank Name <span class="req">*</span></label><select id="ba-bank"><option></option><option>Philippine National Bank</option><option>Metropolitan Bank and Trust Co.</option><option>BDO Unibank, Inc.</option><option>Bank of the Philippine Islands</option><option>Security Bank Corp.</option></select><div class="errmsg">Required</div></div>
+    <div class="fg"><label>Bank Address</label><textarea id="ba-addr" placeholder="Bank branch address"></textarea></div>
+    <div class="fg"><label>Account No. <span class="req">*</span></label><input id="ba-acctno" placeholder="Account No."><div class="errmsg">Required</div></div>
+    <div class="fg"><label>Branch Name</label><input id="ba-branch" value="Malolos"></div>
+    <label class="chk-row"><input type="checkbox" id="ba-active" checked> Is Active</label>
+   </div>
+   <!-- Cheque Books sub-table -->
+   <div class="msec">
+    <div class="msec-title">Cheque Books</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Cheque Book Records</div><button class="btn btn-xs btn-primary" onclick="addChequeBook()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Batch</th><th>Start</th><th>End</th><th></th></tr></thead><tbody id="ba-chequebook-body"><tr><td colspan="4" class="sub-empty">No cheque books added</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-bankaccount')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveBankAccount()">💾 Save Account</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑨ PRODUCT INFO (Image 17) -->
+<div class="overlay" id="m-product">
+ <div class="modal md">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(139,92,246,.15)">📦</div><div><div class="mhd-title" id="m-prod-title">Product Info</div><div class="mhd-sub">Create loan product</div></div></div>
+   <div class="mc" onclick="closeM('m-product')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Product Info</div>
+    <div class="fg"><label>Name <span class="req">*</span></label><input id="pr-name" placeholder="Product name e.g. Loan-70a"><div class="errmsg">Required</div></div>
+    <div class="fg"><label>Description</label><input id="pr-desc" placeholder="Product description"></div>
+    <div class="fg"><label>Loan Type</label><select id="pr-type"><option></option><option>Additional</option><option>Bonus</option><option>BUY OUT NEW</option><option>BUY OUT REN</option><option>BUY OUT RENRA</option><option>CORRECTIVE DISCOUNT LOAN</option><option>Extension</option><option>New</option><option>Renewal</option></select></div>
+    <label class="chk-row"><input type="checkbox" id="pr-active" checked> Is Active</label>
+   </div>
+   <!-- Fees/Rates sub-table -->
+   <div class="msec">
+    <div class="msec-title">Fees / Rates</div>
+    <div class="sub-table-wrap">
+     <div class="sub-table-hd"><div class="sub-table-title">Fee Schedule</div><button class="btn btn-xs btn-primary" onclick="addFeeRate()">+ Add</button></div>
+     <table class="sub-table"><thead><tr><th>Term</th><th>Processing</th><th>Notarial</th><th>Collection</th><th>Insurance</th><th>Interest %</th><th>Comm %</th><th>CCR</th><th></th></tr></thead><tbody id="pr-fees-body"><tr><td colspan="9" class="sub-empty">No fee rates added</td></tr></tbody></table>
+    </div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-product')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveProduct()">💾 Save Product</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑩ AGENT INFO (Image 18) -->
+<div class="overlay" id="m-agent">
+ <div class="modal lg">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(16,185,129,.15)">🤝</div><div><div class="mhd-title" id="m-agent-title">Agent Info</div><div class="mhd-sub">Add new agent record</div></div></div>
+   <div class="mc" onclick="closeM('m-agent')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Agent Info</div>
+    <div style="display:flex;gap:20px;align-items:flex-start">
+     <div style="flex:1">
+      <div class="fr3"><div class="fg"><label>Prefix</label><select id="ag-prefix"><option></option><option>Mr.</option><option>Mrs.</option><option>Ms.</option></select></div><div class="fg" style="grid-column:span 2"><label>First Name <span class="req">*</span></label><input id="ag-fname" placeholder="First Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Middle Name</label><input id="ag-mname" placeholder="Middle Name"></div><div class="fg"><label>Last Name <span class="req">*</span></label><input id="ag-lname" placeholder="Last Name"><div class="errmsg">Required</div></div></div>
+      <div class="fr"><div class="fg"><label>Suffix</label><input id="ag-suffix" placeholder="e.g. Jr."></div><div class="fg"><label>Nick Name</label><input id="ag-nick" placeholder="Nick Name"></div></div>
+      <label class="chk-row"><input type="checkbox" id="ag-active" checked> Is Active</label>
+     </div>
+     <div class="avatar-box" onclick="toast('📷 Photo upload','warn')"><span>👤</span><p>Click to<br>upload photo</p></div>
+    </div>
+   </div>
+   <!-- Personal Info -->
+   <div class="msec">
+    <div class="msec-title">Personal Info</div>
+    <div class="fr"><div class="fg"><label>Sex</label><select id="ag-sex"><option>Female</option><option>Male</option></select></div><div class="fg"><label>Contact No.</label><input id="ag-contact" placeholder="Contact No."></div></div>
+    <div class="fr"><div class="fg"><label>Birth Date</label><input type="date" id="ag-bdate"></div><div class="fg"><label>Email</label><input type="email" id="ag-email" placeholder="Email"></div></div>
+    <div class="fg"><label>Civil Status</label><select id="ag-civil" style="max-width:300px"><option>Single</option><option>Married</option><option>Widowed</option><option>Separated</option></select></div>
+   </div>
+   <!-- Other Info -->
+   <div class="msec">
+    <div class="msec-title">Other Info</div>
+    <div class="fg"><label>Agent Type</label><select id="ag-type"><option></option><option>Full-Time</option><option>Part-Time</option><option>Commission</option></select></div>
+    <div class="fg"><label>Address</label><textarea id="ag-addr" placeholder="Full address..."></textarea></div>
+    <div class="fg"><label>Branch Name</label><input id="ag-branch" value="Malolos"></div>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-agent')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveAgent()">💾 Save Agent</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑪ ADDRESS MODAL -->
+<div class="overlay" id="m-address">
+ <div class="modal sm">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(14,165,233,.15)">📍</div><div><div class="mhd-title" id="m-addr-title">Address Info</div><div class="mhd-sub">Add address record</div></div></div>
+   <div class="mc" onclick="closeM('m-address')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Address Info</div>
+    <div class="fg"><label>Code <span class="req">*</span></label><input id="addr-code" placeholder="e.g. A2015rW853"><div class="errmsg">Required</div></div>
+    <div class="fg"><label>Address <span class="req">*</span></label><textarea id="addr-addr" placeholder="Full address: Barangay, City, Province..."><div class="errmsg">Required</div></textarea></div>
+    <label class="chk-row"><input type="checkbox" id="addr-active" checked> Is Active</label>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-address')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveAddress()">💾 Save Address</button>
+  </div>
+ </div>
+</div>
+
+<!-- ⑫ LOOKUP INFO (Image 19) -->
+<div class="overlay" id="m-lookup">
+ <div class="modal sm">
+  <div class="mhd">
+   <div class="mhd-left"><div class="mhd-icon" style="background:rgba(14,165,233,.15)">🔎</div><div><div class="mhd-title" id="m-lu-title">Look Up Info</div><div class="mhd-sub">Add lookup record</div></div></div>
+   <div class="mc" onclick="closeM('m-lookup')">✕</div>
+  </div>
+  <div class="mbody">
+   <div class="msec">
+    <div class="msec-title">Look Up Info</div>
+    <div class="fg"><label>Category</label><select id="lu-category"><option>Name</option><option>Status</option><option>Type</option><option>Pension Type</option><option>Civil Status</option><option>Nationality</option></select></div>
+    <div class="fg"><label>LookUpWord <span class="req">*</span></label><input id="lu-word" placeholder="Look Up Word"><div class="errmsg">The LookUpWord field is required.</div></div>
+    <div class="fg"><label>Order By</label><input id="lu-order" type="number" placeholder="Order By"></div>
+    <div class="fg"><label>Code</label><input id="lu-code" placeholder="Code"></div>
+    <label class="chk-row"><input type="checkbox" id="lu-active" checked> Is Active</label>
+   </div>
+   <div class="meta-bar"><span>Created: —</span><span>Updated: —</span></div>
+  </div>
+  <div class="mft">
+   <button class="btn btn-secondary" onclick="closeM('m-lookup')">✕ Cancel</button>
+   <button class="btn btn-primary" onclick="saveLookup()">💾 Save</button>
+  </div>
+ </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="overlay" id="m-confirm">
+ <div class="confirm-box">
+  <div class="confirm-ico">⚠️</div>
+  <div class="confirm-title" id="confirm-title">Confirm Action</div>
+  <div class="confirm-msg" id="confirm-msg">Are you sure?</div>
+  <div class="confirm-btns">
+   <button class="btn btn-secondary" onclick="closeM('m-confirm')">Cancel</button>
+   <button class="btn btn-danger" id="confirm-ok">Confirm</button>
+  </div>
+ </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// ══ DATA ══
+const DB = {
+  accounts:[
+    {pn:'MUCC-103-03-2158517-8',name:'Fe Ablaza',provider:'SSS',type:'Retirement',pension:3900,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-0',name:'Reynaldo De Guzman',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2500,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-33-25209959-6',name:'Olivia Daria',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1210,bank:'Philippine National Bank',status:'Problem'},
+    {pn:'MUCC-103-09-09226053-0',name:'Ma. Nery Bacani',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3904,bank:'Security Bank Corp.',status:'Active'},
+    {pn:'MUCC-103-09-06469603-1',name:'Eleuterio Reyes',provider:'SSS',type:'Retirement',pension:0,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-39111605-0',name:'Leoncia Ganaden',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1700,bank:'Philippine National Bank',status:'Problem'},
+    {pn:'MUCC-103-03-03939934-4',name:'Elenita Hilario',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:8121.50,bank:'',status:'Fully Paid'},
+    {pn:'MUCC-103-03-69993810-1',name:'Evelyn Mayayo',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2500,bank:'Maybank Philippines, Inc.',status:'Active'},
+    {pn:'MUCC-103-03-01707720-6',name:'Ricardo Ablaza',provider:'SSS',type:'Retirement',pension:3689.07,bank:'Philippine National Bank',status:'Fully Paid'},
+    {pn:'MUCC-103-03-01471111-8',name:'Leonora Gili',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3049.20,bank:'Security Bank Corp.',status:'Fully Paid'},
+    {pn:'MUCC-103-03-0215298-3',name:'Emilia Carable',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2600,bank:'Land Bank of the Philippines',status:'Active'},
+    {pn:'MUCC-103-03-45159939-9',name:'Anita Clemente',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2500,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-**missing**',name:'Ursula Cristobal',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2524,bank:'Philippine Savings Bank',status:'Active'},
+    {pn:'MUCC-103-03-12314443-9',name:'Natividad Lubrino',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3500,bank:'Bank of the Philippine Islands',status:'Fully Paid'},
+    {pn:'MUCC-103-03-13322334-8',name:'Marcelino Victoria',provider:'SSS',type:'Retirement',pension:3513.40,bank:'Philippine National Bank',status:'Dead Account'},
+    {pn:'MUCC-103-03-05960990-1',name:'Gloria Lorenzo',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2900,bank:'Land Bank of the Philippines',status:'Active'},
+    {pn:'MUCC-103-03-22039581-4',name:'Adelfa Bañares',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1452,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-29000278-0',name:'Marina Ventura',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:4049.20,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-48873821-1',name:'Ma. Luisa Victorino',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1400,bank:'Metropolitan Bank and Trust Co.',status:'Active'},
+    {pn:'MUCC-103-03-89530073-8',name:'Reynaldo Morales',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:4670,bank:'BDO Unibank, Inc.',status:'Problem'},
+    {pn:'MUCC-103-03-48884336-9',name:'Isabelita Almario',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3500,bank:'United Coconut Planters Bank',status:'Active'},
+    {pn:'MUCC-103-03-3589450-9',name:'Norberto Chong',provider:'SSS',type:'Retirement',pension:3900,bank:'Security Bank Corp.',status:'Active'},
+    {pn:'MUCC-103-03-88210044-1',name:'Josefina Ramos',provider:'SSS',type:'Retirement',pension:5200,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-77334411-2',name:'Manuel Santos',provider:'SSS',type:'Retirement',pension:4100,bank:'BDO Unibank, Inc.',status:'Active'},
+    {pn:'MUCC-103-03-66778899-3',name:'Carmelita Flores',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1800,bank:'Security Bank Corp.',status:'Fully Paid'},
+    {pn:'MUCC-103-03-55443322-4',name:'Rodrigo Cruz',provider:'SSS',type:'Retirement',pension:6500,bank:'Land Bank of the Philippines',status:'Active'},
+    {pn:'MUCC-103-03-44332211-5',name:'Teresita Bautista',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2300,bank:'Philippine Savings Bank',status:'Active'},
+    {pn:'MUCC-103-03-33221100-6',name:'Eduardo Reyes',provider:'SSS',type:'Retirement',pension:3750,bank:'Maybank Philippines, Inc.',status:'Problem'},
+    {pn:'MUCC-103-03-22110099-7',name:'Lorena Dela Cruz',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1950,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-11009988-8',name:'Francisco Mendoza',provider:'SSS',type:'Retirement',pension:4800,bank:'Bank of the Philippine Islands',status:'Active'},
+  ],
+  loans:[
+    {ref:'A2049Fi497',date:'2011-09-01',name:'Flora Hipolito',amort:1900,terms:1,principal:1900,proc:0,not:0,ins:0,interest:380,cashout:1520,status:'Active'},
+    {ref:'A2049Fh640',date:'2011-09-01',name:'Thelma Buan',amort:3400,terms:1,principal:3400,proc:0,not:0,ins:0,interest:680,cashout:2720,status:'Active'},
+    {ref:'A2049Fi179',date:'2011-09-01',name:'Ernesto Fajardo',amort:9700,terms:1,principal:9700,proc:0,not:0,ins:0,interest:1940,cashout:7760,status:'Active'},
+    {ref:'A2049Fg204',date:'2012-01-08',name:'Ricardo Torres',amort:1700,terms:7,principal:11900,proc:100,not:238,ins:0,interest:4046,cashout:7446,status:'Active'},
+    {ref:'A2049Fh339',date:'2011-09-01',name:'Cesar Edoria',amort:4000,terms:1,principal:4000,proc:0,not:0,ins:0,interest:800,cashout:3200,status:'Active'},
+    {ref:'A2049Fh532',date:'2011-09-01',name:'Jovita Marcelino',amort:3800,terms:1,principal:3800,proc:0,not:0,ins:0,interest:760,cashout:3040,status:'Active'},
+    {ref:'A2049Fh735',date:'2011-09-01',name:'Perlito Surio',amort:3200,terms:1,principal:3200,proc:0,not:0,ins:0,interest:640,cashout:2560,status:'Active'},
+    {ref:'A2049Fg003',date:'2011-11-05',name:'Anita Tubig',amort:1000,terms:4,principal:4000,proc:100,not:80,ins:0,interest:800,cashout:2980,status:'Active'},
+    {ref:'A2049Fh748',date:'2011-09-01',name:'Rosario Trillana',amort:1900,terms:1,principal:1900,proc:0,not:0,ins:0,interest:380,cashout:1520,status:'Active'},
+    {ref:'A2049Fh284',date:'2011-09-01',name:'Imelda Buan',amort:3400,terms:1,principal:3400,proc:0,not:0,ins:0,interest:680,cashout:2720,status:'Active'},
+    {ref:'A2049Fh705',date:'2011-09-01',name:'Marissa Batungbakal',amort:5700,terms:1,principal:5700,proc:0,not:0,ins:0,interest:1140,cashout:4560,status:'Active'},
+    {ref:'A2049Fi727',date:'2011-09-01',name:'Rowena Aquino',amort:1400,terms:1,principal:1400,proc:0,not:0,ins:0,interest:280,cashout:1120,status:'Active'},
+    {ref:'A2049Fi839',date:'2011-09-01',name:'Ofelia Santiago',amort:2600,terms:1,principal:2600,proc:0,not:0,ins:0,interest:520,cashout:2080,status:'Active'},
+    {ref:'A2049Fh441',date:'2011-09-01',name:'Herminia Latoza',amort:1700,terms:1,principal:1700,proc:0,not:0,ins:0,interest:340,cashout:1360,status:'Active'},
+    {ref:'A2049Fg839',date:'2012-03-26',name:'Diosdado Hiracay',amort:1700,terms:5,principal:8500,proc:100,not:170,ins:0,interest:3230,cashout:4950,status:'Active'},
+    {ref:'A2049Fg543',date:'2011-08-13',name:'Adelaida Sulog',amort:500,terms:6,principal:3000,proc:100,not:60,ins:0,interest:360,cashout:2420,status:'Active'},
+    {ref:'A2049Fh957',date:'2011-09-01',name:'Ma. Victoria Reyes',amort:1200,terms:1,principal:1200,proc:0,not:0,ins:0,interest:240,cashout:960,status:'Active'},
+    {ref:'A2049Fh832',date:'2011-09-01',name:'Feliciana Pascual',amort:2900,terms:1,principal:2900,proc:0,not:0,ins:0,interest:580,cashout:2320,status:'Active'},
+    {ref:'A2049Fi966',date:'2011-09-01',name:'Adoracion Santos',amort:3700,terms:1,principal:3700,proc:0,not:0,ins:0,interest:740,cashout:2960,status:'Active'},
+    {ref:'A2049Fi077',date:'2011-09-01',name:'Rodolfo Eugenio',amort:1400,terms:1,principal:1400,proc:0,not:0,ins:0,interest:280,cashout:1120,status:'Active'},
+    {ref:'A2049Fg427',date:'2011-11-12',name:'Editha Manabat',amort:1500,terms:3,principal:4500,proc:100,not:90,ins:0,interest:810,cashout:3470,status:'Active'},
+    {ref:'A2049Fh538',date:'2011-09-01',name:'Monica Villanueva',amort:1700,terms:1,principal:1700,proc:0,not:0,ins:0,interest:340,cashout:1360,status:'Active'},
+    {ref:'A2049Fj033',date:'2011-09-01',name:'Rizalino Tengco',amort:2800,terms:1,principal:2800,proc:0,not:0,ins:0,interest:560,cashout:2240,status:'Active'},
+    {ref:'A2049Fk112',date:'2011-09-01',name:'Carlito Dela Torre',amort:3100,terms:1,principal:3100,proc:0,not:0,ins:0,interest:620,cashout:2480,status:'Active'},
+    {ref:'A2049Fl224',date:'2011-09-01',name:'Marilou Corpuz',amort:2200,terms:1,principal:2200,proc:0,not:0,ins:0,interest:440,cashout:1760,status:'Active'},
+    {ref:'A2049Fm335',date:'2011-09-01',name:'Benedicto Gomez',amort:4500,terms:2,principal:9000,proc:0,not:0,ins:0,interest:1800,cashout:7200,status:'Active'},
+    {ref:'A2049Fn446',date:'2011-10-15',name:'Erlinda Paglinawan',amort:1800,terms:2,principal:3600,proc:100,not:72,ins:0,interest:720,cashout:2708,status:'Active'},
+    {ref:'A2049Fo557',date:'2011-09-01',name:'Domingo Castillo',amort:5000,terms:1,principal:5000,proc:0,not:0,ins:0,interest:1000,cashout:4000,status:'Active'},
+    {ref:'A2049Fp668',date:'2011-09-01',name:'Leonarda Garcia',amort:2700,terms:1,principal:2700,proc:0,not:0,ins:0,interest:540,cashout:2160,status:'Active'},
+    {ref:'A2049Fq779',date:'2011-09-01',name:'Roberto Aquino',amort:3300,terms:1,principal:3300,proc:0,not:0,ins:0,interest:660,cashout:2640,status:'Active'},
+  ],
+  approvals:[
+    {ref:'A28J33a216',date:'2025-09-30',name:'Ma. Nery Bacani',amort:2200,terms:18,principal:39600,status:'Pending'},
+    {ref:'A28C3Hc749',date:'2025-09-16',name:'Ma. Nery Bacani',amort:2000,terms:15,principal:30000,status:'Pending'},
+    {ref:'A22h3Ml598',date:'2025-03-26',name:'Eleuterio Reyes',amort:1000,terms:12,principal:12000,status:'Pending'},
+    {ref:'A24F7ww249',date:'2025-05-21',name:'MAURA Sapno',amort:10000,terms:12,principal:120000,status:'Pending'},
+    {ref:'A24f12k307',date:'2025-05-22',name:'Olivia Daria',amort:1200,terms:6,principal:7200,status:'Pending'},
+    {ref:'A22h353809',date:'2025-03-26',name:'Ma. Nery Bacani',amort:3900,terms:12,principal:46800,status:'Pending'},
+    {ref:'A24F5Wh131',date:'2025-05-21',name:'Leonora Gili',amort:1200,terms:12,principal:14400,status:'Pending'},
+    {ref:'A22h6UFB90',date:'2025-03-26',name:'Veronica Villa',amort:2000,terms:12,principal:24000,status:'Pending'},
+    {ref:'A24G8x6675',date:'2025-05-23',name:'Diosdado Hiracay',amort:1700,terms:12,principal:20400,status:'Pending'},
+    {ref:'A24F8883S2',date:'2025-05-21',name:'Ma. Luisa Victorino',amort:1400,terms:24,principal:33600,status:'Pending'},
+    {ref:'A22h2lO166',date:'2025-03-26',name:'Ricardo Ablaza',amort:3600,terms:8,principal:28800,status:'Pending'},
+    {ref:'A24G6v9282',date:'2025-05-23',name:'Cesar Ganando',amort:2500,terms:9,principal:22500,status:'Pending'},
+    {ref:'A33l62O533',date:'2026-04-27',name:'Fe Ablaza',amort:2000,terms:12,principal:24000,status:'Pending'},
+    {ref:'A33l5Ph582',date:'2026-04-27',name:'Olivia Daria',amort:1000,terms:3,principal:3000,status:'Pending'},
+    {ref:'A22h5oj352',date:'2025-03-26',name:'RELYNALDA REQUIÑO',amort:6000,terms:18,principal:108000,status:'Pending'},
+    {ref:'A22h6q8216',date:'2025-03-26',name:'Benedicta Gomez',amort:2100,terms:6,principal:12600,status:'Pending'},
+    {ref:'A33l5QE866',date:'2026-04-27',name:'Julius BOLANOS',amort:5000,terms:10,principal:50000,status:'Pending'},
+    {ref:'A22h3nG563',date:'2025-03-26',name:'Olivia Daria',amort:1200,terms:3,principal:3600,status:'Pending'},
+    {ref:'A22h446281',date:'2025-03-26',name:'JOY SARMEN',amort:2500,terms:24,principal:60000,status:'Approved'},
+    {ref:'A22h6vu144',date:'2025-03-26',name:'Salvacion Reondanga',amort:1500,terms:12,principal:18000,status:'Approved'},
+  ],
+  vouchers:[
+    {no:'0000000001',date:'2025-02-07',payee:'Emelita Santos',acct:'MB-1234',amount:0,status:'Active'},
+    {no:'0000000002',date:'2025-02-11',payee:'Emilia Eusebio',acct:'MB-1234',amount:0,status:'Active'},
+    {no:'0000000003',date:'2025-02-11',payee:'Cenon Almario',acct:'MB-1234',amount:0,status:'Active'},
+    {no:'0000000004',date:'2025-02-13',payee:'Paulina Iyas',acct:'MB-1234',amount:0,status:'Active'},
+    {no:'0000000005',date:'2025-03-26',payee:'Ma. Nery Bacani',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000006',date:'2025-03-26',payee:'JOY SARMEN',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000007',date:'2025-03-26',payee:'Rufina Bodino',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000008',date:'2025-03-27',payee:'Mario Abordo',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000009',date:'2025-03-27',payee:'Ricardo Centeno AND OR nicky venacio',acct:'MB-1234',amount:0,status:'Active'},
+    {no:'0000000010',date:'2025-03-28',payee:'Francisco Rivera',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000011',date:'2025-05-21',payee:'Rodolfo Vistan',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000012',date:'2025-05-21',payee:'Pablo Marquez',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000013',date:'2025-05-22',payee:'Teodorica Delgado',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000014',date:'2025-05-26',payee:'Gloria De Leon',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000015',date:'2025-05-26',payee:'Olivia Santos',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000016',date:'2025-05-26',payee:'Romulo Berey',acct:'2012-7000-5585',amount:0,status:'Active'},
+    {no:'0000000017',date:'2025-06-10',payee:'KENNITH A. OCHOA',acct:'2012-7000-5585',amount:20000,status:'Active'},
+    {no:'0000000018',date:'2025-06-10',payee:'Virginia Clemente',acct:'2012-7000-5585',amount:1615,status:'Active'},
+    {no:'0000000019',date:'2025-07-18',payee:'Herminia Latoza',acct:'2012-7000-5585',amount:4376,status:'Active'},
+    {no:'0000000020',date:'2025-10-13',payee:'Patrick Delos Santos',acct:'2012-7000-5585',amount:59350,status:'Active'},
+    {no:'0000000021',date:'2026-04-13',payee:'KENNITH A. OCHOA',acct:'2012-7000-5585',amount:20000,status:'Active'},
+    {no:'0000000022',date:'2026-04-27',payee:'Rufina Bodino',acct:'2012-7000-5585',amount:7447,status:'Active'},
+    {no:'0000000023',date:'2026-04-27',payee:'JAISSA DUPLON',acct:'2012-7000-5585',amount:10000,status:'Active'},
+    {no:'0000000024',date:'2026-04-27',payee:'Elenita Hilario',acct:'2012-7000-5585',amount:5000,status:'Active'},
+  ],
+  collections:[
+    {no:'0000300139',date:'2011-10-10',cust:'Adela Buriel',amount:2800,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300193',date:'2011-10-09',cust:'Reynaldo Bascon',amount:6000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300240',date:'2011-10-26',cust:'Zenaldo Clavio',amount:12900,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300253',date:'2011-10-17',cust:'Teodora Dionisio',amount:2300,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300303',date:'2011-09-18',cust:'Eduardo Laquindanum',amount:1000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300304',date:'2011-10-17',cust:'Eduardo Laquindanum',amount:1000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300357',date:'2011-11-14',cust:'Zenaida Dela Cruz',amount:3200,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300360',date:'2011-11-30',cust:'Thelma Dionisio',amount:12400,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300362',date:'2011-11-30',cust:'Hospicio Dulay',amount:6500,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300363',date:'2011-11-03',cust:'Mercedita Esguerra',amount:2000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300364',date:'2011-11-30',cust:'Mercedita Esguerra',amount:2000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300369',date:'2011-11-30',cust:'Leticia Espiritu',amount:1000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300370',date:'2011-10-10',cust:'Jorge Estrada',amount:3500,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300371',date:'2011-11-14',cust:'Jorge Estrada',amount:3500,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300372',date:'2011-11-30',cust:'Jorge Estrada',amount:7500,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300375',date:'2011-10-03',cust:'Julian Caparas',amount:4000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300376',date:'2011-11-02',cust:'Julian Caparas',amount:4000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300377',date:'2011-11-30',cust:'Julian Caparas',amount:4000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300381',date:'2011-10-02',cust:'Bienvenido Francisco',amount:3800,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300390',date:'2011-12-19',cust:'Feliciana Pascual',amount:5400,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300391',date:'2011-12-06',cust:'Victoria Gatchalian',amount:1000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300392',date:'2012-01-02',cust:'Victoria Gatchalian',amount:1000,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300393',date:'2012-01-30',cust:'Carmelita Llamas',amount:2400,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300394',date:'2012-02-28',cust:'Roberto Hernandez',amount:5500,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300395',date:'2012-03-31',cust:'Nora Villanueva',amount:3200,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300396',date:'2012-04-30',cust:'Ramon Gutierrez',amount:7800,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300397',date:'2012-05-31',cust:'Amelia Castillo',amount:1500,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300398',date:'2012-06-30',cust:'Domingo Reyes',amount:4200,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300399',date:'2012-07-31',cust:'Elena Santos',amount:6100,bonus:0,remarks:'',status:'Active'},
+    {no:'0000300400',date:'2012-08-31',cust:'Pedro Cruz',amount:2900,bonus:0,remarks:'',status:'Active'},
+  ],
+  changefunds:[
+    {no:'0000000001',date:'2025-02-06',type:'Credit',amount:2000,name:'Ma. Nery Bacani',remarks:'',branch:'Malolos'},
+    {no:'0000000002',date:'2025-02-06',type:'Debit',amount:2000,name:'Ma. Nery Bacani',remarks:'Ref Collection#: 0000452775',branch:'Malolos'},
+    {no:'0000000003',date:'2025-03-26',type:'Credit',amount:5000,name:'MARINO QUITELES',remarks:'',branch:'Malolos'},
+    {no:'0000000004',date:'2025-03-26',type:'Credit',amount:200,name:'Leoncia Ganaden',remarks:'',branch:'Malolos'},
+    {no:'0000000005',date:'2025-03-26',type:'Debit',amount:2400,name:'MARINO QUITELES',remarks:'Ref Collection#: 0000452776',branch:'Malolos'},
+    {no:'0000000006',date:'2025-03-26',type:'Credit',amount:24000,name:'MARINO QUITELES',remarks:'',branch:'Malolos'},
+    {no:'0000000007',date:'2025-03-26',type:'Credit',amount:500,name:'Fe Ablaza',remarks:'',branch:'Malolos'},
+    {no:'0000000008',date:'2025-03-26',type:'Debit',amount:500,name:'Fe Ablaza',remarks:'Ref Collection#: 0000452777',branch:'Malolos'},
+    {no:'0000000009',date:'2025-03-26',type:'Credit',amount:200,name:'Olivia Daria',remarks:'',branch:'Malolos'},
+    {no:'0000000010',date:'2025-03-26',type:'Credit',amount:1000,name:'Rufina Bodino',remarks:'CF MAR (2025.03.26-POSBAL)',branch:'Malolos'},
+    {no:'0000000011',date:'2025-03-26',type:'Credit',amount:500,name:'Fe Ablaza',remarks:'',branch:'Malolos'},
+    {no:'0000000012',date:'2025-03-26',type:'Credit',amount:500,name:'Rufina Bodino',remarks:'SSS CF: MARCH',branch:'Malolos'},
+    {no:'0000000013',date:'2025-03-28',type:'Debit',amount:400,name:'Ricardo Ablaza',remarks:'Ref Collection#: 0000452780',branch:'Malolos'},
+    {no:'0000000014',date:'2025-03-28',type:'Credit',amount:400,name:'Ricardo Ablaza',remarks:'',branch:'Malolos'},
+    {no:'0000000015',date:'2025-05-22',type:'Credit',amount:0,name:'Rufina Bodino',remarks:'',branch:'Malolos'},
+    {no:'0000000016',date:'2025-10-13',type:'Debit',amount:5000,name:'Patrick Delos Santos',remarks:'lost coll. (OCT 2025)',branch:'Malolos'},
+    {no:'0000000017',date:'2025-10-16',type:'Debit',amount:7000,name:'Patrick Delos Santos',remarks:'Ref Collection#: 0000452782',branch:'Malolos'},
+    {no:'0000000018',date:'2025-10-16',type:'Debit',amount:7000,name:'Patrick Delos Santos',remarks:'',branch:'Malolos'},
+    {no:'0000000019',date:'2026-04-13',type:'Debit',amount:200,name:'Reynaldo De Guzman',remarks:'Ref Collection#: 0000452784',branch:'Malolos'},
+    {no:'0000000020',date:'2026-04-13',type:'Debit',amount:1000,name:'Eleuterio Reyes',remarks:'Ref Collection#: 0000452785',branch:'Malolos'},
+    {no:'0000000021',date:'2026-04-13',type:'Debit',amount:1800,name:'Fe Ablaza',remarks:'Ref Collection#: 0000452786',branch:'Malolos'},
+    {no:'0000000022',date:'2026-04-13',type:'Debit',amount:480,name:'Olivia Daria',remarks:'Ref Collection#: 0000452787',branch:'Malolos'},
+    {no:'0000000023',date:'2026-04-13',type:'Debit',amount:4000,name:'Elenita Hilario',remarks:'Ref Collection#: 0000452788',branch:'Malolos'},
+    {no:'0000000024',date:'2026-04-27',type:'Credit',amount:3500,name:'Ma. Nery Bacani',remarks:'',branch:'Malolos'},
+    {no:'0000000025',date:'2026-04-27',type:'Debit',amount:2000,name:'Ricardo Ablaza',remarks:'Ref Collection#: 0000452789',branch:'Malolos'},
+    {no:'0000000026',date:'2026-04-27',type:'Credit',amount:1200,name:'Leonora Gili',remarks:'',branch:'Malolos'},
+    {no:'0000000027',date:'2026-04-27',type:'Debit',amount:800,name:'Anita Clemente',remarks:'Ref Collection#: 0000452790',branch:'Malolos'},
+  ],
+  banks:[
+    {name:'Allied Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Asia United Bank Corporation',addr:'',contact:'',pos:'',tel:''},
+    {name:'Bank of Commerce',addr:'',contact:'',pos:'',tel:''},
+    {name:'Bank of the Philippine Islands',addr:'',contact:'',pos:'',tel:''},
+    {name:'BDO Unibank, Inc.',addr:'',contact:'',pos:'',tel:''},
+    {name:'China Banking Corporation',addr:'',contact:'',pos:'',tel:''},
+    {name:'CTBC Bank (Philippines) Corporation',addr:'',contact:'',pos:'',tel:''},
+    {name:'Development Bank of the Philippines',addr:'',contact:'',pos:'',tel:''},
+    {name:'East West Banking Corp.',addr:'',contact:'',pos:'',tel:''},
+    {name:'Gateway Rural Bank, Inc.',addr:'',contact:'',pos:'',tel:''},
+    {name:'Land Bank of the Philippines',addr:'',contact:'',pos:'',tel:''},
+    {name:'Maybank Philippines, Inc.',addr:'',contact:'',pos:'',tel:''},
+    {name:'Metropolitan Bank and Trust Co.',addr:'',contact:'',pos:'',tel:''},
+    {name:'Overseas Filipino Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Palawan Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Philippine Bank of Communications',addr:'',contact:'',pos:'',tel:''},
+    {name:'Philippine Business Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Philippine National Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Philippine Savings Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Philippine Trust Company',addr:'',contact:'',pos:'',tel:''},
+    {name:'Philippine Veterans Affairs Office',addr:'',contact:'',pos:'',tel:''},
+    {name:'Philippine Veterans Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Security Bank Corp.',addr:'',contact:'',pos:'',tel:''},
+    {name:'United Coconut Planters Bank',addr:'',contact:'',pos:'',tel:''},
+    {name:'Unionbank of the Philippines',addr:'',contact:'',pos:'',tel:''},
+  ],
+  bankaccounts:[
+    {bank:'Metropolitan Bank and Trust Co.',addr:'',acctno:'MB-1234',bal:0},
+    {bank:'Philippine National Bank',addr:'',acctno:'2012-7000-5585',bal:0},
+  ],
+  products:[
+    {name:'Loan-70a',type:'Additional',desc:'Additional loan for Pensioners 70 years old and below'},
+    {name:'Loan-72a',type:'Additional',desc:'Additional loan for Pensioners 71 to 72 years old'},
+    {name:'Loan-75a',type:'Additional',desc:'Additional loan for Pensioners 73 to 75 years old'},
+    {name:'Loan-79a',type:'Additional',desc:'Additional loan for Pensioners 76 to 79 years old'},
+    {name:'Loan-80a',type:'Additional',desc:'Additional loan for Pensioners 80 and ABOVE'},
+    {name:'BONUS LOAN August',type:'Bonus',desc:'Bonus loan for SSS clients - August only'},
+    {name:'BONUS LOAN July',type:'Bonus',desc:'Bonus loan for SSS clients - July only'},
+    {name:'BONUS LOAN November',type:'Bonus',desc:'Bonus loan for SSS clients - November only'},
+    {name:'BONUS LOAN October',type:'Bonus',desc:'Bonus loan for SSS clients - October only'},
+    {name:'BONUS LOAN September',type:'Bonus',desc:'Bonus loan for SSS clients - September only'},
+    {name:'BUY-OUT 70n (AGENT BASED)',type:'BUY OUT NEW',desc:'For Agent Based Buy-out Clients'},
+    {name:'BuyOut-70n - New and Below (WALK-IN)',type:'BUY OUT NEW',desc:'For prospective buy-out clients'},
+    {name:'BUY-OUT 70r (AGENT BASED)',type:'BUY OUT REN',desc:'For Agent Based Buy-out Clients'},
+    {name:'BuyOut-70r - Renewal and Below',type:'BUY OUT REN',desc:'For prospective buy-out clients'},
+    {name:'CORRECTIVE DISCOUNTED LOAN EXTENSION',type:'CORRECTIVE DISCOUNT LOAN',desc:'Discounted Extension Loan from current date to date of ACOP/APIR'},
+    {name:'CORRECTIVE DISCOUNTED LOAN RENEWAL',type:'CORRECTIVE DISCOUNT LOAN',desc:'Client qualified for discounted renewal loan'},
+    {name:'Loan 70x',type:'Extension',desc:'Extension loan for Pensioners 70 years old and below'},
+    {name:'Loan-72x',type:'Extension',desc:'Extension loan for Pensioners 71 to 72 years old'},
+    {name:'Loan-75x',type:'Extension',desc:'Extension loan for Pensioners 73 to 75 years old'},
+    {name:'Loan-79x',type:'Extension',desc:'Extension loan for Pensioners 76 to 79 years old'},
+    {name:'Loan-80x and ABOVE',type:'Extension',desc:'Extension loan for Pensioners 80 years and ABOVE'},
+    {name:'Loan 70n',type:'New',desc:'New loan for Pensioners 70 years old and below'},
+    {name:'Loan-72n',type:'New',desc:'New loan for Pensioners 71 to 72 years old'},
+    {name:'Loan-75n',type:'New',desc:'New loan for Pensioners 73 to 75 years old'},
+    {name:'Loan-79n',type:'New',desc:'New loan for Pensioners 76 to 79 years old'},
+    {name:'Loan-80n and ABOVE',type:'New',desc:'New loan for Pensioners 80 years and ABOVE'},
+    {name:'Loan 70r',type:'Renewal',desc:'Renewal loan for Pensioners 70 years old and below'},
+    {name:'Loan-72r',type:'Renewal',desc:'Renewal loan for Pensioners 71 to 72 years old'},
+    {name:'Loan-75r',type:'Renewal',desc:'Renewal loan for Pensioners 73 to 75 years old'},
+    {name:'Loan-79r',type:'Renewal',desc:'Renewal loan for Pensioners 76 to 79 years old'},
+  ],
+  agents:[
+    {name:'Ana Santos',type:'Full-Time',addr:'Lugam, Malolos',contact:'003'},
+    {name:'Roberto Cruz',type:'Full-Time',addr:'Lugam, Malolos',contact:'000001287'},
+    {name:'Maria Dela Cruz',type:'Full-Time',addr:'Santo Rosario (Pob.), Malolos',contact:'0000124'},
+    {name:'Jose Garcia',type:'Full-Time',addr:'Santo Rosario (Pob.), Malolos',contact:'2000006400'},
+    {name:'Carmen Reyes',type:'Full-Time',addr:'Kapitangan, Paombong',contact:'00022565'},
+    {name:'Fernando Lopez',type:'Full-Time',addr:'Meyto, Calumpit',contact:'09359829530'},
+    {name:'Lourdes Torres',type:'Full-Time',addr:'Santor, Malolos',contact:'10092017'},
+    {name:'Eduardo Ramos',type:'Full-Time',addr:'Bulac, Santa Maria',contact:'10132017'},
+    {name:'Gloria Hernandez',type:'Full-Time',addr:'Caingin, Bocaue',contact:'2000001297'},
+    {name:'Rodrigo Flores',type:'Full-Time',addr:'Panasahan, Malolos',contact:'2000001383'},
+    {name:'Teresita Gutierrez',type:'Full-Time',addr:'Caniogan, Calumpit',contact:'2000001419'},
+    {name:'Andres Aquino',type:'Full-Time',addr:'',contact:'0033'},
+    {name:'Consolacion Bautista',type:'Full-Time',addr:'',contact:'00522'},
+    {name:'Domingo Villanueva',type:'Full-Time',addr:'',contact:'005484'},
+    {name:'Edna Castillo',type:'Full-Time',addr:'',contact:'2'},
+    {name:'Felix Morales',type:'Full-Time',addr:'',contact:'20000000939'},
+    {name:'Glenda Mendoza',type:'Full-Time',addr:'',contact:'0920-5494451'},
+    {name:'Hermogenes Pascual',type:'Full-Time',addr:'',contact:'032356'},
+    {name:'Imelda Soriano',type:'Full-Time',addr:'',contact:'03264'},
+    {name:'Juanito Gonzales',type:'Full-Time',addr:'',contact:'03332'},
+    {name:'Katrina Perez',type:'Full-Time',addr:'',contact:'09067725214'},
+    {name:'Leonardo Ramirez',type:'Full-Time',addr:'',contact:'092717'},
+    {name:'Maryrose Navarro',type:'Part-Time',addr:'Sumapang Matanda, Malolos',contact:'N/A'},
+    {name:'Nestor Aguilar',type:'Full-Time',addr:'Canalato, Malolos',contact:'09171234567'},
+    {name:'Ofelia Domingo',type:'Full-Time',addr:'Pao, San Jose, Tarlac',contact:'09281234567'},
+    {name:'Pablo Estrada',type:'Full-Time',addr:'Pinagbakahan, Malolos',contact:'09391234567'},
+    {name:'Quirino Francisco',type:'Full-Time',addr:'Santo Cristo, Malolos',contact:'09451234567'},
+    {name:'Remedios Halili',type:'Full-Time',addr:'Abulalas, Hagonoy',contact:'09561234567'},
+    {name:'Salvador Ibarra',type:'Full-Time',addr:'Santo Cristo, Malolos',contact:'09671234567'},
+    {name:'Trinidad Javier',type:'Full-Time',addr:'Pipiton, Bulacan',contact:'09781234567'},
+  ],
+  addresses:[
+    {code:'A2015rW853',addr:'Lugam, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW902',addr:'Santo Rosario (Pob.), City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW919',addr:'Kapitangan, Paombong, Bulacan'},
+    {code:'A2015rW195',addr:'Meyto, Calumpit, Bulacan'},
+    {code:'A2015rW161',addr:'Santor, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW173',addr:'Bulac, Santa Maria, Bulacan'},
+    {code:'A2015rW461',addr:'Caingin, Bocaue, Bulacan'},
+    {code:'A2015rW466',addr:'Panasahan, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW473',addr:'Caniogan, Calumpit, Bulacan'},
+    {code:'A2015rW572',addr:'Pio Cruzcosa, Calumpit, Bulacan'},
+    {code:'A2015rW577',addr:'Sumapang Matanda, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW644',addr:'Canalato, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW650',addr:'Pao, San Jose, Tarlac'},
+    {code:'A2015rW680',addr:'Pinagbakahan, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW733',addr:'Santo Cristo, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW780',addr:'Abulalas, Hagonoy, Bulacan'},
+    {code:'A2015rW788',addr:'Santo Cristo, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW793',addr:'Pipiton, Bulacan, Bulacan'},
+    {code:'A2015rW842',addr:'Pinalogdan, Paombong, Bulacan'},
+    {code:'A2015rW848',addr:'Pinagbakahan, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rW887',addr:'Kapitangan, Paombong, Bulacan'},
+    {code:'A2015rX014',addr:'San Miguel, Calumpit, Bulacan'},
+    {code:'A2015rX028',addr:'Look 2nd, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rX041',addr:'Mojon, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rX122',addr:'Matimbo, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rX273',addr:'Mabolo, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rX311',addr:'Anilao, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rX405',addr:'Babatnin, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rX518',addr:'Balite, City of Malolos (Capital), Bulacan'},
+    {code:'A2015rX620',addr:'Bulacnin, City of Malolos (Capital), Bulacan'},
+  ],
+  lookups:[
+    {word:'—',order:1,code:''},{word:'_',order:2,code:''},{word:'1',order:3,code:''},
+    {word:'A',order:4,code:''},{word:'A.',order:5,code:''},{word:'Aaron',order:6,code:''},
+    {word:'ABADAM',order:7,code:''},{word:'Abadecio',order:8,code:''},{word:'Abalgar',order:9,code:''},
+    {word:'Aballe',order:10,code:''},{word:'Abalos',order:11,code:''},{word:'Abaloyan',order:12,code:''},
+    {word:'Abanog',order:13,code:''},{word:'Abaño',order:14,code:''},{word:'Abdula',order:15,code:''},
+    {word:'Abejera',order:16,code:''},{word:'Abejo',order:17,code:''},{word:'Abelardo',order:18,code:''},
+    {word:'Abella',order:19,code:''},{word:'Abellera',order:20,code:''},{word:'Aberte',order:21,code:''},
+    {word:'Abiday',order:22,code:''},{word:'Abillon',order:23,code:''},{word:'Abino',order:24,code:''},
+    {word:'Abique',order:25,code:''},{word:'Abisamis',order:26,code:''},{word:'Ablang',order:27,code:''},
+    {word:'Ablaza',order:28,code:''},{word:'Abner',order:29,code:''},{word:'Abolencia',order:30,code:''},
+  ]
+};
+
+// ══ STATE ══
+const ST = {};
+const initST = (k,ps=15)=>{ ST[k]=ST[k]||{q:'',status:'',sort:{col:-1,dir:1},page:1,ps}; };
+['accounts','loans','approvals','vouchers','collections','changefunds','banks','products','agents','addresses','lookups'].forEach(k=>initST(k));
+let editIdx={};
+let curApprovalIdx=-1;
+
+// ══ HELPERS ══
+function fmt(n,d=2){return Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function fmtD(d){if(!d)return '';try{return new Date(d+'T00:00:00').toLocaleDateString('en-PH',{month:'short',day:'2-digit',year:'numeric'});}catch(e){return d;}}
+function today(){return new Date().toISOString().split('T')[0];}
+function now(){return new Date().toISOString().slice(0,16);}
+function gv(id){const e=document.getElementById(id);return e?e.value:'';}
+function sv(id,val){const e=document.getElementById(id);if(e)e.value=val;}
+function badge(txt){
+  const m={'Active':'b-active','Problem':'b-problem','Fully Paid':'b-paid','Dead Account':'b-dead','For Release':'b-release','Archived':'b-dead','Pending':'b-pending','Approved':'b-approved','Denied':'b-denied','Credit':'b-credit','Debit':'b-debit','Full-Time':'b-active','Part-Time':'b-pending'};
+  return `<span class="badge ${m[txt]||'b-active'}">${txt}</span>`;
+}
+
+// ══ FILTERED DATA ══
+function getFiltered(k){
+  const s=ST[k];
+  let data=[...DB[k]];
+  if(s.q){const q=s.q.toLowerCase();data=data.filter(r=>Object.values(r).join(' ').toLowerCase().includes(q));}
+  if(s.status){data=data.filter(r=>Object.values(r).some(v=>v===s.status));}
+  if(s.sort.col>=0){data.sort((a,b)=>{const av=Object.values(a)[s.sort.col],bv=Object.values(b)[s.sort.col];if(typeof av==='number')return s.sort.dir*(av-bv);return s.sort.dir*String(av).localeCompare(String(bv));});}
+  return data;
+}
+
+// ══ TABLE RENDER ══
+function renderT(k){
+  const s=ST[k];const data=getFiltered(k);const total=data.length;
+  const start=(s.page-1)*s.ps;const slice=data.slice(start,start+s.ps);
+  const tb=document.getElementById('tbody-'+k);if(!tb)return;
+  tb.innerHTML=slice.length?slice.map((r,i)=>rowHTML(k,r,start+i)).join(''):`<tr class="empty-row"><td colspan="20">No records found</td></tr>`;
+  updatePgn(k,total);
+}
+
+function rowHTML(k,r,idx){
+  const acts=`<button class="ab edit" onclick="editRow('${k}',${idx})" title="Edit">✏️</button><button class="ab del" onclick="delRow('${k}',${idx})" title="Delete">🗑️</button>`;
+  switch(k){
+    case 'accounts':return`<tr><td></td><td class="mono">${r.pn}</td><td class="bold">${r.name}</td><td>${r.provider}</td><td>${r.type}</td><td class="num">₱${fmt(r.pension)}</td><td>${r.bank}</td><td>${badge(r.status)}</td><td><div class="ag">${acts}</div></td></tr>`;
+    case 'loans':return`<tr><td></td><td class="mono">${r.ref}</td><td>${fmtD(r.date)}</td><td class="bold">${r.name}</td><td class="num">₱${fmt(r.amort)}</td><td class="num">${r.terms}</td><td class="num green">₱${fmt(r.principal)}</td><td class="num">${fmt(r.proc)}</td><td class="num">${fmt(r.not)}</td><td class="num">${fmt(r.ins)}</td><td class="num">${fmt(r.interest)}</td><td class="num green">₱${fmt(r.cashout)}</td><td><div class="ag">${acts}<button class="ab print" onclick="printRow('${k}',${idx})" title="Print">🖨️</button></div></td></tr>`;
+    case 'approvals':return`<tr><td class="mono">${r.ref}</td><td>${fmtD(r.date)}</td><td class="bold">${r.name}</td><td class="num">₱${fmt(r.amort)}</td><td class="num">${r.terms}</td><td class="num green">₱${fmt(r.principal)}</td><td>${badge(r.status)}</td><td><div class="ag">${r.status==='Pending'?`<button class="proc-btn" onclick="openProcessModal(${idx})">✔ Process</button>`:`<button class="ab view" onclick="viewApproval(${idx})" title="View">👁️</button>`}</div></td></tr>`;
+    case 'vouchers':return`<tr><td></td><td class="bold">${r.no}</td><td>${fmtD(r.date)}</td><td>${r.payee}</td><td>${r.acct}</td><td class="num ${r.amount>0?'green':''}">₱${fmt(r.amount)}</td><td>${badge(r.status||'Active')}</td><td><div class="ag">${acts}<button class="ab print" onclick="printRow('${k}',${idx})" title="Print">🖨️</button></div></td></tr>`;
+    case 'collections':return`<tr><td></td><td class="bold">${r.no}</td><td>${fmtD(r.date)}</td><td>${r.cust}</td><td class="num green">₱${fmt(r.amount)}</td><td class="num">₱${fmt(r.bonus)}</td><td style="color:var(--text3);font-size:11.5px">${r.remarks}</td><td><div class="ag">${acts}<button class="ab print" onclick="printRow('${k}',${idx})" title="Print">🖨️</button></div></td></tr>`;
+    case 'changefunds':return`<tr><td></td><td class="bold">${r.no}</td><td>${fmtD(r.date)}</td><td>${badge(r.type)}</td><td class="num ${r.type==='Credit'?'green':'red-t'}">₱${fmt(r.amount)}</td><td>${r.name}</td><td style="color:var(--text3);font-size:11px">${r.remarks}</td><td>${r.branch}</td><td><div class="ag">${acts}<button class="ab print" onclick="printRow('${k}',${idx})" title="Print">🖨️</button></div></td></tr>`;
+    case 'banks':return`<tr><td></td><td class="bold">${r.name}</td><td style="color:var(--text3)">${r.addr}</td><td>${r.contact}</td><td style="color:var(--text3)">${r.pos}</td><td>${r.tel}</td><td><div class="ag">${acts}</div></td></tr>`;
+    case 'products':{const pc={Additional:'b-active',Bonus:'b-pending','BUY OUT NEW':'b-paid','BUY OUT REN':'b-paid','BUY OUT RENRA':'b-paid','CORRECTIVE DISCOUNT LOAN':'b-problem',Extension:'b-active',New:'b-active',Renewal:'b-active'};return`<tr><td></td><td class="bold">${r.name}</td><td><span class="badge ${pc[r.type]||'b-active'}" style="font-size:10px">${r.type}</span></td><td style="color:var(--text3);font-size:12px">${r.desc}</td><td><div class="ag">${acts}</div></td></tr>`;}
+    case 'agents':return`<tr><td></td><td class="bold">${r.name}</td><td>${badge(r.type)}</td><td style="color:var(--text3)">${r.addr}</td><td>${r.contact}</td><td><div class="ag">${acts}</div></td></tr>`;
+    case 'addresses':return`<tr><td></td><td class="mono">${r.code}</td><td>${r.addr}</td><td><div class="ag">${acts}</div></td></tr>`;
+    case 'lookups':return`<tr><td></td><td class="bold">${r.word}</td><td style="color:var(--text3)">${r.order}</td><td style="color:var(--text3)">${r.code}</td><td><div class="ag">${acts}</div></td></tr>`;
+    default:return'';
+  }
+}
+
+// ══ PAGINATION ══
+function updatePgn(k,total){
+  const s=ST[k];const pages=Math.ceil(total/s.ps)||1;
+  const start=(s.page-1)*s.ps+1;const end=Math.min(s.page*s.ps,total);
+  const info=document.getElementById('pgi-'+k);if(info)info.textContent=total?`${start} - ${end} of ${total.toLocaleString()} items`:'0 items';
+  const btns=document.getElementById('pgb-'+k);if(!btns)return;
+  let h=`<div class="pb ${s.page===1?'dis':''}" onclick="gotoPage('${k}',${s.page-1})">‹</div>`;
+  let fr=Math.max(1,s.page-2),to=Math.min(pages,fr+4);
+  if(fr>1)h+=`<div class="pb" onclick="gotoPage('${k}',1)">1</div>${fr>2?'<div class="pb dis">…</div>':''}`;
+  for(let i=fr;i<=to;i++)h+=`<div class="pb ${i===s.page?'active':''}" onclick="gotoPage('${k}',${i})">${i}</div>`;
+  if(to<pages)h+=`${to<pages-1?'<div class="pb dis">…</div>':''}<div class="pb" onclick="gotoPage('${k}',${pages})">${pages}</div>`;
+  h+=`<div class="pb ${s.page===pages?'dis':''}" onclick="gotoPage('${k}',${s.page+1})">›</div>`;
+  btns.innerHTML=h;
+  const subs={accounts:'acct-sub',loans:'lp-sub',approvals:'la-sub',vouchers:'v-sub',collections:'col-sub',changefunds:'cf-sub',banks:'banks-sub',products:'prod-sub',agents:'agents-sub',addresses:'addr-sub',lookups:'lu-sub'};
+  const sub=document.getElementById(subs[k]);if(sub)sub.textContent=`${total.toLocaleString()} record${total!==1?'s':''}`;
+}
+
+function gotoPage(k,p){const s=ST[k];const data=getFiltered(k);const pages=Math.ceil(data.length/s.ps)||1;if(p<1||p>pages)return;s.page=p;renderT(k);}
+function chgPS(k,size){ST[k].ps=parseInt(size);ST[k].page=1;renderT(k);}
+function search(k,val){ST[k].q=val;ST[k].page=1;renderT(k);}
+function fStatus(k,val){ST[k].status=val;ST[k].page=1;renderT(k);}
+function sortT(k,col){const s=ST[k];if(s.sort.col===col)s.sort.dir*=-1;else{s.sort.col=col;s.sort.dir=1;}renderT(k);}
+
+// ══ BANK ACCOUNTS ══
+function renderBankAccounts(){
+  const tb=document.getElementById('tbody-bankaccounts');if(!tb)return;
+  tb.innerHTML=DB.bankaccounts.map((r,i)=>`<tr><td></td><td class="bold">${r.bank}</td><td style="color:var(--text3)">${r.addr}</td><td class="mono">${r.acctno}</td><td class="num">₱${fmt(r.bal)}</td><td><div class="ag"><button class="ab edit" onclick="editBankAcct(${i})" title="Edit">✏️</button><button class="ab del" onclick="delBankAcct(${i})" title="Delete">🗑️</button></div></td></tr>`).join('');
+}
+function editBankAcct(i){const r=DB.bankaccounts[i];sv('ba-bank',r.bank);sv('ba-addr',r.addr);sv('ba-acctno',r.acctno);editIdx.bankaccounts=i;openM('m-bankaccount');}
+function delBankAcct(i){confirmDlg('Delete Bank Account','This cannot be undone.',()=>{DB.bankaccounts.splice(i,1);renderBankAccounts();toast('🗑️ Deleted','success');});}
+
+// ══ EDIT ROW ══
+function editRow(k,idx){
+  const data=getFiltered(k);const r=data[idx];const aIdx=DB[k].indexOf(r);editIdx[k]=aIdx;
+  const mmap={accounts:'m-account',loans:'m-loan',vouchers:'m-voucher',collections:'m-collection',changefunds:'m-changefund',banks:'m-bank',products:'m-product',agents:'m-agent',addresses:'m-address',lookups:'m-lookup'};
+  switch(k){
+    case 'accounts':sv('ai-pnum',r.pn);sv('ai-lname',r.name);sv('ai-provider',r.provider);sv('ai-ptype',r.type);sv('ai-pamount',r.pension);sv('ai-bank',r.bank);sv('ai-pstatus',r.status);break;
+    case 'loans':sv('ln-loanref',r.ref);sv('ln-ldate',r.date);sv('ln-customer',r.name);sv('ln-amort',r.amort);sv('ln-terms',r.terms);sv('ln-proc',r.proc);sv('ln-not',r.not);sv('ln-ins',r.ins);calcLoan();break;
+    case 'vouchers':sv('v-no',r.no);sv('v-date',r.date);sv('v-payee',r.payee);sv('v-amount',r.amount);break;
+    case 'collections':sv('cl-no',r.no);sv('cl-date',r.date);sv('cl-customer',r.cust);sv('cl-amount',r.amount);sv('cl-bonus',r.bonus);sv('cl-remarks',r.remarks);break;
+    case 'changefunds':sv('cf-no',r.no);sv('cf-date',r.date);sv('cf-type',r.type);sv('cf-amount',r.amount);sv('cf-custname',r.name);sv('cf-branch',r.branch);sv('cf-remarks',r.remarks);break;
+    case 'banks':sv('bk-name',r.name);sv('bk-addr',r.addr);sv('bk-contact',r.contact);sv('bk-pos',r.pos);sv('bk-tel',r.tel);break;
+    case 'products':sv('pr-name',r.name);sv('pr-type',r.type);sv('pr-desc',r.desc);break;
+    case 'agents':sv('ag-lname',r.name);sv('ag-type',r.type);sv('ag-addr',r.addr);sv('ag-contact',r.contact);break;
+    case 'addresses':sv('addr-code',r.code);sv('addr-addr',r.addr);break;
+    case 'lookups':sv('lu-word',r.word);sv('lu-order',r.order);sv('lu-code',r.code);break;
+  }
+  openM(mmap[k]);
+}
+
+// ══ DELETE ROW ══
+function delRow(k,idx){
+  const data=getFiltered(k);const r=data[idx];const aIdx=DB[k].indexOf(r);
+  confirmDlg('Delete Record','Delete this record? Cannot be undone.',()=>{DB[k].splice(aIdx,1);renderT(k);toast('🗑️ Deleted','success');});
+}
+function printRow(k,idx){const data=getFiltered(k);const r=data[idx];toast('🖨️ Printing '+Object.values(r)[0],'success');}
+
+// ══ LOAN APPROVAL: PROCESS MODAL ══
+function openProcessModal(idx){
+  curApprovalIdx=idx;const data=getFiltered('approvals');const r=data[idx];
+  document.getElementById('process-loan-info').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px">
+      <div><span style="color:var(--text3)">Reference:</span> <strong>${r.ref}</strong></div>
+      <div><span style="color:var(--text3)">Date:</span> ${fmtD(r.date)}</div>
+      <div><span style="color:var(--text3)">Customer:</span> <strong>${r.name}</strong></div>
+      <div><span style="color:var(--text3)">Principal:</span> <strong style="color:var(--emerald)">₱${fmt(r.principal)}</strong></div>
+      <div><span style="color:var(--text3)">Amortization:</span> ₱${fmt(r.amort)}</div>
+      <div><span style="color:var(--text3)">Terms:</span> ${r.terms} months</div>
+    </div>`;
+  sv('process-remarks','');
+  openM('m-process-loan');
+}
+function viewApproval(idx){openProcessModal(idx);}
+function approveLoan(){
+  const data=getFiltered('approvals');const r=data[curApprovalIdx];const aIdx=DB.approvals.indexOf(r);
+  confirmDlg('Approve Loan',`Approve loan ${r.ref} for ${r.name}?`,()=>{
+    DB.approvals[aIdx].status='Approved';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✅ Loan approved!','success');
+  });
+}
+function denyLoan(){
+  const data=getFiltered('approvals');const r=data[curApprovalIdx];const aIdx=DB.approvals.indexOf(r);
+  const remarks=gv('process-remarks');
+  confirmDlg('Deny Loan',`Deny loan ${r.ref}?`,()=>{
+    DB.approvals[aIdx].status='Denied';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✗ Loan denied','error');
+  });
+}
+function updatePendingBadge(){const cnt=DB.approvals.filter(a=>a.status==='Pending').length;const el=document.getElementById('pending-badge');if(el)el.textContent=cnt;document.getElementById('cnt-pending').textContent=cnt;}
+
+// ══ LOAN CALCULATOR ══
+function calcLoan(){
+  const a=parseFloat(gv('ln-amort')||0);const t=parseInt(gv('ln-terms')||12);const pr=a*t;
+  const proc=parseFloat(gv('ln-proc')||0);const not=parseFloat(gv('ln-not')||0);const ins=parseFloat(gv('ln-ins')||0);const colfee=parseFloat(gv('ln-colfee')||0);
+  const interest=pr*0.20;const deductions=proc+not+ins+colfee;const gross=pr-deductions;const net=gross-interest;
+  sv('ln-principal',pr.toFixed(2));sv('ln-interest',interest.toFixed(2));sv('ln-deductions',deductions.toFixed(2));sv('ln-gross',gross.toFixed(2));sv('ln-net',net.toFixed(2));
+  // Build schedule
+  const sb=document.getElementById('sched-body');if(!sb)return;
+  if(!a||!t){sb.innerHTML='<tr><td colspan="5" class="sub-empty">Enter amortization and terms</td></tr>';return;}
+  const base=new Date();let bal=pr;
+  sb.innerHTML=Array.from({length:t},(_, i)=>{
+    const earned=pr/t;const unearned=pr-(earned*(i+1));const dd=new Date(base);dd.setMonth(dd.getMonth()+i+1);
+    const row=`<tr><td>${i+1}</td><td>${fmtD(dd.toISOString().split('T')[0])}</td><td>₱${fmt(earned)}</td><td>₱${fmt(Math.max(0,unearned))}</td><td>₱${fmt(pr-(earned*(i+1)))}</td></tr>`;
+    return row;
+  }).join('');
+}
+
+// ══ VOUCHER CALC ══
+function calcVoucher(){const a=parseFloat(gv('v-amount')||0);const t=parseFloat(gv('v-intax')||0);sv('v-wtax',(a*0.01).toFixed(2));}
+
+// ══ COLLECTION CALC ══
+function calcCollection(){const a=parseFloat(gv('cl-amount')||0);const cf=parseFloat(gv('cl-cf')||0);sv('cl-cfbal',(cf>a?cf-a:0).toFixed(2));}
+
+// ══ SUB-TABLE ADD HELPERS ══
+function addChild(){
+  const tb=document.getElementById('children-body');
+  const row=document.createElement('tr');
+  row.innerHTML=`<td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="First"></td><td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="Last"></td><td><select style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;"><option>Male</option><option>Female</option></select></td><td><input type="date" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;"></td><td style="color:var(--text3)">—</td><td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="Contact"></td><td><button class="ab del" onclick="this.closest('tr').remove()">🗑️</button></td>`;
+  if(tb.querySelector('.sub-empty'))tb.innerHTML='';
+  tb.appendChild(row);
+}
+function addAddress_ai(){const tb=document.getElementById('ai-addr-body');const row=document.createElement('tr');row.innerHTML=`<td><select style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;"><option>Lugam, Malolos</option><option>Santo Rosario, Malolos</option><option>Other...</option></select></td><td><select style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;"><option>Current</option><option>Permanent</option></select></td><td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:80px;" placeholder="Tenure"></td><td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="Landmarks"></td><td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="Remarks"></td><td><button class="ab del" onclick="this.closest('tr').remove()">🗑️</button></td>`;if(tb.querySelector('.sub-empty'))tb.innerHTML='';tb.appendChild(row);}
+function addID(){const tb=document.getElementById('ai-id-body');const row=document.createElement('tr');row.innerHTML=`<td><select style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;"><option>SSS ID</option><option>PhilHealth</option><option>Passport</option><option>Driver's License</option><option>Voter's ID</option><option>UMID</option></select></td><td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="ID Number"></td><td><input type="date" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;"></td><td><button class="ab del" onclick="this.closest('tr').remove()">🗑️</button></td>`;if(tb.querySelector('.sub-empty'))tb.innerHTML='';tb.appendChild(row);}
+function addDoc(){const tb=document.getElementById('ai-doc-body');const row=document.createElement('tr');row.innerHTML=`<td><select style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;flex:1"><option>Birth Certificate</option><option>Marriage Certificate</option><option>Death Certificate</option><option>SSS Documents</option><option>Pension Slip</option><option>Bank Passbook</option></select></td><td><button class="ab del" onclick="this.closest('tr').remove()">🗑️</button></td>`;if(tb.querySelector('.sub-empty'))tb.innerHTML='';tb.appendChild(row);}
+function addCheque(){const tb=document.getElementById('cheque-body');const row=document.createElement('tr');row.innerHTML=`<td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="Cheque Book"></td><td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="Cheque No"></td><td><input type="date" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:90px;" placeholder="0.00"></td><td><button class="ab del" onclick="this.closest('tr').remove()">🗑️</button></td>`;if(tb.querySelector('.sub-empty'))tb.innerHTML='';tb.appendChild(row);}
+function addChequeBook(){const tb=document.getElementById('ba-chequebook-body');const row=document.createElement('tr');row.innerHTML=`<td><input style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:100%;" placeholder="Batch No."></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:80px;" placeholder="Start"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:80px;" placeholder="End"></td><td><button class="ab del" onclick="this.closest('tr').remove()">🗑️</button></td>`;if(tb.querySelector('.sub-empty'))tb.innerHTML='';tb.appendChild(row);}
+function addFeeRate(){const tb=document.getElementById('pr-fees-body');const row=document.createElement('tr');row.innerHTML=`<td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:50px;" placeholder="12"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:70px;" placeholder="0"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:70px;" placeholder="0"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:70px;" placeholder="0"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:70px;" placeholder="0"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:70px;" placeholder="20"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:70px;" placeholder="0"></td><td><input type="number" style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-family:inherit;font-size:12px;width:70px;" placeholder="0"></td><td><button class="ab del" onclick="this.closest('tr').remove()">🗑️</button></td>`;if(tb.querySelector('.sub-empty'))tb.innerHTML='';tb.appendChild(row);}
+
+// ══ SAVE FUNCTIONS ══
+function saveAccount(){
+  if(!gv('ai-fname')||!gv('ai-lname')){toast('⚠️ First and Last Name are required','error');return;}
+  const name=`${gv('ai-fname')} ${gv('ai-mname')?gv('ai-mname')+' ':''} ${gv('ai-lname')}`.replace(/\s+/g,' ').trim();
+  const rec={pn:gv('ai-pnum')||'MUCC-103-'+Date.now(),name,provider:gv('ai-provider'),type:gv('ai-ptype'),pension:parseFloat(gv('ai-pamount')||0),bank:gv('ai-bank'),status:gv('ai-pstatus')||'Active'};
+  if(editIdx.accounts!==undefined){DB.accounts[editIdx.accounts]=rec;delete editIdx.accounts;toast('✅ Account updated!','success');}
+  else{DB.accounts.push(rec);toast('✅ Account created!','success');}
+  closeM('m-account');renderT('accounts');
+}
+function saveLoan(){
+  if(!gv('ln-customer')){toast('⚠️ Customer name required','error');return;}
+  const a=parseFloat(gv('ln-amort')||0);const t=parseInt(gv('ln-terms')||12);const pr=a*t;const int=pr*0.2;const net=parseFloat(gv('ln-net')||0);
+  const rec={ref:'A'+Date.now().toString(36).toUpperCase().slice(-8),date:gv('ln-ldate')||today(),name:gv('ln-customer'),amort:a,terms:t,principal:pr,proc:parseFloat(gv('ln-proc')||0),not:parseFloat(gv('ln-not')||0),ins:parseFloat(gv('ln-ins')||0),interest:int,cashout:net,status:'Active'};
+  if(editIdx.loans!==undefined){DB.loans[editIdx.loans]=rec;delete editIdx.loans;toast('✅ Loan updated!','success');}
+  else{DB.loans.push(rec);toast('✅ Loan created!','success');}
+  closeM('m-loan');renderT('loans');
+}
+function saveVoucher(){
+  if(!gv('v-payee')){toast('⚠️ Payee required','error');return;}
+  const nextNo=String(DB.vouchers.length+1).padStart(10,'0');
+  const rec={no:nextNo,date:gv('v-date')||today(),payee:gv('v-payee'),acct:(gv('v-bankacct')||'').split(' ')[0],amount:parseFloat(gv('v-amount')||0),status:'Active'};
+  if(editIdx.vouchers!==undefined){DB.vouchers[editIdx.vouchers]=rec;delete editIdx.vouchers;toast('✅ Voucher updated!','success');}
+  else{DB.vouchers.push(rec);toast('✅ Voucher created!','success');}
+  closeM('m-voucher');renderT('vouchers');
+}
+function saveCollection(){
+  if(!gv('cl-customer')){toast('⚠️ Customer required','error');return;}
+  const nextNo=String(300000+DB.collections.length+1).padStart(10,'0');
+  const rec={no:nextNo,date:gv('cl-date')||today(),cust:gv('cl-customer'),amount:parseFloat(gv('cl-amount')||0),bonus:parseFloat(gv('cl-bonus')||0),remarks:gv('cl-remarks'),status:'Active'};
+  if(editIdx.collections!==undefined){DB.collections[editIdx.collections]=rec;delete editIdx.collections;toast('✅ Collection updated!','success');}
+  else{DB.collections.push(rec);toast('✅ Collection recorded!','success');}
+  closeM('m-collection');renderT('collections');
+}
+function saveChangeFund(){
+  if(!gv('cf-custname')){toast('⚠️ Customer name required','error');return;}
+  const nextNo=String(DB.changefunds.length+1).padStart(10,'0');
+  const rec={no:nextNo,date:gv('cf-date')||today(),type:gv('cf-type'),amount:parseFloat(gv('cf-amount')||0),name:gv('cf-custname'),remarks:gv('cf-remarks'),branch:gv('cf-branch')||'Malolos'};
+  if(editIdx.changefunds!==undefined){DB.changefunds[editIdx.changefunds]=rec;delete editIdx.changefunds;toast('✅ Change Fund updated!','success');}
+  else{DB.changefunds.push(rec);toast('✅ Change Fund created!','success');}
+  closeM('m-changefund');renderT('changefunds');
+}
+function saveBank(){
+  if(!gv('bk-name')){toast('⚠️ Bank name required','error');return;}
+  const rec={name:gv('bk-name'),addr:gv('bk-addr'),contact:gv('bk-contact'),pos:gv('bk-pos'),tel:gv('bk-tel')};
+  if(editIdx.banks!==undefined){DB.banks[editIdx.banks]=rec;delete editIdx.banks;toast('✅ Bank updated!','success');}
+  else{DB.banks.push(rec);toast('✅ Bank created!','success');}
+  closeM('m-bank');renderT('banks');
+}
+function saveBankAccount(){
+  if(!gv('ba-acctno')){toast('⚠️ Account No. required','error');return;}
+  const rec={bank:gv('ba-bank'),addr:gv('ba-addr'),acctno:gv('ba-acctno'),bal:0};
+  if(editIdx.bankaccounts!==undefined){DB.bankaccounts[editIdx.bankaccounts]=rec;delete editIdx.bankaccounts;}
+  else{DB.bankaccounts.push(rec);}
+  closeM('m-bankaccount');renderBankAccounts();toast('✅ Bank Account saved!','success');
+}
+function saveProduct(){
+  if(!gv('pr-name')){toast('⚠️ Product name required','error');return;}
+  const rec={name:gv('pr-name'),type:gv('pr-type'),desc:gv('pr-desc')};
+  if(editIdx.products!==undefined){DB.products[editIdx.products]=rec;delete editIdx.products;toast('✅ Product updated!','success');}
+  else{DB.products.push(rec);toast('✅ Product created!','success');}
+  closeM('m-product');renderT('products');
+}
+function saveAgent(){
+  if(!gv('ag-fname')||!gv('ag-lname')){toast('⚠️ First and Last Name required','error');return;}
+  const name=`${gv('ag-fname')} ${gv('ag-lname')}`.trim();
+  const rec={name,type:gv('ag-type'),addr:gv('ag-addr'),contact:gv('ag-contact')};
+  if(editIdx.agents!==undefined){DB.agents[editIdx.agents]=rec;delete editIdx.agents;toast('✅ Agent updated!','success');}
+  else{DB.agents.push(rec);toast('✅ Agent created!','success');}
+  closeM('m-agent');renderT('agents');
+}
+function saveAddress(){
+  if(!gv('addr-code')||!gv('addr-addr')){toast('⚠️ Code and Address required','error');return;}
+  const rec={code:gv('addr-code'),addr:gv('addr-addr')};
+  if(editIdx.addresses!==undefined){DB.addresses[editIdx.addresses]=rec;delete editIdx.addresses;toast('✅ Address updated!','success');}
+  else{DB.addresses.push(rec);toast('✅ Address created!','success');}
+  closeM('m-address');renderT('addresses');
+}
+function saveLookup(){
+  if(!gv('lu-word')){toast('⚠️ LookUpWord is required','error');return;}
+  const rec={word:gv('lu-word'),order:parseInt(gv('lu-order')||DB.lookups.length+1),code:gv('lu-code')};
+  if(editIdx.lookups!==undefined){DB.lookups[editIdx.lookups]=rec;delete editIdx.lookups;toast('✅ LookUp updated!','success');}
+  else{DB.lookups.push(rec);toast('✅ LookUp created!','success');}
+  closeM('m-lookup');renderT('lookups');
+}
+
+// ══ MODAL OPEN/CLOSE ══
+function openM(id){
+  // Reset edit state if new create
+  if(!editIdx[id.replace('m-','')]){/* keep if editing */}
+  document.getElementById(id).classList.add('open');
+}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('click',e=>{if(e.target.classList.contains('overlay'))closeM(e.target.id);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(o=>o.classList.remove('open'));});
+
+// ══ CONFIRM ══
+function confirmDlg(title,msg,onOk){
+  document.getElementById('confirm-title').textContent=title;
+  document.getElementById('confirm-msg').textContent=msg;
+  const btn=document.getElementById('confirm-ok');
+  btn.onclick=()=>{closeM('m-confirm');onOk();};
+  openM('m-confirm');
+}
+
+// ══ TOAST ══
+function toast(msg,type='success'){
+  const wrap=document.getElementById('toast-wrap');const el=document.createElement('div');
+  el.className=`toast ${type}`;const icons={success:'✅',error:'❌',warn:'⚠️'};
+  el.innerHTML=`<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  wrap.appendChild(el);requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
+  setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),400);},3200);
+}
+
+// ══ EXPORT ══
+function exportCSV(k){
+  const data=DB[k];if(!data||!data.length){toast('⚠️ No data to export','warn');return;}
+  const h=Object.keys(data[0]);const rows=data.map(r=>h.map(key=>`"${String(r[key]).replace(/"/g,'""')}"`).join(','));
+  const csv=[h.join(','),...rows].join('\n');const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download=`unilend_${k}_${today()}.csv`;a.click();
+  toast('📤 CSV exported!','success');
+}
+
+// ══ NAVIGATION ══
+const TITLES={dashboard:'Dashboard',account:'Account Info',loanproc:'Loan Processing',loanapproval:'Loan Approval',vouchers:'Vouchers',collections:'Collections',changefunds:'Change Funds',rep_cf:'Change Fund Register',rep_check:'Check Register',rep_target:'Target Collection & CF',rep_col:'Collection Sheet',rep_trans:'Transaction Report',rep_udi:'UDI Report',banks:'Banks',bankaccounts:'Bank Accounts',products:'Products',agents:'Agents',addresses:'Addresses',lookups:'LookUps'};
+function nav(el){if(!el)return;const pid=el.dataset&&el.dataset.page;if(!pid)return;document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));el.classList.add('active');document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const pg=document.getElementById('page-'+pid);if(pg)pg.classList.add('active');document.getElementById('tb-title').textContent=TITLES[pid]||pid;}
+function searchNav(q){document.querySelectorAll('.ni').forEach(n=>{n.style.display=n.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+
+// ══ DASHBOARD ══
+function animCount(id,target,pre='',suf='',dur=1200){
+  const el=document.getElementById(id);if(!el)return;let start=null;
+  const step=ts=>{if(!start)start=ts;const p=Math.min((ts-start)/dur,1);const v=Math.round(p*target);el.textContent=pre+(v>=1000?v.toLocaleString('en-PH'):v)+suf;if(p<1)requestAnimationFrame(step);};
+  requestAnimationFrame(step);
+}
+function buildBars(){
+  const data=[18.2,22.4,19.8,31.5,28.9,35.1,42.3,38.7,29.4,44.8,37.2,52.1];const months=['J','F','M','A','M','J','J','A','S','O','N','D'];const max=Math.max(...data);
+  const wrap=document.getElementById('dash-bars');if(!wrap)return;
+  wrap.innerHTML=data.map((v,i)=>`<div style="display:flex;flex-direction:column;align-items:center;flex:1;height:100%;"><div class="bar" style="height:${(v/max)*128}px;background:${i===11?'#10b981':'#1a56db'};width:100%;"><div class="bar-tip">₱${v}M</div><div class="bar-lbl">${months[i]}</div></div></div>`).join('');
+}
+function buildActivity(){
+  const items=[{d:'#10b981',t:'Loan <strong>A33l5QE866</strong> approved for Julius Bolanos — ₱50,000',tt:'2 min ago'},{d:'#1a56db',t:'Voucher <strong>0000000024</strong> created for Elenita Hilario — ₱5,000',tt:'15 min ago'},{d:'#f59e0b',t:'Change Fund <strong>0000000027</strong> Debit ₱800 Anita Clemente',tt:'1 hr ago'},{d:'#10b981',t:'Collection <strong>0000300400</strong> recorded — Pedro Cruz ₱2,900',tt:'2 hr ago'},{d:'#f43f5e',t:'Account flagged for review — MUCC-103-0',tt:'3 hr ago'},{d:'#1a56db',t:'Loan batch of 30 records exported to CSV',tt:'5 hr ago'}];
+  const f=document.getElementById('activity-feed');if(!f)return;
+  f.innerHTML=items.map(it=>`<div class="act-item"><div class="act-dot" style="background:${it.d}"></div><div><div class="act-text">${it.t}</div><div class="act-time">${it.tt}</div></div></div>`).join('');
+}
+function buildBranchSummary(){
+  const el=document.getElementById('branch-summary');if(!el)return;
+  const rows=[['Active Accounts',(DB.accounts.filter(a=>a.status==='Active').length+2641).toLocaleString()],['Total Collections','145,352'],['Pending Approvals',DB.approvals.filter(a=>a.status==='Pending').length],['Active Agents','411'],['Loan Products',DB.products.length]];
+  el.innerHTML=rows.map(([l,v])=>`<div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03)"><span style="color:var(--text3)">${l}</span><span style="font-weight:500">${v}</span></div>`).join('');
+}
+
+// ══ INIT ══
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('dash-date').textContent=new Date().toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  // Set today as default for all date inputs in modals
+  document.querySelectorAll('input[type=date]').forEach(i=>{if(!i.value)i.value=today();});
+  document.querySelectorAll('input[type=datetime-local]').forEach(i=>{if(!i.value)i.value=now();});
+  // Set default voucher auto number
+  sv('v-no',String(DB.vouchers.length+1).padStart(10,'0'));
+  sv('cl-no',String(300000+DB.collections.length+1).padStart(10,'0'));
+  sv('cf-no',String(DB.changefunds.length+1).padStart(10,'0'));
+  // Render all tables
+  ['accounts','loans','approvals','vouchers','collections','changefunds','banks','products','agents','addresses','lookups'].forEach(renderT);
+  renderBankAccounts();
+  buildBars();buildActivity();buildBranchSummary();
+  setTimeout(()=>{
+    animCount('cnt-pensioners',DB.accounts.length+2641,'','');
+    animCount('cnt-pending',DB.approvals.filter(a=>a.status==='Pending').length,'','');
+    animCount('cnt-loans',386168495,'₱','',1500);
+    animCount('cnt-recv',9421525,'₱','',1500);
+  },250);
+});
+</script>
+</body>
+</html>
