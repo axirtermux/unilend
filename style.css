@@ -16,6 +16,12 @@
 .light-mode .sidebar{background:linear-gradient(180deg,#f1f5f9,#e2e8f0);box-shadow:4px 0 24px rgba(0,0,0,.1);}
 .light-mode .topbar{background:rgba(248,250,252,.88);border-bottom-color:rgba(0,0,0,0.1);}
 .light-mode ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.2);}
+.light-mode .dt thead th,
+.light-mode .dt tbody td{border-right:1px solid rgba(0,0,0,.08);}
+.light-mode .dt thead th{background:rgba(0,0,0,.04);border-bottom:1px solid rgba(0,0,0,.1);}
+.light-mode .dt thead th:hover{background:rgba(0,0,0,.06);}
+.light-mode .dt tbody tr:hover{background:rgba(0,0,0,.03);}
+.light-mode .dt td{border-bottom:1px solid rgba(0,0,0,.06);}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;}
 ::-webkit-scrollbar{width:4px;height:4px;}
