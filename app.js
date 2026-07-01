@@ -1,51 +1,114 @@
 // ══ DATABASE ══
 const DB = {
-  accounts: [],
-  loans: [],
-  approvals: [],
+  accounts: [
+    {pn:'MUCC-103-03-2158517-8',name:'Fe Ablaza',provider:'SSS',type:'Retirement',pension:3900,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-0',name:'Reynaldo De Guzman',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2500,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-33-25209959-6',name:'Olivia Daria',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1210,bank:'Philippine National Bank',status:'Problem'},
+    {pn:'MUCC-103-09-09226053-0',name:'Ma. Nery Bacani',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3904,bank:'Security Bank Corp.',status:'Active'},
+    {pn:'MUCC-103-09-06469603-1',name:'Eleuterio Reyes',provider:'SSS',type:'Retirement',pension:0,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-39111605-0',name:'Leoncia Ganaden',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1700,bank:'Philippine National Bank',status:'Problem'},
+    {pn:'MUCC-103-03-03939934-4',name:'Elenita Hilario',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:8121.50,bank:'',status:'Fully Paid'},
+    {pn:'MUCC-103-03-69993810-1',name:'Evelyn Mayayo',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2500,bank:'Maybank Philippines, Inc.',status:'Active'},
+    {pn:'MUCC-103-03-01707720-6',name:'Ricardo Ablaza',provider:'SSS',type:'Retirement',pension:3689.07,bank:'Philippine National Bank',status:'Fully Paid'},
+    {pn:'MUCC-103-03-01471111-8',name:'Leonora Gili',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3049.20,bank:'Security Bank Corp.',status:'Fully Paid'},
+    {pn:'MUCC-103-03-0215298-3',name:'Emilia Carable',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2600,bank:'Land Bank of the Philippines',status:'Active'},
+    {pn:'MUCC-103-03-45159939-9',name:'Anita Clemente',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2500,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-**missing**',name:'Ursula Cristobal',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2524,bank:'Philippine Savings Bank',status:'Active'},
+    {pn:'MUCC-103-03-12314443-9',name:'Natividad Lubrino',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3500,bank:'Bank of the Philippine Islands',status:'Fully Paid'},
+    {pn:'MUCC-103-03-13322334-8',name:'Marcelino Victoria',provider:'SSS',type:'Retirement',pension:3513.40,bank:'Philippine National Bank',status:'Dead Account'},
+    {pn:'MUCC-103-03-05960990-1',name:'Gloria Lorenzo',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2900,bank:'Land Bank of the Philippines',status:'Active'},
+    {pn:'MUCC-103-03-22039581-4',name:'Adelfa Bañares',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1452,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-29000278-0',name:'Marina Ventura',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:4049.20,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-48873821-1',name:'Ma. Luisa Victorino',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1400,bank:'Metropolitan Bank and Trust Co.',status:'Active'},
+    {pn:'MUCC-103-03-89530073-8',name:'Reynaldo Morales',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:4670,bank:'BDO Unibank, Inc.',status:'Problem'},
+    {pn:'MUCC-103-03-48884336-9',name:'Isabelita Almario',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:3500,bank:'United Coconut Planters Bank',status:'Active'},
+    {pn:'MUCC-103-03-3589450-9',name:'Norberto Chong',provider:'SSS',type:'Retirement',pension:3900,bank:'Security Bank Corp.',status:'Active'},
+    {pn:'MUCC-103-03-88210044-1',name:'Josefina Ramos',provider:'SSS',type:'Retirement',pension:5200,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-77334411-2',name:'Manuel Santos',provider:'SSS',type:'Retirement',pension:4100,bank:'BDO Unibank, Inc.',status:'Active'},
+    {pn:'MUCC-103-03-66778899-3',name:'Carmelita Flores',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1800,bank:'Security Bank Corp.',status:'Fully Paid'},
+    {pn:'MUCC-103-03-55443322-4',name:'Rodrigo Cruz',provider:'SSS',type:'Retirement',pension:6500,bank:'Land Bank of the Philippines',status:'Active'},
+    {pn:'MUCC-103-03-44332211-5',name:'Teresita Bautista',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:2300,bank:'Philippine Savings Bank',status:'Active'},
+    {pn:'MUCC-103-03-33221100-6',name:'Eduardo Reyes',provider:'SSS',type:'Retirement',pension:3750,bank:'Maybank Philippines, Inc.',status:'Problem'},
+    {pn:'MUCC-103-03-22110099-7',name:'Lorena Dela Cruz',provider:'SSS',type:'Surviving Spouse of Dead Member',pension:1950,bank:'Philippine National Bank',status:'Active'},
+    {pn:'MUCC-103-03-11009988-8',name:'Francisco Mendoza',provider:'SSS',type:'Retirement',pension:4800,bank:'Bank of the Philippine Islands',status:'Active'},
+  ],
+  loans: [
+    {ref:'A2049Fi497',date:'2011-09-01',name:'Flora Hipolito',amort:1900,terms:1,principal:1900,proc:0,not:0,ins:0,interest:380,cashout:1520,status:'Active'},
+    {ref:'A2049Fh640',date:'2011-09-01',name:'Thelma Buan',amort:3400,terms:1,principal:3400,proc:0,not:0,ins:0,interest:680,cashout:2720,status:'Active'},
+    {ref:'A2049Fi179',date:'2011-09-01',name:'Ernesto Fajardo',amort:9700,terms:1,principal:9700,proc:0,not:0,ins:0,interest:1940,cashout:7760,status:'Active'},
+    {ref:'A2049Fg204',date:'2012-01-08',name:'Ricardo Torres',amort:1700,terms:7,principal:11900,proc:100,not:238,ins:0,interest:4046,cashout:7446,status:'Active'},
+    {ref:'A2049Fh339',date:'2011-09-01',name:'Cesar Edoria',amort:4000,terms:1,principal:4000,proc:0,not:0,ins:0,interest:800,cashout:3200,status:'Active'},
+    {ref:'A2049Fh532',date:'2011-09-01',name:'Jovita Marcelino',amort:3800,terms:1,principal:3800,proc:0,not:0,ins:0,interest:760,cashout:3040,status:'Active'},
+    {ref:'A2049Fh735',date:'2011-09-01',name:'Perlito Surio',amort:3200,terms:1,principal:3200,proc:0,not:0,ins:0,interest:640,cashout:2560,status:'Active'},
+    {ref:'A2049Fg003',date:'2011-11-05',name:'Anita Tubig',amort:1000,terms:4,principal:4000,proc:100,not:80,ins:0,interest:800,cashout:2980,status:'Active'},
+    {ref:'A2049Fh748',date:'2011-09-01',name:'Rosario Trillana',amort:1900,terms:1,principal:1900,proc:0,not:0,ins:0,interest:380,cashout:1520,status:'Active'},
+    {ref:'A2049Fh284',date:'2011-09-01',name:'Imelda Buan',amort:3400,terms:1,principal:3400,proc:0,not:0,ins:0,interest:680,cashout:2720,status:'Active'},
+    {ref:'A2049Fh705',date:'2011-09-01',name:'Marissa Batungbakal',amort:5700,terms:1,principal:5700,proc:0,not:0,ins:0,interest:1140,cashout:4560,status:'Active'},
+    {ref:'A2049Fi727',date:'2011-09-01',name:'Rowena Aquino',amort:1400,terms:1,principal:1400,proc:0,not:0,ins:0,interest:280,cashout:1120,status:'Active'},
+    {ref:'A2049Fi839',date:'2011-09-01',name:'Ofelia Santiago',amort:2600,terms:1,principal:2600,proc:0,not:0,ins:0,interest:520,cashout:2080,status:'Active'},
+    {ref:'A2049Fh441',date:'2011-09-01',name:'Herminia Latoza',amort:1700,terms:1,principal:1700,proc:0,not:0,ins:0,interest:340,cashout:1360,status:'Active'},
+    {ref:'A2049Fg839',date:'2012-03-26',name:'Diosdado Hiracay',amort:1700,terms:5,principal:8500,proc:100,not:170,ins:0,interest:3230,cashout:4950,status:'Active'},
+    {ref:'A2049Fg543',date:'2011-08-13',name:'Adelaida Sulog',amort:500,terms:6,principal:3000,proc:100,not:60,ins:0,interest:360,cashout:2420,status:'Active'},
+    {ref:'A2049Fh957',date:'2011-09-01',name:'Ma. Victoria Reyes',amort:1200,terms:1,principal:1200,proc:0,not:0,ins:0,interest:240,cashout:960,status:'Active'},
+    {ref:'A2049Fh832',date:'2011-09-01',name:'Feliciana Pascual',amort:2900,terms:1,principal:2900,proc:0,not:0,ins:0,interest:580,cashout:2320,status:'Active'},
+    {ref:'A2049Fi966',date:'2011-09-01',name:'Adoracion Santos',amort:3700,terms:1,principal:3700,proc:0,not:0,ins:0,interest:740,cashout:2960,status:'Active'},
+    {ref:'A2049Fi077',date:'2011-09-01',name:'Rodolfo Eugenio',amort:1400,terms:1,principal:1400,proc:0,not:0,ins:0,interest:280,cashout:1120,status:'Active'},
+    {ref:'A2049Fg427',date:'2011-11-12',name:'Editha Manabat',amort:1500,terms:3,principal:4500,proc:100,not:90,ins:0,interest:810,cashout:3470,status:'Active'},
+    {ref:'A2049Fh538',date:'2011-09-01',name:'Monica Villanueva',amort:1700,terms:1,principal:1700,proc:0,not:0,ins:0,interest:340,cashout:1360,status:'Active'},
+    {ref:'A2049Fj033',date:'2011-09-01',name:'Rizalino Tengco',amort:2800,terms:1,principal:2800,proc:0,not:0,ins:0,interest:560,cashout:2240,status:'Active'},
+    {ref:'A2049Fk112',date:'2011-09-01',name:'Carlito Dela Torre',amort:3100,terms:1,principal:3100,proc:0,not:0,ins:0,interest:620,cashout:2480,status:'Active'},
+    {ref:'A2049Fl224',date:'2011-09-1',name:'Marilou Corpuz',amort:2200,terms:1,principal:2200,proc:0,not:0,ins:0,interest:440,cashout:1760,status:'Active'},
+    {ref:'A2049Fm335',date:'2011-09-01',name:'Benedicto Gomez',amort:4500,terms:2,principal:9000,proc:0,not:0,ins:0,interest:1800,cashout:7200,status:'Active'},
+    {ref:'A2049Fn446',date:'2011-10-15',name:'Erlinda Paglinawan',amort:1800,terms:2,principal:3600,proc:100,not:72,ins:0,interest:720,cashout:2708,status:'Active'},
+    {ref:'A2049Fo557',date:'2011-09-01',name:'Domingo Castillo',amort:5000,terms:1,principal:5000,proc:0,not:0,ins:0,interest:1000,cashout:4000,status:'Active'},
+    {ref:'A2049Fp668',date:'2011-09-01',name:'Leonarda Garcia',amort:2700,terms:1,principal:2700,proc:0,not:0,ins:0,interest:540,cashout:2160,status:'Active'},
+    {ref:'A2049Fq779',date:'2011-09-01',name:'Roberto Aquino',amort:3300,terms:1,principal:3300,proc:0,not:0,ins:0,interest:660,cashout:2640,status:'Active'},
+  ],
+  approvals: [
+    {ref:'A28J33a216',date:'2025-09-30',name:'Ma. Nery Bacani',amort:2200,terms:18,principal:39600,status:'Pending'},
+    {ref:'A28C3Hc749',date:'2025-09-16',name:'Ma. Nery Bacani',amort:2000,terms:15,principal:30000,status:'Pending'},
+    {ref:'A22h3Ml598',date:'2025-03-26',name:'Eleuterio Reyes',amort:1000,terms:12,principal:12000,status:'Pending'},
+    {ref:'A24F7ww249',date:'2025-05-21',name:'MAURA Sapno',amort:10000,terms:12,principal:120000,status:'Pending'},
+    {ref:'A24f12k307',date:'2025-05-22',name:'Olivia Daria',amort:1200,terms:6,principal:7200,status:'Pending'},
+    {ref:'A22h353809',date:'2025-03-26',name:'Ma. Nery Bacani',amort:3900,terms:12,principal:46800,status:'Pending'},
+  ],
   vouchers: [],
   collections: [],
   changefunds: [],
-  banks: [],
-  bankaccounts: [],
-  products: [],
-  agents: [],
-  addresses: [],
-  lookups: [],
+  banks: [
+    {name:'Philippine National Bank',address:'Makati City',contact:'Juan Dela Cruz',position:'Manager',tel:'8888-1234'},
+    {name:'Security Bank Corp.',address:'Quezon City',contact:'Maria Santos',position:'Branch Head',tel:'8888-5678'},
+    {name:'BDO Unibank, Inc.',address:'Manila',contact:'Pedro Reyes',position:'VP',tel:'8888-9012'},
+  ],
+  bankaccounts: [
+    {bank:'Philippine National Bank',addr:'Makati City',acctno:'1234-5678-901'},
+    {bank:'Security Bank Corp.',addr:'Quezon City',acctno:'9876-5432-109'},
+  ],
+  products: [
+    {name:'Loan-70a',type:'New',description:'Standard loan product'},
+    {name:'Loan-72a',type:'Renewal',description:'Renewal loan product'},
+    {name:'BONUS LOAN August',type:'Bonus',description:'Bonus loan for August'},
+  ],
+  agents: [
+    {fname:'Ana',lname:'Santos',type:'Full-Time',addr:'Manila',contact:'0917-123-4567'},
+    {fname:'Roberto',lname:'Cruz',type:'Full-Time',addr:'Quezon City',contact:'0918-234-5678'},
+    {fname:'Maria',lname:'Dela Cruz',type:'Part-Time',addr:'Makati',contact:'0919-345-6789'},
+  ],
+  addresses: [
+    {code:'MAL001',addr:'Malolos, Bulacan'},
+    {code:'QC001',addr:'Quezon City'},
+    {code:'MNL001',addr:'Manila'},
+  ],
+  lookups: [
+    {word:'Active',order:1,code:'ACT'},
+    {word:'Problem',order:2,code:'PRB'},
+    {word:'Archived',order:3,code:'ARC'},
+  ],
 };
-
-const API_BASE = '/unilend/api.php';
-
-async function apiRequest(action, table, data = {}) {
-  const url = new URL(window.location.origin + API_BASE);
-  url.searchParams.set('action', action);
-  url.searchParams.set('table', table);
-
-  const opts = { credentials: 'same-origin' };
-  if (action === 'list' || action === 'get') {
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        url.searchParams.set(key, value);
-      }
-    });
-  } else {
-    opts.method = 'POST';
-    opts.headers = { 'Content-Type': 'application/json' };
-    opts.body = JSON.stringify(data);
-  }
-
-  const resp = await fetch(url.toString(), opts);
-  const json = await resp.json();
-  if (!json.success) {
-    throw new Error(json.message || 'API request failed');
-  }
-  return json;
-}
 
 async function loadTable(table) {
   try {
-    const result = await apiRequest('list', table);
-    DB[table] = Array.isArray(result.data) ? result.data : [];
+    DB[table] = Array.isArray(DB[table]) ? DB[table] : [];
     if (table === 'bankaccounts') {
       renderBankAccounts();
     } else {
@@ -151,7 +214,7 @@ function renderBankAccounts(){
   tb.innerHTML=DB.bankaccounts.map((r,i)=>`<tr><td></td><td class="bold">${r.bank}</td><td style="color:var(--text3)">${r.addr}</td><td class="mono">${r.acctno}</td><td class="num">₱${fmt(r.bal)}</td><td><div class="ag"><button class="ab edit" onclick="editBankAcct(${i})" title="Edit">✏️</button><button class="ab del" onclick="delBankAcct(${i})" title="Delete">🗑️</button></div></td></tr>`).join('');
 }
 function editBankAcct(i){const r=DB.bankaccounts[i];sv('ba-bank',r.bank);sv('ba-addr',r.addr);sv('ba-acctno',r.acctno);editIdx.bankaccounts=i;openM('m-bankaccount');}
-async function delBankAcct(i){confirmDlg('Delete Bank Account','This cannot be undone.',async()=>{const rec=DB.bankaccounts[i];if(rec?.id){try{await apiRequest('delete','bankaccounts',{id:rec.id});}catch(err){toast('⚠️ '+err.message,'error');return;}}DB.bankaccounts.splice(i,1);renderBankAccounts();toast('🗑️ Deleted','success');});}
+function delBankAcct(i){confirmDlg('Delete Bank Account','This cannot be undone.',()=>{DB.bankaccounts.splice(i,1);renderBankAccounts();toast('🗑️ Deleted','success');});}
 
 // ══ EDIT ROW ══
 function editRow(k,idx){
@@ -173,9 +236,9 @@ function editRow(k,idx){
 }
 
 // ══ DELETE ROW ══
-async function delRow(k,idx){
+function delRow(k,idx){
   const data=getFiltered(k);const r=data[idx];const aIdx=DB[k].indexOf(r);
-  confirmDlg('Delete Record','Delete this record? Cannot be undone.',async()=>{if(r?.id){try{await apiRequest('delete',k,{id:r.id});}catch(err){toast('⚠️ '+err.message,'error');return;}}DB[k].splice(aIdx,1);renderT(k);toast('🗑️ Deleted','success');});
+  confirmDlg('Delete Record','Delete this record? Cannot be undone.',()=>{DB[k].splice(aIdx,1);renderT(k);toast('🗑️ Deleted','success');});
 }
 function printRow(k,idx){const data=getFiltered(k);const r=data[idx];toast('🖨️ Printing '+Object.values(r)[0],'success');}
 
@@ -195,17 +258,17 @@ function openProcessModal(idx){
   openM('m-process-loan');
 }
 function viewApproval(idx){openProcessModal(idx);}
-async function approveLoan(){
+function approveLoan(){
   const data=getFiltered('approvals');const r=data[curApprovalIdx];const aIdx=DB.approvals.indexOf(r);
-  confirmDlg('Approve Loan',`Approve loan ${r.ref} for ${r.name}?`,async()=>{
-    try{if(r?.id){await apiRequest('update','approvals',{id:r.id,status:'Approved'});}DB.approvals[aIdx].status='Approved';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✅ Loan approved!','success');}catch(err){toast('⚠️ '+err.message,'error');}
+  confirmDlg('Approve Loan',`Approve loan ${r.ref} for ${r.name}?`,()=>{
+    DB.approvals[aIdx].status='Approved';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✅ Loan approved!','success');
   });
 }
-async function denyLoan(){
+function denyLoan(){
   const data=getFiltered('approvals');const r=data[curApprovalIdx];const aIdx=DB.approvals.indexOf(r);
   const remarks=gv('process-remarks');
-  confirmDlg('Deny Loan',`Deny loan ${r.ref}?`,async()=>{
-    try{if(r?.id){await apiRequest('update','approvals',{id:r.id,status:'Denied',remarks});}DB.approvals[aIdx].status='Denied';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✗ Loan denied','error');}catch(err){toast('⚠️ '+err.message,'error');}
+  confirmDlg('Deny Loan',`Deny loan ${r.ref}?`,()=>{
+    DB.approvals[aIdx].status='Denied';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✗ Loan denied','error');
   });
 }
 function updatePendingBadge(){const cnt=DB.approvals.filter(a=>a.status==='Pending').length;const el=document.getElementById('pending-badge');if(el)el.textContent=cnt;const el2=document.getElementById('cnt-pending');if(el2)el2.textContent=cnt;}
@@ -269,108 +332,86 @@ function exportCSV(k){
 }
 
 // ══ SAVE FUNCTIONS ══
-async function saveAccount(){
+function saveAccount(){
   if(!gv('ai-fname')||!gv('ai-lname')){toast('⚠️ First and Last Name are required','error');return;}
   const name=`${gv('ai-fname')} ${gv('ai-mname')?gv('ai-mname')+' ':''}${gv('ai-lname')}`.replace(/\s+/g,' ').trim();
   const rec={pn:gv('ai-pnum')||'MUCC-103-'+Date.now(),name,provider:gv('ai-provider'),type:gv('ai-ptype'),pension:parseFloat(gv('ai-pamount')||0),bank:gv('ai-bank'),status:gv('ai-pstatus')||'Active'};
-  try{
-    if(editIdx.accounts!==undefined){const id=DB.accounts[editIdx.accounts]?.id; if(id)rec.id=id; await apiRequest('update','accounts',rec);DB.accounts[editIdx.accounts]=rec;delete editIdx.accounts;toast('✅ Account updated!','success');}
-    else{const res=await apiRequest('create','accounts',rec);rec.id=res.data.id;DB.accounts.push(rec);toast('✅ Account created!','success');}
-    closeM('m-account');renderT('accounts');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.accounts!==undefined){DB.accounts[editIdx.accounts]=rec;delete editIdx.accounts;toast('✅ Account updated!','success');}
+  else{DB.accounts.push(rec);toast('✅ Account created!','success');}
+  closeM('m-account');renderT('accounts');
 }
-async function saveLoan(){
+function saveLoan(){
   if(!gv('ln-customer')){toast('⚠️ Customer name required','error');return;}
   const a=parseFloat(gv('ln-amort')||0);const t=parseInt(gv('ln-terms')||12);const pr=a*t;const int=pr*0.2;const net=parseFloat(gv('ln-net')||0);
   const rec={ref:'A'+Date.now().toString(36).toUpperCase().slice(-8),date:gv('ln-ldate')||today(),name:gv('ln-customer'),amort:a,terms:t,principal:pr,proc:parseFloat(gv('ln-proc')||0),not:parseFloat(gv('ln-not')||0),ins:parseFloat(gv('ln-ins')||0),interest:int,cashout:net,status:'Active'};
-  try{
-    if(editIdx.loans!==undefined){const id=DB.loans[editIdx.loans]?.id; if(id)rec.id=id; await apiRequest('update','loans',rec);DB.loans[editIdx.loans]=rec;delete editIdx.loans;toast('✅ Loan updated!','success');}
-    else{const res=await apiRequest('create','loans',rec);rec.id=res.data.id;DB.loans.push(rec);toast('✅ Loan created!','success');}
-    closeM('m-loan');renderT('loans');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.loans!==undefined){DB.loans[editIdx.loans]=rec;delete editIdx.loans;toast('✅ Loan updated!','success');}
+  else{DB.loans.push(rec);toast('✅ Loan created!','success');}
+  closeM('m-loan');renderT('loans');
 }
-async function saveVoucher(){
+function saveVoucher(){
   if(!gv('v-payee')){toast('⚠️ Payee required','error');return;}
   const nextNo=String(DB.vouchers.length+1).padStart(10,'0');
   const rec={no:nextNo,date:gv('v-date')||today(),payee:gv('v-payee'),acct:(gv('v-bankacct')||'').split(' ')[0],amount:parseFloat(gv('v-amount')||0),status:'Active'};
-  try{
-    if(editIdx.vouchers!==undefined){const id=DB.vouchers[editIdx.vouchers]?.id; if(id)rec.id=id; await apiRequest('update','vouchers',rec);DB.vouchers[editIdx.vouchers]=rec;delete editIdx.vouchers;toast('✅ Voucher updated!','success');}
-    else{const res=await apiRequest('create','vouchers',rec);rec.id=res.data.id;DB.vouchers.push(rec);toast('✅ Voucher created!','success');}
-    closeM('m-voucher');renderT('vouchers');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.vouchers!==undefined){DB.vouchers[editIdx.vouchers]=rec;delete editIdx.vouchers;toast('✅ Voucher updated!','success');}
+  else{DB.vouchers.push(rec);toast('✅ Voucher created!','success');}
+  closeM('m-voucher');renderT('vouchers');
 }
-async function saveCollection(){
+function saveCollection(){
   if(!gv('cl-customer')){toast('⚠️ Customer required','error');return;}
   const nextNo=String(300000+DB.collections.length+1).padStart(10,'0');
   const rec={no:nextNo,date:gv('cl-date')||today(),cust:gv('cl-customer'),amount:parseFloat(gv('cl-amount')||0),bonus:parseFloat(gv('cl-bonus')||0),remarks:gv('cl-remarks'),status:'Active'};
-  try{
-    if(editIdx.collections!==undefined){const id=DB.collections[editIdx.collections]?.id; if(id)rec.id=id; await apiRequest('update','collections',rec);DB.collections[editIdx.collections]=rec;delete editIdx.collections;toast('✅ Collection updated!','success');}
-    else{const res=await apiRequest('create','collections',rec);rec.id=res.data.id;DB.collections.push(rec);toast('✅ Collection recorded!','success');}
-    closeM('m-collection');renderT('collections');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.collections!==undefined){DB.collections[editIdx.collections]=rec;delete editIdx.collections;toast('✅ Collection updated!','success');}
+  else{DB.collections.push(rec);toast('✅ Collection recorded!','success');}
+  closeM('m-collection');renderT('collections');
 }
-async function saveChangeFund(){
+function saveChangeFund(){
   if(!gv('cf-custname')){toast('⚠️ Customer name required','error');return;}
   const nextNo=String(DB.changefunds.length+1).padStart(10,'0');
   const rec={no:nextNo,date:gv('cf-date')||today(),type:gv('cf-type'),amount:parseFloat(gv('cf-amount')||0),name:gv('cf-custname'),remarks:gv('cf-remarks'),branch:gv('cf-branch')||'Malolos'};
-  try{
-    if(editIdx.changefunds!==undefined){const id=DB.changefunds[editIdx.changefunds]?.id; if(id)rec.id=id; await apiRequest('update','changefunds',rec);DB.changefunds[editIdx.changefunds]=rec;delete editIdx.changefunds;toast('✅ Change Fund updated!','success');}
-    else{const res=await apiRequest('create','changefunds',rec);rec.id=res.data.id;DB.changefunds.push(rec);toast('✅ Change Fund created!','success');}
-    closeM('m-changefund');renderT('changefunds');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.changefunds!==undefined){DB.changefunds[editIdx.changefunds]=rec;delete editIdx.changefunds;toast('✅ Change Fund updated!','success');}
+  else{DB.changefunds.push(rec);toast('✅ Change Fund created!','success');}
+  closeM('m-changefund');renderT('changefunds');
 }
-async function saveBank(){
+function saveBank(){
   if(!gv('bk-name')){toast('⚠️ Bank name required','error');return;}
   const rec={name:gv('bk-name'),addr:gv('bk-addr'),contact:gv('bk-contact'),pos:gv('bk-pos'),tel:gv('bk-tel')};
-  try{
-    if(editIdx.banks!==undefined){const id=DB.banks[editIdx.banks]?.id; if(id)rec.id=id; await apiRequest('update','banks',rec);DB.banks[editIdx.banks]=rec;delete editIdx.banks;toast('✅ Bank updated!','success');}
-    else{const res=await apiRequest('create','banks',rec);rec.id=res.data.id;DB.banks.push(rec);toast('✅ Bank created!','success');}
-    closeM('m-bank');renderT('banks');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.banks!==undefined){DB.banks[editIdx.banks]=rec;delete editIdx.banks;toast('✅ Bank updated!','success');}
+  else{DB.banks.push(rec);toast('✅ Bank created!','success');}
+  closeM('m-bank');renderT('banks');
 }
-async function saveBankAccount(){
+function saveBankAccount(){
   if(!gv('ba-acctno')){toast('⚠️ Account No. required','error');return;}
   const rec={bank:gv('ba-bank'),addr:gv('ba-addr'),acctno:gv('ba-acctno'),bal:0};
-  try{
-    if(editIdx.bankaccounts!==undefined){const id=DB.bankaccounts[editIdx.bankaccounts]?.id; if(id)rec.id=id; await apiRequest('update','bankaccounts',rec);DB.bankaccounts[editIdx.bankaccounts]=rec;delete editIdx.bankaccounts;}
-    else{const res=await apiRequest('create','bankaccounts',rec);rec.id=res.data.id;DB.bankaccounts.push(rec);}
-    closeM('m-bankaccount');renderBankAccounts();toast('✅ Bank Account saved!','success');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.bankaccounts!==undefined){DB.bankaccounts[editIdx.bankaccounts]=rec;delete editIdx.bankaccounts;}
+  else{DB.bankaccounts.push(rec);}
+  closeM('m-bankaccount');renderBankAccounts();toast('✅ Bank Account saved!','success');
 }
-async function saveProduct(){
+function saveProduct(){
   if(!gv('pr-name')){toast('⚠️ Product name required','error');return;}
   const rec={name:gv('pr-name'),type:gv('pr-type'),desc:gv('pr-desc')};
-  try{
-    if(editIdx.products!==undefined){const id=DB.products[editIdx.products]?.id; if(id)rec.id=id; await apiRequest('update','products',rec);DB.products[editIdx.products]=rec;delete editIdx.products;toast('✅ Product updated!','success');}
-    else{const res=await apiRequest('create','products',rec);rec.id=res.data.id;DB.products.push(rec);toast('✅ Product created!','success');}
-    closeM('m-product');renderT('products');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.products!==undefined){DB.products[editIdx.products]=rec;delete editIdx.products;toast('✅ Product updated!','success');}
+  else{DB.products.push(rec);toast('✅ Product created!','success');}
+  closeM('m-product');renderT('products');
 }
-async function saveAgent(){
+function saveAgent(){
   if(!gv('ag-fname')||!gv('ag-lname')){toast('⚠️ First and Last Name required','error');return;}
   const name=`${gv('ag-fname')} ${gv('ag-lname')}`.trim();
   const rec={name,type:gv('ag-type'),addr:gv('ag-addr'),contact:gv('ag-contact')};
-  try{
-    if(editIdx.agents!==undefined){const id=DB.agents[editIdx.agents]?.id; if(id)rec.id=id; await apiRequest('update','agents',rec);DB.agents[editIdx.agents]=rec;delete editIdx.agents;toast('✅ Agent updated!','success');}
-    else{const res=await apiRequest('create','agents',rec);rec.id=res.data.id;DB.agents.push(rec);toast('✅ Agent created!','success');}
-    closeM('m-agent');renderT('agents');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.agents!==undefined){DB.agents[editIdx.agents]=rec;delete editIdx.agents;toast('✅ Agent updated!','success');}
+  else{DB.agents.push(rec);toast('✅ Agent created!','success');}
+  closeM('m-agent');renderT('agents');
 }
-async function saveAddress(){
+function saveAddress(){
   if(!gv('addr-code')||!gv('addr-addr')){toast('⚠️ Code and Address required','error');return;}
   const rec={code:gv('addr-code'),addr:gv('addr-addr')};
-  try{
-    if(editIdx.addresses!==undefined){const id=DB.addresses[editIdx.addresses]?.id; if(id)rec.id=id; await apiRequest('update','addresses',rec);DB.addresses[editIdx.addresses]=rec;delete editIdx.addresses;toast('✅ Address updated!','success');}
-    else{const res=await apiRequest('create','addresses',rec);rec.id=res.data.id;DB.addresses.push(rec);toast('✅ Address created!','success');}
-    closeM('m-address');renderT('addresses');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.addresses!==undefined){DB.addresses[editIdx.addresses]=rec;delete editIdx.addresses;toast('✅ Address updated!','success');}
+  else{DB.addresses.push(rec);toast('✅ Address created!','success');}
+  closeM('m-address');renderT('addresses');
 }
-async function saveLookup(){
+function saveLookup(){
   if(!gv('lu-word')){toast('⚠️ LookUpWord is required','error');return;}
   const rec={word:gv('lu-word'),order:parseInt(gv('lu-order')||DB.lookups.length+1),code:gv('lu-code')};
-  try{
-    if(editIdx.lookups!==undefined){const id=DB.lookups[editIdx.lookups]?.id; if(id)rec.id=id; await apiRequest('update','lookups',rec);DB.lookups[editIdx.lookups]=rec;delete editIdx.lookups;toast('✅ LookUp updated!','success');}
-    else{const res=await apiRequest('create','lookups',rec);rec.id=res.data.id;DB.lookups.push(rec);toast('✅ LookUp created!','success');}
-    closeM('m-lookup');renderT('lookups');
-  }catch(err){toast('⚠️ '+err.message,'error');}
+  if(editIdx.lookups!==undefined){DB.lookups[editIdx.lookups]=rec;delete editIdx.lookups;toast('✅ LookUp updated!','success');}
+  else{DB.lookups.push(rec);toast('✅ LookUp created!','success');}
+  closeM('m-lookup');renderT('lookups');
 }
