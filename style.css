@@ -6,6 +6,16 @@
   --text:#f1f5f9;--text2:#cbd5e1;--text3:#94a3b8;
   --radius:14px;--sw:236px;--th:58px;--tr:all 0.25s cubic-bezier(.4,0,.2,1);
 }
+.light-mode{
+  --navy:#f8fafc;--navy2:#e2e8f0;--navy3:#cbd5e1;
+  --blue:#2563eb;--blue2:#1d4ed8;--teal:#0284c7;
+  --gold:#d97706;--emerald:#059669;--rose:#e11d48;
+  --border:rgba(0,0,0,0.1);--card:rgba(255,255,255,0.7);--card2:rgba(255,255,255,0.9);
+  --text:#1e293b;--text2:#475569;--text3:#64748b;
+}
+.light-mode .sidebar{background:linear-gradient(180deg,#f1f5f9,#e2e8f0);box-shadow:4px 0 24px rgba(0,0,0,.1);}
+.light-mode .topbar{background:rgba(248,250,252,.88);border-bottom-color:rgba(0,0,0,0.1);}
+.light-mode ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.2);}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;}
 ::-webkit-scrollbar{width:4px;height:4px;}

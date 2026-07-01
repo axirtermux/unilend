@@ -415,3 +415,22 @@ function saveLookup(){
   else{DB.lookups.push(rec);toast('✅ LookUp created!','success');}
   closeM('m-lookup');renderT('lookups');
 }
+
+// ══ THEME TOGGLE ══
+function toggleTheme(){
+  document.body.classList.toggle('light-mode');
+  const isLight=document.body.classList.contains('light-mode');
+  const btn=document.getElementById('theme-btn');
+  if(btn)btn.textContent=isLight?'☀️':'🌙';
+  localStorage.setItem('theme',isLight?'light':'dark');
+  toast(isLight?'☀️ Light mode enabled':'🌙 Dark mode enabled','success');
+}
+function loadTheme(){
+  const saved=localStorage.getItem('theme');
+  if(saved==='light'){
+    document.body.classList.add('light-mode');
+    const btn=document.getElementById('theme-btn');
+    if(btn)btn.textContent='☀️';
+  }
+}
+window.addEventListener('DOMContentLoaded',loadTheme);
