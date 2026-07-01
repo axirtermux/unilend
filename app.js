@@ -1,249 +1,70 @@
 // ══ DATABASE ══
 const DB = {
-  accounts:[
-    {pn:'MUCC-103-001',name:'Adela Buriel',provider:'SSS',type:'Loan-70n',pension:8500,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-002',name:'Reynaldo Bascon',provider:'SSS',type:'Loan-72n',pension:9200,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-003',name:'Zenaldo Clavio',provider:'SSS',type:'Loan-75n',pension:10500,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-004',name:'Teodora Dionisio',provider:'SSS',type:'Loan-79n',pension:11200,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-005',name:'Eduardo Laquindanum',provider:'SSS',type:'Loan-80n',pension:12500,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-006',name:'Zenaida Dela Cruz',provider:'SSS',type:'Loan-70x',pension:8500,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-007',name:'Thelma Dionisio',provider:'SSS',type:'Loan-72x',pension:9200,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-008',name:'Hospicio Dulay',provider:'SSS',type:'Loan-75x',pension:10500,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-009',name:'Mercedita Esguerra',provider:'SSS',type:'Loan-79x',pension:11200,bank:'2012-7000-5585',status:'Active'},
-    {pn:'MUCC-103-010',name:'Leticia Espiritu',provider:'SSS',type:'Loan-80x',pension:12500,bank:'2012-7000-5585',status:'Active'},
-  ],
-  loans:[
-    {ref:'A33L5QE866',date:'2025-03-15',name:'Julius Bolanos',amort:4200,terms:12,principal:50400,proc:504,not:0,ins:0,interest:10080,cashout:39816,status:'Active'},
-    {ref:'A92K4MX739',date:'2025-04-22',name:'Maria Santos',amort:3800,terms:18,principal:68400,proc:684,not:0,ins:0,interest:13680,cashout:54036,status:'Active'},
-    {ref:'B47N8PQ215',date:'2025-05-10',name:'Roberto Cruz',amort:4500,terms:24,principal:108000,proc:1080,not:0,ins:0,interest:21600,cashout:85320,status:'Active'},
-    {ref:'C15R3ST847',date:'2025-06-05',name:'Carmen Reyes',amort:5200,terms:12,principal:62400,proc:624,not:0,ins:0,interest:12480,cashout:49296,status:'Active'},
-    {ref:'D28M7VY963',date:'2025-07-18',name:'Fernando Lopez',amort:4800,terms:18,principal:86400,proc:864,not:0,ins:0,interest:17280,cashout:68256,status:'Active'},
-  ],
-  approvals:[
-    {ref:'A88L2ZE754',date:'2025-08-01',name:'Lourdes Torres',amort:3900,terms:12,principal:46800,status:'Pending'},
-    {ref:'B55K9MX328',date:'2025-08-05',name:'Eduardo Ramos',amort:4100,terms:18,principal:73800,status:'Pending'},
-    {ref:'C33N7PQ441',date:'2025-08-10',name:'Gloria Hernandez',amort:4700,terms:24,principal:112800,status:'Pending'},
-    {ref:'D66M3VY855',date:'2025-08-12',name:'Rodrigo Flores',amort:5100,terms:12,principal:61200,status:'Pending'},
-    {ref:'E77R4ST966',date:'2025-08-15',name:'Teresita Gutierrez',amort:4300,terms:18,principal:77400,status:'Pending'},
-  ],
-  vouchers:[
-    {no:'0000000010',date:'2025-03-28',payee:'Francisco Rivera',acct:'2012-7000-5585',amount:0,status:'Active'},
-    {no:'0000000011',date:'2025-05-21',payee:'Rodolfo Vistan',acct:'2012-7000-5585',amount:0,status:'Active'},
-    {no:'0000000012',date:'2025-05-21',payee:'Pablo Marquez',acct:'2012-7000-5585',amount:0,status:'Active'},
-    {no:'0000000013',date:'2025-05-22',payee:'Teodorica Delgado',acct:'2012-7000-5585',amount:0,status:'Active'},
-    {no:'0000000014',date:'2025-05-26',payee:'Gloria De Leon',acct:'2012-7000-5585',amount:0,status:'Active'},
-    {no:'0000000015',date:'2025-05-26',payee:'Olivia Santos',acct:'2012-7000-5585',amount:0,status:'Active'},
-    {no:'0000000016',date:'2025-05-26',payee:'Romulo Berey',acct:'2012-7000-5585',amount:0,status:'Active'},
-    {no:'0000000017',date:'2025-06-10',payee:'KENNITH A. OCHOA',acct:'2012-7000-5585',amount:20000,status:'Active'},
-    {no:'0000000018',date:'2025-06-10',payee:'Virginia Clemente',acct:'2012-7000-5585',amount:1615,status:'Active'},
-    {no:'0000000019',date:'2025-07-18',payee:'Herminia Latoza',acct:'2012-7000-5585',amount:4376,status:'Active'},
-    {no:'0000000020',date:'2025-10-13',payee:'Patrick Delos Santos',acct:'2012-7000-5585',amount:59350,status:'Active'},
-    {no:'0000000021',date:'2026-04-13',payee:'KENNITH A. OCHOA',acct:'2012-7000-5585',amount:20000,status:'Active'},
-    {no:'0000000022',date:'2026-04-27',payee:'Rufina Bodino',acct:'2012-7000-5585',amount:7447,status:'Active'},
-    {no:'0000000023',date:'2026-04-27',payee:'JAISSA DUPLON',acct:'2012-7000-5585',amount:10000,status:'Active'},
-    {no:'0000000024',date:'2026-04-27',payee:'Elenita Hilario',acct:'2012-7000-5585',amount:5000,status:'Active'},
-  ],
-  collections:[
-    {no:'0000300139',date:'2011-10-10',cust:'Adela Buriel',amount:2800,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300193',date:'2011-10-09',cust:'Reynaldo Bascon',amount:6000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300240',date:'2011-10-26',cust:'Zenaldo Clavio',amount:12900,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300253',date:'2011-10-17',cust:'Teodora Dionisio',amount:2300,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300303',date:'2011-09-18',cust:'Eduardo Laquindanum',amount:1000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300304',date:'2011-10-17',cust:'Eduardo Laquindanum',amount:1000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300357',date:'2011-11-14',cust:'Zenaida Dela Cruz',amount:3200,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300360',date:'2011-11-30',cust:'Thelma Dionisio',amount:12400,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300362',date:'2011-11-30',cust:'Hospicio Dulay',amount:6500,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300363',date:'2011-11-03',cust:'Mercedita Esguerra',amount:2000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300364',date:'2011-11-30',cust:'Mercedita Esguerra',amount:2000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300369',date:'2011-11-30',cust:'Leticia Espiritu',amount:1000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300370',date:'2011-10-10',cust:'Jorge Estrada',amount:3500,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300371',date:'2011-11-14',cust:'Jorge Estrada',amount:3500,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300372',date:'2011-11-30',cust:'Jorge Estrada',amount:7500,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300375',date:'2011-10-03',cust:'Julian Caparas',amount:4000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300376',date:'2011-11-02',cust:'Julian Caparas',amount:4000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300377',date:'2011-11-30',cust:'Julian Caparas',amount:4000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300381',date:'2011-10-02',cust:'Bienvenido Francisco',amount:3800,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300390',date:'2011-12-19',cust:'Feliciana Pascual',amount:5400,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300391',date:'2011-12-06',cust:'Victoria Gatchalian',amount:1000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300392',date:'2012-01-02',cust:'Victoria Gatchalian',amount:1000,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300393',date:'2012-01-30',cust:'Carmelita Llamas',amount:2400,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300394',date:'2012-02-28',cust:'Roberto Hernandez',amount:5500,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300395',date:'2012-03-31',cust:'Nora Villanueva',amount:3200,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300396',date:'2012-04-30',cust:'Ramon Gutierrez',amount:7800,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300397',date:'2012-05-31',cust:'Amelia Castillo',amount:1500,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300398',date:'2012-06-30',cust:'Domingo Reyes',amount:4200,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300399',date:'2012-07-31',cust:'Elena Santos',amount:6100,bonus:0,remarks:'',status:'Active'},
-    {no:'0000300400',date:'2012-08-31',cust:'Pedro Cruz',amount:2900,bonus:0,remarks:'',status:'Active'},
-  ],
-  changefunds:[
-    {no:'0000000001',date:'2025-02-06',type:'Credit',amount:2000,name:'Ma. Nery Bacani',remarks:'',branch:'Malolos'},
-    {no:'0000000002',date:'2025-02-06',type:'Debit',amount:2000,name:'Ma. Nery Bacani',remarks:'Ref Collection#: 0000452775',branch:'Malolos'},
-    {no:'0000000003',date:'2025-03-26',type:'Credit',amount:5000,name:'MARINO QUITELES',remarks:'',branch:'Malolos'},
-    {no:'0000000004',date:'2025-03-26',type:'Credit',amount:200,name:'Leoncia Ganaden',remarks:'',branch:'Malolos'},
-    {no:'0000000005',date:'2025-03-26',type:'Debit',amount:2400,name:'MARINO QUITELES',remarks:'Ref Collection#: 0000452776',branch:'Malolos'},
-    {no:'0000000006',date:'2025-03-26',type:'Credit',amount:24000,name:'MARINO QUITELES',remarks:'',branch:'Malolos'},
-    {no:'0000000007',date:'2025-03-26',type:'Credit',amount:500,name:'Fe Ablaza',remarks:'',branch:'Malolos'},
-    {no:'0000000008',date:'2025-03-26',type:'Debit',amount:500,name:'Fe Ablaza',remarks:'Ref Collection#: 0000452777',branch:'Malolos'},
-    {no:'0000000009',date:'2025-03-26',type:'Credit',amount:200,name:'Olivia Daria',remarks:'',branch:'Malolos'},
-    {no:'0000000010',date:'2025-03-26',type:'Credit',amount:1000,name:'Rufina Bodino',remarks:'CF MAR (2025.03.26-POSBAL)',branch:'Malolos'},
-    {no:'0000000011',date:'2025-03-26',type:'Credit',amount:500,name:'Fe Ablaza',remarks:'',branch:'Malolos'},
-    {no:'0000000012',date:'2025-03-26',type:'Credit',amount:500,name:'Rufina Bodino',remarks:'SSS CF: MARCH',branch:'Malolos'},
-    {no:'0000000013',date:'2025-03-28',type:'Debit',amount:400,name:'Ricardo Ablaza',remarks:'Ref Collection#: 0000452780',branch:'Malolos'},
-    {no:'0000000014',date:'2025-03-28',type:'Credit',amount:400,name:'Ricardo Ablaza',remarks:'',branch:'Malolos'},
-    {no:'0000000015',date:'2025-05-22',type:'Credit',amount:0,name:'Rufina Bodino',remarks:'',branch:'Malolos'},
-    {no:'0000000016',date:'2025-10-13',type:'Debit',amount:5000,name:'Patrick Delos Santos',remarks:'lost coll. (OCT 2025)',branch:'Malolos'},
-    {no:'0000000017',date:'2025-10-16',type:'Debit',amount:7000,name:'Patrick Delos Santos',remarks:'Ref Collection#: 0000452782',branch:'Malolos'},
-    {no:'0000000018',date:'2025-10-16',type:'Debit',amount:7000,name:'Patrick Delos Santos',remarks:'',branch:'Malolos'},
-    {no:'0000000019',date:'2026-04-13',type:'Debit',amount:200,name:'Reynaldo De Guzman',remarks:'Ref Collection#: 0000452784',branch:'Malolos'},
-    {no:'0000000020',date:'2026-04-13',type:'Debit',amount:1000,name:'Eleuterio Reyes',remarks:'Ref Collection#: 0000452785',branch:'Malolos'},
-    {no:'0000000021',date:'2026-04-13',type:'Debit',amount:1800,name:'Fe Ablaza',remarks:'Ref Collection#: 0000452786',branch:'Malolos'},
-    {no:'0000000022',date:'2026-04-13',type:'Debit',amount:480,name:'Olivia Daria',remarks:'Ref Collection#: 0000452787',branch:'Malolos'},
-    {no:'0000000023',date:'2026-04-13',type:'Debit',amount:4000,name:'Elenita Hilario',remarks:'Ref Collection#: 0000452788',branch:'Malolos'},
-    {no:'0000000024',date:'2026-04-27',type:'Credit',amount:3500,name:'Ma. Nery Bacani',remarks:'',branch:'Malolos'},
-    {no:'0000000025',date:'2026-04-27',type:'Debit',amount:2000,name:'Ricardo Ablaza',remarks:'Ref Collection#: 0000452789',branch:'Malolos'},
-    {no:'0000000026',date:'2026-04-27',type:'Credit',amount:1200,name:'Leonora Gili',remarks:'',branch:'Malolos'},
-    {no:'0000000027',date:'2026-04-27',type:'Debit',amount:800,name:'Anita Clemente',remarks:'Ref Collection#: 0000452790',branch:'Malolos'},
-  ],
-  banks:[
-    {name:'Allied Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Asia United Bank Corporation',addr:'',contact:'',pos:'',tel:''},
-    {name:'Bank of Commerce',addr:'',contact:'',pos:'',tel:''},
-    {name:'Bank of the Philippine Islands',addr:'',contact:'',pos:'',tel:''},
-    {name:'BDO Unibank, Inc.',addr:'',contact:'',pos:'',tel:''},
-    {name:'China Banking Corporation',addr:'',contact:'',pos:'',tel:''},
-    {name:'CTBC Bank (Philippines) Corporation',addr:'',contact:'',pos:'',tel:''},
-    {name:'Development Bank of the Philippines',addr:'',contact:'',pos:'',tel:''},
-    {name:'East West Banking Corp.',addr:'',contact:'',pos:'',tel:''},
-    {name:'Gateway Rural Bank, Inc.',addr:'',contact:'',pos:'',tel:''},
-    {name:'Land Bank of the Philippines',addr:'',contact:'',pos:'',tel:''},
-    {name:'Maybank Philippines, Inc.',addr:'',contact:'',pos:'',tel:''},
-    {name:'Metropolitan Bank and Trust Co.',addr:'',contact:'',pos:'',tel:''},
-    {name:'Overseas Filipino Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Palawan Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Philippine Bank of Communications',addr:'',contact:'',pos:'',tel:''},
-    {name:'Philippine Business Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Philippine National Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Philippine Savings Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Philippine Trust Company',addr:'',contact:'',pos:'',tel:''},
-    {name:'Philippine Veterans Affairs Office',addr:'',contact:'',pos:'',tel:''},
-    {name:'Philippine Veterans Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Security Bank Corp.',addr:'',contact:'',pos:'',tel:''},
-    {name:'United Coconut Planters Bank',addr:'',contact:'',pos:'',tel:''},
-    {name:'Unionbank of the Philippines',addr:'',contact:'',pos:'',tel:''},
-  ],
-  bankaccounts:[
-    {bank:'Metropolitan Bank and Trust Co.',addr:'',acctno:'MB-1234',bal:0},
-    {bank:'Philippine National Bank',addr:'',acctno:'2012-7000-5585',bal:0},
-  ],
-  products:[
-    {name:'Loan-70a',type:'Additional',desc:'Additional loan for Pensioners 70 years old and below'},
-    {name:'Loan-72a',type:'Additional',desc:'Additional loan for Pensioners 71 to 72 years old'},
-    {name:'Loan-75a',type:'Additional',desc:'Additional loan for Pensioners 73 to 75 years old'},
-    {name:'Loan-79a',type:'Additional',desc:'Additional loan for Pensioners 76 to 79 years old'},
-    {name:'Loan-80a',type:'Additional',desc:'Additional loan for Pensioners 80 and ABOVE'},
-    {name:'BONUS LOAN August',type:'Bonus',desc:'Bonus loan for SSS clients - August only'},
-    {name:'BONUS LOAN July',type:'Bonus',desc:'Bonus loan for SSS clients - July only'},
-    {name:'BONUS LOAN November',type:'Bonus',desc:'Bonus loan for SSS clients - November only'},
-    {name:'BONUS LOAN October',type:'Bonus',desc:'Bonus loan for SSS clients - October only'},
-    {name:'BONUS LOAN September',type:'Bonus',desc:'Bonus loan for SSS clients - September only'},
-    {name:'BUY-OUT 70n (AGENT BASED)',type:'BUY OUT NEW',desc:'For Agent Based Buy-out Clients'},
-    {name:'BuyOut-70n - New and Below (WALK-IN)',type:'BUY OUT NEW',desc:'For prospective buy-out clients'},
-    {name:'BUY-OUT 70r (AGENT BASED)',type:'BUY OUT REN',desc:'For Agent Based Buy-out Clients'},
-    {name:'BuyOut-70r - Renewal and Below',type:'BUY OUT REN',desc:'For prospective buy-out clients'},
-    {name:'CORRECTIVE DISCOUNTED LOAN EXTENSION',type:'CORRECTIVE DISCOUNT LOAN',desc:'Discounted Extension Loan from current date to date of ACOP/APIR'},
-    {name:'CORRECTIVE DISCOUNTED LOAN RENEWAL',type:'CORRECTIVE DISCOUNT LOAN',desc:'Client qualified for discounted renewal loan'},
-    {name:'Loan 70x',type:'Extension',desc:'Extension loan for Pensioners 70 years old and below'},
-    {name:'Loan-72x',type:'Extension',desc:'Extension loan for Pensioners 71 to 72 years old'},
-    {name:'Loan-75x',type:'Extension',desc:'Extension loan for Pensioners 73 to 75 years old'},
-    {name:'Loan-79x',type:'Extension',desc:'Extension loan for Pensioners 76 to 79 years old'},
-    {name:'Loan-80x and ABOVE',type:'Extension',desc:'Extension loan for Pensioners 80 years and ABOVE'},
-    {name:'Loan 70n',type:'New',desc:'New loan for Pensioners 70 years old and below'},
-    {name:'Loan-72n',type:'New',desc:'New loan for Pensioners 71 to 72 years old'},
-    {name:'Loan-75n',type:'New',desc:'New loan for Pensioners 73 to 75 years old'},
-    {name:'Loan-79n',type:'New',desc:'New loan for Pensioners 76 to 79 years old'},
-    {name:'Loan-80n and ABOVE',type:'New',desc:'New loan for Pensioners 80 years and ABOVE'},
-    {name:'Loan 70r',type:'Renewal',desc:'Renewal loan for Pensioners 70 years old and below'},
-    {name:'Loan-72r',type:'Renewal',desc:'Renewal loan for Pensioners 71 to 72 years old'},
-    {name:'Loan-75r',type:'Renewal',desc:'Renewal loan for Pensioners 73 to 75 years old'},
-    {name:'Loan-79r',type:'Renewal',desc:'Renewal loan for Pensioners 76 to 79 years old'},
-  ],
-  agents:[
-    {name:'Ana Santos',type:'Full-Time',addr:'Lugam, Malolos',contact:'003'},
-    {name:'Roberto Cruz',type:'Full-Time',addr:'Lugam, Malolos',contact:'000001287'},
-    {name:'Maria Dela Cruz',type:'Full-Time',addr:'Santo Rosario (Pob.), Malolos',contact:'0000124'},
-    {name:'Jose Garcia',type:'Full-Time',addr:'Santo Rosario (Pob.), Malolos',contact:'2000006400'},
-    {name:'Carmen Reyes',type:'Full-Time',addr:'Kapitangan, Paombong',contact:'00022565'},
-    {name:'Fernando Lopez',type:'Full-Time',addr:'Meyto, Calumpit',contact:'09359829530'},
-    {name:'Lourdes Torres',type:'Full-Time',addr:'Santor, Malolos',contact:'10092017'},
-    {name:'Eduardo Ramos',type:'Full-Time',addr:'Bulac, Santa Maria',contact:'10132017'},
-    {name:'Gloria Hernandez',type:'Full-Time',addr:'Caingin, Bocaue',contact:'2000001297'},
-    {name:'Rodrigo Flores',type:'Full-Time',addr:'Panasahan, Malolos',contact:'2000001383'},
-    {name:'Teresita Gutierrez',type:'Full-Time',addr:'Caniogan, Calumpit',contact:'2000001419'},
-    {name:'Andres Aquino',type:'Full-Time',addr:'',contact:'0033'},
-    {name:'Consolacion Bautista',type:'Full-Time',addr:'',contact:'00522'},
-    {name:'Domingo Villanueva',type:'Full-Time',addr:'',contact:'005484'},
-    {name:'Edna Castillo',type:'Full-Time',addr:'',contact:'2'},
-    {name:'Felix Morales',type:'Full-Time',addr:'',contact:'20000000939'},
-    {name:'Glenda Mendoza',type:'Full-Time',addr:'',contact:'0920-5494451'},
-    {name:'Hermogenes Pascual',type:'Full-Time',addr:'',contact:'032356'},
-    {name:'Imelda Soriano',type:'Full-Time',addr:'',contact:'03264'},
-    {name:'Juanito Gonzales',type:'Full-Time',addr:'',contact:'03332'},
-    {name:'Katrina Perez',type:'Full-Time',addr:'',contact:'09067725214'},
-    {name:'Leonardo Ramirez',type:'Full-Time',addr:'',contact:'092717'},
-    {name:'Maryrose Navarro',type:'Part-Time',addr:'Sumapang Matanda, Malolos',contact:'N/A'},
-    {name:'Nestor Aguilar',type:'Full-Time',addr:'Canalato, Malolos',contact:'09171234567'},
-    {name:'Ofelia Domingo',type:'Full-Time',addr:'Pao, San Jose, Tarlac',contact:'09281234567'},
-    {name:'Pablo Estrada',type:'Full-Time',addr:'Pinagbakahan, Malolos',contact:'09391234567'},
-    {name:'Quirino Francisco',type:'Full-Time',addr:'Santo Cristo, Malolos',contact:'09451234567'},
-    {name:'Remedios Halili',type:'Full-Time',addr:'Abulalas, Hagonoy',contact:'09561234567'},
-    {name:'Salvador Ibarra',type:'Full-Time',addr:'Santo Cristo, Malolos',contact:'09671234567'},
-    {name:'Trinidad Javier',type:'Full-Time',addr:'Pipiton, Bulacan',contact:'09781234567'},
-  ],
-  addresses:[
-    {code:'A2015rW853',addr:'Lugam, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW902',addr:'Santo Rosario (Pob.), City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW919',addr:'Kapitangan, Paombong, Bulacan'},
-    {code:'A2015rW195',addr:'Meyto, Calumpit, Bulacan'},
-    {code:'A2015rW161',addr:'Santor, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW173',addr:'Bulac, Santa Maria, Bulacan'},
-    {code:'A2015rW461',addr:'Caingin, Bocaue, Bulacan'},
-    {code:'A2015rW466',addr:'Panasahan, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW473',addr:'Caniogan, Calumpit, Bulacan'},
-    {code:'A2015rW572',addr:'Pio Cruzcosa, Calumpit, Bulacan'},
-    {code:'A2015rW577',addr:'Sumapang Matanda, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW644',addr:'Canalato, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW650',addr:'Pao, San Jose, Tarlac'},
-    {code:'A2015rW680',addr:'Pinagbakahan, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW733',addr:'Santo Cristo, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW780',addr:'Abulalas, Hagonoy, Bulacan'},
-    {code:'A2015rW788',addr:'Santo Cristo, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW793',addr:'Pipiton, Bulacan, Bulacan'},
-    {code:'A2015rW842',addr:'Pinalogdan, Paombong, Bulacan'},
-    {code:'A2015rW848',addr:'Pinagbakahan, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rW887',addr:'Kapitangan, Paombong, Bulacan'},
-    {code:'A2015rX014',addr:'San Miguel, Calumpit, Bulacan'},
-    {code:'A2015rX028',addr:'Look 2nd, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rX041',addr:'Mojon, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rX122',addr:'Matimbo, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rX273',addr:'Mabolo, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rX311',addr:'Anilao, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rX405',addr:'Babatnin, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rX518',addr:'Balite, City of Malolos (Capital), Bulacan'},
-    {code:'A2015rX620',addr:'Bulacnin, City of Malolos (Capital), Bulacan'},
-  ],
-  lookups:[
-    {word:'—',order:1,code:''},{word:'_',order:2,code:''},{word:'1',order:3,code:''},
-    {word:'A',order:4,code:''},{word:'A.',order:5,code:''},{word:'Aaron',order:6,code:''},
-    {word:'ABADAM',order:7,code:''},{word:'Abadecio',order:8,code:''},{word:'Abalgar',order:9,code:''},
-    {word:'Aballe',order:10,code:''},{word:'Abalos',order:11,code:''},{word:'Abaloyan',order:12,code:''},
-    {word:'Abanog',order:13,code:''},{word:'Abaño',order:14,code:''},{word:'Abdula',order:15,code:''},
-    {word:'Abejera',order:16,code:''},{word:'Abejo',order:17,code:''},{word:'Abelardo',order:18,code:''},
-    {word:'Abella',order:19,code:''},{word:'Abellera',order:20,code:''},{word:'Aberte',order:21,code:''},
-    {word:'Abiday',order:22,code:''},{word:'Abillon',order:23,code:''},{word:'Abino',order:24,code:''},
-    {word:'Abique',order:25,code:''},{word:'Abisamis',order:26,code:''},{word:'Ablang',order:27,code:''},
-    {word:'Ablaza',order:28,code:''},{word:'Abner',order:29,code:''},{word:'Abolencia',order:30,code:''},
-  ]
+  accounts: [],
+  loans: [],
+  approvals: [],
+  vouchers: [],
+  collections: [],
+  changefunds: [],
+  banks: [],
+  bankaccounts: [],
+  products: [],
+  agents: [],
+  addresses: [],
+  lookups: [],
 };
+
+const API_BASE = '/unilend/api.php';
+
+async function apiRequest(action, table, data = {}) {
+  const url = new URL(window.location.origin + API_BASE);
+  url.searchParams.set('action', action);
+  url.searchParams.set('table', table);
+
+  const opts = { credentials: 'same-origin' };
+  if (action === 'list' || action === 'get') {
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        url.searchParams.set(key, value);
+      }
+    });
+  } else {
+    opts.method = 'POST';
+    opts.headers = { 'Content-Type': 'application/json' };
+    opts.body = JSON.stringify(data);
+  }
+
+  const resp = await fetch(url.toString(), opts);
+  const json = await resp.json();
+  if (!json.success) {
+    throw new Error(json.message || 'API request failed');
+  }
+  return json;
+}
+
+async function loadTable(table) {
+  try {
+    const result = await apiRequest('list', table);
+    DB[table] = Array.isArray(result.data) ? result.data : [];
+    if (table === 'bankaccounts') {
+      renderBankAccounts();
+    } else {
+      renderT(table);
+    }
+    if (table === 'approvals') {
+      updatePendingBadge();
+    }
+  } catch (err) {
+    toast('⚠️ Failed to load ' + table + ': ' + err.message, 'error');
+  }
+}
+
+function loadAllTables() {
+  ['accounts','loans','approvals','vouchers','collections','changefunds','banks','bankaccounts','products','agents','addresses','lookups']
+    .forEach(table => loadTable(table));
+}
+
+window.addEventListener('DOMContentLoaded', loadAllTables);
 
 // ══ STATE ══
 const ST = {};
@@ -330,7 +151,7 @@ function renderBankAccounts(){
   tb.innerHTML=DB.bankaccounts.map((r,i)=>`<tr><td></td><td class="bold">${r.bank}</td><td style="color:var(--text3)">${r.addr}</td><td class="mono">${r.acctno}</td><td class="num">₱${fmt(r.bal)}</td><td><div class="ag"><button class="ab edit" onclick="editBankAcct(${i})" title="Edit">✏️</button><button class="ab del" onclick="delBankAcct(${i})" title="Delete">🗑️</button></div></td></tr>`).join('');
 }
 function editBankAcct(i){const r=DB.bankaccounts[i];sv('ba-bank',r.bank);sv('ba-addr',r.addr);sv('ba-acctno',r.acctno);editIdx.bankaccounts=i;openM('m-bankaccount');}
-function delBankAcct(i){confirmDlg('Delete Bank Account','This cannot be undone.',()=>{DB.bankaccounts.splice(i,1);renderBankAccounts();toast('🗑️ Deleted','success');});}
+async function delBankAcct(i){confirmDlg('Delete Bank Account','This cannot be undone.',async()=>{const rec=DB.bankaccounts[i];if(rec?.id){try{await apiRequest('delete','bankaccounts',{id:rec.id});}catch(err){toast('⚠️ '+err.message,'error');return;}}DB.bankaccounts.splice(i,1);renderBankAccounts();toast('🗑️ Deleted','success');});}
 
 // ══ EDIT ROW ══
 function editRow(k,idx){
@@ -352,9 +173,9 @@ function editRow(k,idx){
 }
 
 // ══ DELETE ROW ══
-function delRow(k,idx){
+async function delRow(k,idx){
   const data=getFiltered(k);const r=data[idx];const aIdx=DB[k].indexOf(r);
-  confirmDlg('Delete Record','Delete this record? Cannot be undone.',()=>{DB[k].splice(aIdx,1);renderT(k);toast('🗑️ Deleted','success');});
+  confirmDlg('Delete Record','Delete this record? Cannot be undone.',async()=>{if(r?.id){try{await apiRequest('delete',k,{id:r.id});}catch(err){toast('⚠️ '+err.message,'error');return;}}DB[k].splice(aIdx,1);renderT(k);toast('🗑️ Deleted','success');});
 }
 function printRow(k,idx){const data=getFiltered(k);const r=data[idx];toast('🖨️ Printing '+Object.values(r)[0],'success');}
 
@@ -374,17 +195,17 @@ function openProcessModal(idx){
   openM('m-process-loan');
 }
 function viewApproval(idx){openProcessModal(idx);}
-function approveLoan(){
+async function approveLoan(){
   const data=getFiltered('approvals');const r=data[curApprovalIdx];const aIdx=DB.approvals.indexOf(r);
-  confirmDlg('Approve Loan',`Approve loan ${r.ref} for ${r.name}?`,()=>{
-    DB.approvals[aIdx].status='Approved';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✅ Loan approved!','success');
+  confirmDlg('Approve Loan',`Approve loan ${r.ref} for ${r.name}?`,async()=>{
+    try{if(r?.id){await apiRequest('update','approvals',{id:r.id,status:'Approved'});}DB.approvals[aIdx].status='Approved';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✅ Loan approved!','success');}catch(err){toast('⚠️ '+err.message,'error');}
   });
 }
-function denyLoan(){
+async function denyLoan(){
   const data=getFiltered('approvals');const r=data[curApprovalIdx];const aIdx=DB.approvals.indexOf(r);
   const remarks=gv('process-remarks');
-  confirmDlg('Deny Loan',`Deny loan ${r.ref}?`,()=>{
-    DB.approvals[aIdx].status='Denied';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✗ Loan denied','error');
+  confirmDlg('Deny Loan',`Deny loan ${r.ref}?`,async()=>{
+    try{if(r?.id){await apiRequest('update','approvals',{id:r.id,status:'Denied',remarks});}DB.approvals[aIdx].status='Denied';closeM('m-process-loan');renderT('approvals');updatePendingBadge();toast('✗ Loan denied','error');}catch(err){toast('⚠️ '+err.message,'error');}
   });
 }
 function updatePendingBadge(){const cnt=DB.approvals.filter(a=>a.status==='Pending').length;const el=document.getElementById('pending-badge');if(el)el.textContent=cnt;const el2=document.getElementById('cnt-pending');if(el2)el2.textContent=cnt;}
@@ -448,86 +269,108 @@ function exportCSV(k){
 }
 
 // ══ SAVE FUNCTIONS ══
-function saveAccount(){
+async function saveAccount(){
   if(!gv('ai-fname')||!gv('ai-lname')){toast('⚠️ First and Last Name are required','error');return;}
-  const name=`${gv('ai-fname')} ${gv('ai-mname')?gv('ai-mname')+' ':''} ${gv('ai-lname')}`.replace(/\s+/g,' ').trim();
+  const name=`${gv('ai-fname')} ${gv('ai-mname')?gv('ai-mname')+' ':''}${gv('ai-lname')}`.replace(/\s+/g,' ').trim();
   const rec={pn:gv('ai-pnum')||'MUCC-103-'+Date.now(),name,provider:gv('ai-provider'),type:gv('ai-ptype'),pension:parseFloat(gv('ai-pamount')||0),bank:gv('ai-bank'),status:gv('ai-pstatus')||'Active'};
-  if(editIdx.accounts!==undefined){DB.accounts[editIdx.accounts]=rec;delete editIdx.accounts;toast('✅ Account updated!','success');}
-  else{DB.accounts.push(rec);toast('✅ Account created!','success');}
-  closeM('m-account');renderT('accounts');
+  try{
+    if(editIdx.accounts!==undefined){const id=DB.accounts[editIdx.accounts]?.id; if(id)rec.id=id; await apiRequest('update','accounts',rec);DB.accounts[editIdx.accounts]=rec;delete editIdx.accounts;toast('✅ Account updated!','success');}
+    else{const res=await apiRequest('create','accounts',rec);rec.id=res.data.id;DB.accounts.push(rec);toast('✅ Account created!','success');}
+    closeM('m-account');renderT('accounts');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveLoan(){
+async function saveLoan(){
   if(!gv('ln-customer')){toast('⚠️ Customer name required','error');return;}
   const a=parseFloat(gv('ln-amort')||0);const t=parseInt(gv('ln-terms')||12);const pr=a*t;const int=pr*0.2;const net=parseFloat(gv('ln-net')||0);
   const rec={ref:'A'+Date.now().toString(36).toUpperCase().slice(-8),date:gv('ln-ldate')||today(),name:gv('ln-customer'),amort:a,terms:t,principal:pr,proc:parseFloat(gv('ln-proc')||0),not:parseFloat(gv('ln-not')||0),ins:parseFloat(gv('ln-ins')||0),interest:int,cashout:net,status:'Active'};
-  if(editIdx.loans!==undefined){DB.loans[editIdx.loans]=rec;delete editIdx.loans;toast('✅ Loan updated!','success');}
-  else{DB.loans.push(rec);toast('✅ Loan created!','success');}
-  closeM('m-loan');renderT('loans');
+  try{
+    if(editIdx.loans!==undefined){const id=DB.loans[editIdx.loans]?.id; if(id)rec.id=id; await apiRequest('update','loans',rec);DB.loans[editIdx.loans]=rec;delete editIdx.loans;toast('✅ Loan updated!','success');}
+    else{const res=await apiRequest('create','loans',rec);rec.id=res.data.id;DB.loans.push(rec);toast('✅ Loan created!','success');}
+    closeM('m-loan');renderT('loans');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveVoucher(){
+async function saveVoucher(){
   if(!gv('v-payee')){toast('⚠️ Payee required','error');return;}
   const nextNo=String(DB.vouchers.length+1).padStart(10,'0');
   const rec={no:nextNo,date:gv('v-date')||today(),payee:gv('v-payee'),acct:(gv('v-bankacct')||'').split(' ')[0],amount:parseFloat(gv('v-amount')||0),status:'Active'};
-  if(editIdx.vouchers!==undefined){DB.vouchers[editIdx.vouchers]=rec;delete editIdx.vouchers;toast('✅ Voucher updated!','success');}
-  else{DB.vouchers.push(rec);toast('✅ Voucher created!','success');}
-  closeM('m-voucher');renderT('vouchers');
+  try{
+    if(editIdx.vouchers!==undefined){const id=DB.vouchers[editIdx.vouchers]?.id; if(id)rec.id=id; await apiRequest('update','vouchers',rec);DB.vouchers[editIdx.vouchers]=rec;delete editIdx.vouchers;toast('✅ Voucher updated!','success');}
+    else{const res=await apiRequest('create','vouchers',rec);rec.id=res.data.id;DB.vouchers.push(rec);toast('✅ Voucher created!','success');}
+    closeM('m-voucher');renderT('vouchers');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveCollection(){
+async function saveCollection(){
   if(!gv('cl-customer')){toast('⚠️ Customer required','error');return;}
   const nextNo=String(300000+DB.collections.length+1).padStart(10,'0');
   const rec={no:nextNo,date:gv('cl-date')||today(),cust:gv('cl-customer'),amount:parseFloat(gv('cl-amount')||0),bonus:parseFloat(gv('cl-bonus')||0),remarks:gv('cl-remarks'),status:'Active'};
-  if(editIdx.collections!==undefined){DB.collections[editIdx.collections]=rec;delete editIdx.collections;toast('✅ Collection updated!','success');}
-  else{DB.collections.push(rec);toast('✅ Collection recorded!','success');}
-  closeM('m-collection');renderT('collections');
+  try{
+    if(editIdx.collections!==undefined){const id=DB.collections[editIdx.collections]?.id; if(id)rec.id=id; await apiRequest('update','collections',rec);DB.collections[editIdx.collections]=rec;delete editIdx.collections;toast('✅ Collection updated!','success');}
+    else{const res=await apiRequest('create','collections',rec);rec.id=res.data.id;DB.collections.push(rec);toast('✅ Collection recorded!','success');}
+    closeM('m-collection');renderT('collections');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveChangeFund(){
+async function saveChangeFund(){
   if(!gv('cf-custname')){toast('⚠️ Customer name required','error');return;}
   const nextNo=String(DB.changefunds.length+1).padStart(10,'0');
   const rec={no:nextNo,date:gv('cf-date')||today(),type:gv('cf-type'),amount:parseFloat(gv('cf-amount')||0),name:gv('cf-custname'),remarks:gv('cf-remarks'),branch:gv('cf-branch')||'Malolos'};
-  if(editIdx.changefunds!==undefined){DB.changefunds[editIdx.changefunds]=rec;delete editIdx.changefunds;toast('✅ Change Fund updated!','success');}
-  else{DB.changefunds.push(rec);toast('✅ Change Fund created!','success');}
-  closeM('m-changefund');renderT('changefunds');
+  try{
+    if(editIdx.changefunds!==undefined){const id=DB.changefunds[editIdx.changefunds]?.id; if(id)rec.id=id; await apiRequest('update','changefunds',rec);DB.changefunds[editIdx.changefunds]=rec;delete editIdx.changefunds;toast('✅ Change Fund updated!','success');}
+    else{const res=await apiRequest('create','changefunds',rec);rec.id=res.data.id;DB.changefunds.push(rec);toast('✅ Change Fund created!','success');}
+    closeM('m-changefund');renderT('changefunds');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveBank(){
+async function saveBank(){
   if(!gv('bk-name')){toast('⚠️ Bank name required','error');return;}
   const rec={name:gv('bk-name'),addr:gv('bk-addr'),contact:gv('bk-contact'),pos:gv('bk-pos'),tel:gv('bk-tel')};
-  if(editIdx.banks!==undefined){DB.banks[editIdx.banks]=rec;delete editIdx.banks;toast('✅ Bank updated!','success');}
-  else{DB.banks.push(rec);toast('✅ Bank created!','success');}
-  closeM('m-bank');renderT('banks');
+  try{
+    if(editIdx.banks!==undefined){const id=DB.banks[editIdx.banks]?.id; if(id)rec.id=id; await apiRequest('update','banks',rec);DB.banks[editIdx.banks]=rec;delete editIdx.banks;toast('✅ Bank updated!','success');}
+    else{const res=await apiRequest('create','banks',rec);rec.id=res.data.id;DB.banks.push(rec);toast('✅ Bank created!','success');}
+    closeM('m-bank');renderT('banks');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveBankAccount(){
+async function saveBankAccount(){
   if(!gv('ba-acctno')){toast('⚠️ Account No. required','error');return;}
   const rec={bank:gv('ba-bank'),addr:gv('ba-addr'),acctno:gv('ba-acctno'),bal:0};
-  if(editIdx.bankaccounts!==undefined){DB.bankaccounts[editIdx.bankaccounts]=rec;delete editIdx.bankaccounts;}
-  else{DB.bankaccounts.push(rec);}
-  closeM('m-bankaccount');renderBankAccounts();toast('✅ Bank Account saved!','success');
+  try{
+    if(editIdx.bankaccounts!==undefined){const id=DB.bankaccounts[editIdx.bankaccounts]?.id; if(id)rec.id=id; await apiRequest('update','bankaccounts',rec);DB.bankaccounts[editIdx.bankaccounts]=rec;delete editIdx.bankaccounts;}
+    else{const res=await apiRequest('create','bankaccounts',rec);rec.id=res.data.id;DB.bankaccounts.push(rec);}
+    closeM('m-bankaccount');renderBankAccounts();toast('✅ Bank Account saved!','success');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveProduct(){
+async function saveProduct(){
   if(!gv('pr-name')){toast('⚠️ Product name required','error');return;}
   const rec={name:gv('pr-name'),type:gv('pr-type'),desc:gv('pr-desc')};
-  if(editIdx.products!==undefined){DB.products[editIdx.products]=rec;delete editIdx.products;toast('✅ Product updated!','success');}
-  else{DB.products.push(rec);toast('✅ Product created!','success');}
-  closeM('m-product');renderT('products');
+  try{
+    if(editIdx.products!==undefined){const id=DB.products[editIdx.products]?.id; if(id)rec.id=id; await apiRequest('update','products',rec);DB.products[editIdx.products]=rec;delete editIdx.products;toast('✅ Product updated!','success');}
+    else{const res=await apiRequest('create','products',rec);rec.id=res.data.id;DB.products.push(rec);toast('✅ Product created!','success');}
+    closeM('m-product');renderT('products');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveAgent(){
+async function saveAgent(){
   if(!gv('ag-fname')||!gv('ag-lname')){toast('⚠️ First and Last Name required','error');return;}
   const name=`${gv('ag-fname')} ${gv('ag-lname')}`.trim();
   const rec={name,type:gv('ag-type'),addr:gv('ag-addr'),contact:gv('ag-contact')};
-  if(editIdx.agents!==undefined){DB.agents[editIdx.agents]=rec;delete editIdx.agents;toast('✅ Agent updated!','success');}
-  else{DB.agents.push(rec);toast('✅ Agent created!','success');}
-  closeM('m-agent');renderT('agents');
+  try{
+    if(editIdx.agents!==undefined){const id=DB.agents[editIdx.agents]?.id; if(id)rec.id=id; await apiRequest('update','agents',rec);DB.agents[editIdx.agents]=rec;delete editIdx.agents;toast('✅ Agent updated!','success');}
+    else{const res=await apiRequest('create','agents',rec);rec.id=res.data.id;DB.agents.push(rec);toast('✅ Agent created!','success');}
+    closeM('m-agent');renderT('agents');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveAddress(){
+async function saveAddress(){
   if(!gv('addr-code')||!gv('addr-addr')){toast('⚠️ Code and Address required','error');return;}
   const rec={code:gv('addr-code'),addr:gv('addr-addr')};
-  if(editIdx.addresses!==undefined){DB.addresses[editIdx.addresses]=rec;delete editIdx.addresses;toast('✅ Address updated!','success');}
-  else{DB.addresses.push(rec);toast('✅ Address created!','success');}
-  closeM('m-address');renderT('addresses');
+  try{
+    if(editIdx.addresses!==undefined){const id=DB.addresses[editIdx.addresses]?.id; if(id)rec.id=id; await apiRequest('update','addresses',rec);DB.addresses[editIdx.addresses]=rec;delete editIdx.addresses;toast('✅ Address updated!','success');}
+    else{const res=await apiRequest('create','addresses',rec);rec.id=res.data.id;DB.addresses.push(rec);toast('✅ Address created!','success');}
+    closeM('m-address');renderT('addresses');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }
-function saveLookup(){
+async function saveLookup(){
   if(!gv('lu-word')){toast('⚠️ LookUpWord is required','error');return;}
   const rec={word:gv('lu-word'),order:parseInt(gv('lu-order')||DB.lookups.length+1),code:gv('lu-code')};
-  if(editIdx.lookups!==undefined){DB.lookups[editIdx.lookups]=rec;delete editIdx.lookups;toast('✅ LookUp updated!','success');}
-  else{DB.lookups.push(rec);toast('✅ LookUp created!','success');}
-  closeM('m-lookup');renderT('lookups');
+  try{
+    if(editIdx.lookups!==undefined){const id=DB.lookups[editIdx.lookups]?.id; if(id)rec.id=id; await apiRequest('update','lookups',rec);DB.lookups[editIdx.lookups]=rec;delete editIdx.lookups;toast('✅ LookUp updated!','success');}
+    else{const res=await apiRequest('create','lookups',rec);rec.id=res.data.id;DB.lookups.push(rec);toast('✅ LookUp created!','success');}
+    closeM('m-lookup');renderT('lookups');
+  }catch(err){toast('⚠️ '+err.message,'error');}
 }

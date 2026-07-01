@@ -106,14 +106,18 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);co
 /* TABLE */
 .tw{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 .dt{width:100%;border-collapse:collapse;}
-.dt thead th{background:rgba(255,255,255,.04);padding:11px 14px;text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;transition:var(--tr);}
+.dt thead th,
+.dt tbody td{border-right:1px solid rgba(255,255,255,.08);}
+.dt thead th{background:rgba(255,255,255,.04);padding:11px 14px;text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;transition:var(--tr);}
 .dt thead th:hover{color:var(--text);background:rgba(255,255,255,.06);}
 .dt thead th.asc::after{content:' ↑';}
 .dt thead th.desc::after{content:' ↓';}
-.dt tbody tr{border-bottom:1px solid rgba(255,255,255,.03);transition:background .15s;}
+.dt tbody tr{transition:background .15s;}
 .dt tbody tr:hover{background:rgba(255,255,255,.03);}
-.dt tbody tr:last-child{border-bottom:none;}
-.dt td{padding:10px 14px;font-size:12.5px;color:var(--text2);vertical-align:middle;}
+.dt tbody tr:last-child td{border-bottom:none;}
+.dt td{padding:10px 14px;font-size:12.5px;color:var(--text2);vertical-align:middle;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);}
+.dt td:last-child,
+.dt thead th:last-child{border-right:none;}
 .dt td.bold{color:var(--text);font-weight:500;}
 .dt td.mono{font-size:11.5px;font-family:monospace;color:var(--blue2);}
 .dt td.green{color:var(--emerald);font-weight:600;}
@@ -227,15 +231,23 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);co
 .sub-table-hd{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);}
 .sub-table-title{font-size:12px;font-weight:700;color:var(--text);}
 .sub-table{width:100%;border-collapse:collapse;}
+.sub-table th,
+.sub-table td{border-right:1px solid rgba(255,255,255,.08);}
 .sub-table th{padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--text3);background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);text-align:left;}
 .sub-table td{padding:8px 12px;font-size:12px;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.03);}
+.sub-table th:last-child,
+.sub-table td:last-child{border-right:none;}
 .sub-table tr:last-child td{border-bottom:none;}
 .sub-empty{padding:20px;text-align:center;color:var(--text3);font-size:12px;font-style:italic;}
 
 /* Amortization schedule table */
 .sched-table{width:100%;border-collapse:collapse;}
+.sched-table th,
+.sched-table td{border-right:1px solid rgba(255,255,255,.08);}
 .sched-table th{padding:8px 10px;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text3);background:rgba(255,255,255,.04);border-bottom:1px solid var(--border);text-align:left;}
 .sched-table td{padding:7px 10px;font-size:11.5px;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.03);}
+.sched-table th:last-child,
+.sched-table td:last-child{border-right:none;}
 
 /* REPORT FORM */
 .rf{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:18px;}
